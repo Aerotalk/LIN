@@ -1,9 +1,13 @@
 import HomeHeroSection from "@/components/HomeHeroSection";
+import HowItWorks from "@/components/HowItWorks";
+import StatsHistory from "@/components/StatsHistory";
 
 export default function Home() {
   return (
-    <main>
+    <section>
       <HomeHeroSection />
-    </main>
+      <StatsHistory />
+      <HowItWorks />
+    </section>
   );
 }

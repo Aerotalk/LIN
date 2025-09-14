@@ -3,13 +3,13 @@ import React from "react";
 
 const HowItWorks = () => {
   return (
-    <section className="w-full max-w-7xl mx-auto py-4 p-6 md:p-12 lg:p-20">
+    <section className="w-full max-w-7xl mx-auto py-4 p-6 md:p-12 lg:p-20 my-12">
       <div className="flex flex-col justify-center items-center-safe space-y-6 w-full">
-        <div className="flex flex-col justify-center items-center-safe space-y-2 w-full">
+        <div className="flex flex-col justify-center items-center-safe space-y-2 text-center w-full">
           <span className="text-primary font-semibold leading-tight uppercase">
             how it works
           </span>
-          <h2 className="text-4xl font-bold">
+          <h2 className="lg:text-4xl text-3xl font-bold">
             How to get short term loan in{" "}
             <span className="text-primary">3 simple step?</span>
           </h2>
@@ -17,7 +17,7 @@ const HowItWorks = () => {
             Our instant loan process is designed for speed and convenience
           </p>
         </div>
-        <div className="grid md:grid-cols-5 grid-cols-1 justify-items-center items-center-safe w-full">
+        <div className="grid md:grid-cols-5 grid-cols-1 justify-items-center items-center-safe gap-4 w-full">
           <div className="flex flex-col space-y-3 justify-center items-center">
             <Image
               src="/how-it-works/apply-online.png"
@@ -31,7 +31,7 @@ const HowItWorks = () => {
               collateral documents.
             </p>
           </div>
-          <div className="flex items-center justify-center">
+          <div className="md:block hidden items-center justify-center">
             <img src="/how-it-works/arrow.png" alt="Arrow" className="w-full" />
           </div>
           <div className="flex flex-col space-y-2 justify-center items-center">
@@ -47,7 +47,7 @@ const HowItWorks = () => {
               instantly.
             </p>
           </div>
-          <div className="flex items-center justify-center">
+          <div className="md:block hidden items-center justify-center">
             <img src="/how-it-works/arrow.png" alt="Arrow" className="w-full" />
           </div>
           <div className="flex flex-col space-y-2 justify-center items-center">

@@ -10,7 +10,7 @@ const HomeHeroSection = () => {
         <div className="flex flex-col gap-4 w-full md:w-1/2">
           <div className="space-y-2">
             <p className="text-base text-primary font-semibold">PAYDAY LOAN</p>
-            <h2 className="text-5xl font-bold leading-snug">
+            <h2 className="lg:text-5xl text-3xl font-bold leading-snug">
               Get instant personal loan{" "}
               <span className="text-primary">upto ₹1 lakh</span> in few minutes
             </h2>

@@ -1,0 +1,252 @@
+import Link from "next/link";
+import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
+import Image from "next/image";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
+
+export default function Footer() {
+  return (
+    <footer className="bg-[#FEF5F5] py-10 px-6 md:px-12 lg:px-20 mt-32">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+        {/* Logo & Info */}
+        <div className="space-y-4">
+          <div className="flex items-center space-x-2">
+            <Image
+              src="/lin-logo.png"
+              alt="Loan In Need"
+              width={300}
+              height={300}
+              className="h-16 w-auto"
+            />
+          </div>
+          <p className="text-sm text-gray-600">
+            Welcome to LoanInNeed. We provide loan at very reasonable interest,
+            and minimal documentation.
+          </p>
+          <div className="flex flex-col space-y-2">
+            <Input
+              type="text"
+              placeholder="Enter your mobile number"
+              className="px-3 py-2 rounded-md border border-gray-300 text-sm w-full"
+            />
+            <Button size="sm" className="bg-primary hover:bg-primary/90 w-1/2">
+              Apply now
+            </Button>
+          </div>
+          <address className="not-italic text-sm text-gray-600">
+            OFFICE NO.-202, PLOT 9, Veer Savarkar Block, Guru Nanak Nagar,
+            Shakurpur, Delhi, 110092
+          </address>
+          <div className="flex space-x-3 text-primary">
+            <Link href="#">
+              <Instagram className="h-5 w-5 hover:fill-current hover:stroke-white" />
+            </Link>
+            <Link href="#">
+              <Facebook className="h-5 w-5 hover:fill-current" />
+            </Link>
+            <Link href="#">
+              <Linkedin className="h-5 w-5 hover:fill-current" />
+            </Link>
+            <Link href="#">
+              <Twitter className="h-5 w-5 hover:fill-current" />
+            </Link>
+          </div>
+        </div>
+
+        {/* Useful Links */}
+        <div className="lg:col-span-1 grid grid-cols-2 md:grid-cols-1 space-y-10">
+          <div>
+            <h4 className="font-semibold text-primary mb-3">Useful links</h4>
+            <ul className="space-y-2 text-sm text-gray-700">
+              <li>
+                <Link href="#">Short term loans</Link>
+              </li>
+              <li>
+                <Link href="#">Track loan</Link>
+              </li>
+              <li>
+                <Link href="#">Repay loan</Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold mb-3 text-primary">
+              Short term loan by cities
+            </h4>
+            <ul className="space-y-2 text-sm text-gray-700">
+              <li>
+                <Link href="/loans/mumbai">Short term loan in Mumbai</Link>
+              </li>
+              <li>
+                <Link href="/loans/delhi">Short term loan in Delhi</Link>
+              </li>
+              <li>
+                <Link href="/loans/bangalore">
+                  Short term loan in Bengaluru
+                </Link>
+              </li>
+              <li>
+                <Link href="/loans/hyderabad">
+                  Short term loan in Hyderabad
+                </Link>
+              </li>
+              <li>
+                <Link href="/loans/pune">Short term loan in Pune</Link>
+              </li>
+              <li>
+                <Link href="/loans/kolkata">Short term loan in Kolkata</Link>
+              </li>
+              <li>
+                <Link href="/loans/chennai">Short term loan in Chennai</Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Tools */}
+        <div className="lg:col-span-1 grid grid-cols-2 md:grid-cols-1 gap-10">
+          <div>
+            <h4 className="font-semibold text-primary mb-3">Tools</h4>
+            <ul className="space-y-2 text-sm text-gray-700">
+              <li>
+                <Link href="#">Personal loan EMI calculator</Link>
+              </li>
+              <li>
+                <Link href="#">Eligibility Loan calculator</Link>
+              </li>
+              <li>
+                <Link href="#">Cibil score checker</Link>
+              </li>
+              <li>
+                <Link href="#">Loan comparison calculator</Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold mb-3 text-primary">
+              Short term loan by states
+            </h4>
+            <ul className="space-y-2 text-sm text-gray-700">
+              <li>
+                <Link href="/loans/gujrat">Short term loan in Gujrat</Link>
+              </li>
+              <li>
+                <Link href="/loans/bihar">Short term loan in Bihar</Link>
+              </li>
+              <li>
+                <Link href="/loans/orissa">Short term loan in Orissa</Link>
+              </li>
+              <li>
+                <Link href="/loans/jharkhand">
+                  Short term loan in Jharkhand
+                </Link>
+              </li>
+              <li>
+                <Link href="/loans/assam">Short term loan in Assam</Link>
+              </li>
+              <li>
+                <Link href="/loans/punjab">Short term loan in Punjab</Link>
+              </li>
+              <li>
+                <Link href="/loans/chattisgarh">
+                  Short term loan in Chattisgarh
+                </Link>
+              </li>
+              <li>
+                <Link href="/loans/madhya-pradesh">
+                  Short term loan in Madhya Pradesh
+                </Link>
+              </li>
+              <li>
+                <Link href="/loans/west-bengal">
+                  Short term loan in West Bengal
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Short term loan by needs */}
+        <div className="lg:col-span-1 grid grid-cols-2 md:grid-cols-1 gap-10">
+          <div>
+            <h4 className="font-semibold text-primary mb-3">
+              Short term loan by needs
+            </h4>
+            <ul className="space-y-2 text-sm text-gray-700">
+              <li>
+                <Link href="#">Medical emergency loan</Link>
+              </li>
+              <li>
+                <Link href="#">Utility bill loan</Link>
+              </li>
+              <li>
+                <Link href="#">House rent loan</Link>
+              </li>
+              <li>
+                <Link href="#">Daily expense loan</Link>
+              </li>
+              <li>
+                <Link href="#">Education purpose loan</Link>
+              </li>
+              <li>
+                <Link href="#">Debt consolidation loan</Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold mb-3 text-primary">
+              Short term loan by salary
+            </h4>
+            <ul className="space-y-2 text-sm text-gray-700">
+              <li>
+                <Link href="/loans/forty-thousand">40,000 salary loan</Link>
+              </li>
+              <li>
+                <Link href="/loans/fifty-thousand">50,000 salary loan</Link>
+              </li>
+              <li>
+                <Link href="/loans/eighty-thousand">80,000 salary loan</Link>
+              </li>
+              <li>
+                <Link href="/loans/one-lakh">1,00,000 salary loan</Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Company */}
+        <div>
+          <h4 className="font-semibold text-primary mb-3">Company</h4>
+          <ul className="space-y-2 text-sm text-gray-700">
+            <li>
+              <Link href="#">About Us</Link>
+            </li>
+            <li>
+              <Link href="#">Career</Link>
+            </li>
+            <li>
+              <Link href="#">Blog</Link>
+            </li>
+            <li>
+              <Link href="#">News</Link>
+            </li>
+            <li>
+              <Link href="#">Contact us</Link>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Bottom Bar */}
+      <div className="mt-10 border-t border-gray-300 pt-6 flex flex-col md:flex-row justify-between items-center text-sm text-gray-600">
+        <p>© 2025 Loaninneed. All rights reserved.</p>
+        <div className="flex flex-wrap gap-4 mt-4 md:mt-0">
+          <Link href="#">Privacy policy</Link>
+          <Link href="#">Terms & conditions</Link>
+          <Link href="#">Refunds & cancellation</Link>
+          <Link href="#">Disclaimer</Link>
+        </div>
+      </div>
+    </footer>
+  );
+}

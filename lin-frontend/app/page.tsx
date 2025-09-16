@@ -1,5 +1,6 @@
 import BenefitTabsSection from "@/components/BenefitTabsSection";
 import FAQSection from "@/components/FAQSection";
+import FootCTA from "@/components/FootCTA";
 import HomeHeroSection from "@/components/HomeHeroSection";
 import HowItWorks from "@/components/HowItWorks";
 import LoanCalculator from "@/components/LoanCalculator";
@@ -17,6 +18,7 @@ export default function Home() {
       <LoanCalculator />
       <TestimonialSection />
       <FAQSection faqData={homeFAQdata} />
+      <FootCTA />
     </section>
   );
 }

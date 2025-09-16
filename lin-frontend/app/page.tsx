@@ -5,6 +5,7 @@ import HowItWorks from "@/components/HowItWorks";
 import LoanCalculator from "@/components/LoanCalculator";
 import StatsHistory from "@/components/StatsHistory";
 import TestimonialSection from "@/components/TestimonialSection";
+import { homeFAQdata } from "@/lib/data";
 
 export default function Home() {
   return (
@@ -15,7 +16,7 @@ export default function Home() {
       <BenefitTabsSection />
       <LoanCalculator />
       <TestimonialSection />
-      <FAQSection faqData={faqData} />
+      <FAQSection faqData={homeFAQdata} />
     </section>
   );
 }

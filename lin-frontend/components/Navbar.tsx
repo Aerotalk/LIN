@@ -88,7 +88,7 @@ function ListItem({
 
 export default function Navbar() {
   return (
-    <nav className="w-full max-w-[90rem] mx-auto py-4 px-6 md:px-12 lg:px-24 fixed top-0 left-0 right-0 z-50 bg-red-50 shadow-sm">
+    <nav className="w-full mx-auto py-4 px-6 md:px-12 lg:px-24 fixed top-0 left-0 right-0 z-50 bg-red-50 shadow-sm">
       <div className="flex justify-between items-center">
         {/* Logo */}
         <Link href="/" className="flex items-center">

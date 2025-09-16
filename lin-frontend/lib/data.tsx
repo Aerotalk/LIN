@@ -171,3 +171,52 @@ export const homeFAQdata: FAQItem[] = [
       "Yes, you can close your loan anytime. Paying it off early helps reduce your interest costs.",
   },
 ];
+
+export const cardBenefits = [
+  {
+    iconImg: <CircleQuestionMarkIcon className="h-6 w-6 text-white" />,
+    title: "100% Digital Process",
+    description:
+      "Our loan with less paperwork approach eliminates branch visits and document hassles.",
+  },
+  {
+    iconImg: <CircleQuestionMarkIcon className="h-6 w-6 text-white" />,
+    title: "Transparent Process",
+    description: "No hidden fees or charges - what you see is what you get.",
+  },
+  {
+    iconImg: <CircleQuestionMarkIcon className="h-6 w-6 text-white" />,
+    title: "Flexible Repayment",
+    description:
+      "Choose a repayment plan that suits your budget and lifestyle.",
+  },
+  {
+    iconImg: <CircleQuestionMarkIcon className="h-6 w-6 text-white" />,
+    title: "Secure & Confidential",
+    description:
+      "Your data is protected with bank-level security and confidentiality.",
+  },
+  {
+    iconImg: <CircleQuestionMarkIcon className="h-6 w-6 text-white" />,
+    title: "Quick & Easy",
+    description:
+      "Simple online application with instant approval and fast disbursal.",
+  },
+  {
+    iconImg: <CircleQuestionMarkIcon className="h-6 w-6 text-white" />,
+    title: "Transparent Process",
+    description: "No hidden fees or charges – what you see is what you get.",
+  },
+  {
+    iconImg: <CircleQuestionMarkIcon className="h-6 w-6 text-white" />,
+    title: "Flexible Repayment",
+    description:
+      "Choose a repayment plan that suits your budget and lifestyle.",
+  },
+  {
+    iconImg: <CircleQuestionMarkIcon className="h-6 w-6 text-white" />,
+    title: "Secure & Confidential",
+    description:
+      "Your data is protected with bank-level security and confidentiality.",
+  },
+];

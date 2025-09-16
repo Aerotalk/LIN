@@ -5,7 +5,7 @@ import { LucideCircleCheck } from "lucide-react";
 
 const HomeHeroSection = () => {
   return (
-    <section className="font-sans items-center justify-items-center gap-16 relative flex flex-col md:flex-row w-full">
+    <section className="font-sans items-center justify-items-center gap-16 flex flex-col md:flex-row w-full md:my-12 my-24">
       <div className="flex relative z-1 items-center justify-center p-8 md:p-16 lg:p-24 flex-col md:flex-row gap-8 w-full max-w-[95rem] mx-auto">
         <div className="flex flex-col gap-4 w-full md:w-1/2">
           <div className="space-y-2">

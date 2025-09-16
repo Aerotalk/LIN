@@ -1,4 +1,5 @@
 import BenefitTabsSection from "@/components/BenefitTabsSection";
+import CardGrids from "@/components/CardGrids";
 import FAQSection from "@/components/FAQSection";
 import FootCTA from "@/components/FootCTA";
 import HomeHeroSection from "@/components/HomeHeroSection";
@@ -6,7 +7,7 @@ import HowItWorks from "@/components/HowItWorks";
 import LoanCalculator from "@/components/LoanCalculator";
 import StatsHistory from "@/components/StatsHistory";
 import TestimonialSection from "@/components/TestimonialSection";
-import { homeFAQdata } from "@/lib/data";
+import { cardBenefits, homeFAQdata } from "@/lib/data";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <StatsHistory />
       <HowItWorks />
       <BenefitTabsSection />
+      <CardGrids cardsData={cardBenefits} />
       <LoanCalculator />
       <TestimonialSection />
       <FAQSection faqData={homeFAQdata} />

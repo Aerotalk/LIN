@@ -18,39 +18,59 @@ import { Button } from "./ui/button";
 
 const components: { title: string; href: string; description: string }[] = [
   {
-    title: "Alert Dialog",
-    href: "/docs/primitives/alert-dialog",
-    description:
-      "A modal dialog that interrupts the user with important content and expects a response.",
+    title: "Mumbai",
+    href: "/loan/mumbai",
+    description: "Avail loans in Mumbai",
   },
   {
-    title: "Hover Card",
-    href: "/docs/primitives/hover-card",
-    description:
-      "For sighted users to preview content available behind a link.",
+    title: "Delhi",
+    href: "/loan/delhi",
+    description: "Avail loans in Delhi",
   },
   {
-    title: "Progress",
-    href: "/docs/primitives/progress",
-    description:
-      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
+    title: "Bengaluru",
+    href: "/loan/bengaluru",
+    description: "Avail loans in Bengaluru",
   },
   {
-    title: "Scroll-area",
-    href: "/docs/primitives/scroll-area",
-    description: "Visually or semantically separates content.",
+    title: "Hyderabad",
+    href: "/loan/hyderabad",
+    description: "Avail loans in Hyderabad",
   },
   {
-    title: "Tabs",
-    href: "/docs/primitives/tabs",
-    description:
-      "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
+    title: "Pune",
+    href: "/loan/pune",
+    description: "Avail loans in Pune",
   },
   {
-    title: "Tooltip",
-    href: "/docs/primitives/tooltip",
-    description:
-      "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
+    title: "Gujrat",
+    href: "/loan/gujrat",
+    description: "Avail loans in Gujrat",
+  },
+  {
+    title: "Kolkata",
+    href: "/loan/kolkata",
+    description: "Avail loans in Kolkata",
+  },
+  {
+    title: "Bihar",
+    href: "/loan/bihar",
+    description: "Avail loans in Bihar",
+  },
+  {
+    title: "Punjab",
+    href: "/loan/punjab",
+    description: "Avail loans in Punjab",
+  },
+  {
+    title: "Madhya Pradesh",
+    href: "/loan/madhya-pradesh",
+    description: "Avail loans in Madhya Pradesh",
+  },
+  {
+    title: "Chennai",
+    href: "/loan/chennai",
+    description: "Avail loans in Chennai",
   },
 ];
 
@@ -86,34 +106,10 @@ export default function Navbar() {
             <NavigationMenuItem>
               <NavigationMenuTrigger>Personal loan</NavigationMenuTrigger>
               <NavigationMenuContent>
-                <ul className="grid gap-2 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                  <li className="row-span-3">
-                    <NavigationMenuLink asChild>
-                      <a
-                        className="from-muted/50 to-muted flex h-full w-full flex-col justify-end rounded-md bg-linear-to-b p-6 no-underline outline-hidden select-none focus:shadow-md"
-                        href="/"
-                      >
-                        <div className="mt-4 mb-2 text-lg font-medium">
-                          shadcn/ui
-                        </div>
-                        <p className="text-muted-foreground text-sm leading-tight">
-                          Beautifully designed components built with Tailwind
-                          CSS.
-                        </p>
-                      </a>
-                    </NavigationMenuLink>
-                  </li>
-                  <ListItem href="/docs" title="Introduction">
-                    Re-usable components built using Radix UI and Tailwind CSS.
-                  </ListItem>
-                  <ListItem href="/docs/installation" title="Installation">
-                    How to install dependencies and structure your app.
-                  </ListItem>
-                  <ListItem
-                    href="/docs/primitives/typography"
-                    title="Typography"
-                  >
-                    Styles for headings, paragraphs, lists...etc
+                <ul className="grid w-[300px] gap-3">
+                  <ListItem href="/apply-loan" title="Insta Loan">
+                    Get an instant personal loan with quick approval and minimal
+                    documentation.
                   </ListItem>
                 </ul>
               </NavigationMenuContent>
@@ -121,7 +117,55 @@ export default function Navbar() {
             <NavigationMenuItem>
               <NavigationMenuTrigger>Loan calculators</NavigationMenuTrigger>
               <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-2 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                <ul className="grid w-[300px] gap-4">
+                  <li>
+                    <NavigationMenuLink asChild>
+                      <Link href="#">
+                        <div className="font-medium">
+                          Personal EMI Calculator
+                        </div>
+                        <div className="text-muted-foreground">
+                          Calculate your monthly EMI for personal loans.
+                        </div>
+                      </Link>
+                    </NavigationMenuLink>
+                    <NavigationMenuLink asChild>
+                      <Link href="#">
+                        <div className="font-medium">
+                          Eligibility Loan Calculator
+                        </div>
+                        <div className="text-muted-foreground">
+                          Check your eligibility for a loan.
+                        </div>
+                      </Link>
+                    </NavigationMenuLink>
+                    <NavigationMenuLink asChild>
+                      <Link href="#">
+                        <div className="font-medium">Cibil Score Checker</div>
+                        <div className="text-muted-foreground">
+                          Check your Cibil score.
+                        </div>
+                      </Link>
+                    </NavigationMenuLink>
+                    <NavigationMenuLink asChild>
+                      <Link href="#">
+                        <div className="font-medium">
+                          Loan Comparison Calculator
+                        </div>
+                        <div className="text-muted-foreground">
+                          Compare different loan offers.
+                        </div>
+                      </Link>
+                    </NavigationMenuLink>
+                  </li>
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Cities</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid w-[300px] gap-2 md:w-[400px] md:grid-cols-3 lg:w-[500px]">
                   {components.map((component) => (
                     <ListItem
                       key={component.title}
@@ -134,80 +178,37 @@ export default function Navbar() {
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
-
             <NavigationMenuItem>
-              <NavigationMenuTrigger>Cities</NavigationMenuTrigger>
+              <NavigationMenuTrigger>Learn</NavigationMenuTrigger>
               <NavigationMenuContent>
-                <ul className="grid w-[300px] gap-4">
+                <ul className="grid w-[200px] gap-4">
                   <li>
                     <NavigationMenuLink asChild>
-                      <Link href="#">
-                        <div className="font-medium">Components</div>
-                        <div className="text-muted-foreground">
-                          Browse all components in the library.
-                        </div>
-                      </Link>
+                      <Link href="/blogs">Blogs</Link>
                     </NavigationMenuLink>
                     <NavigationMenuLink asChild>
-                      <Link href="#">
-                        <div className="font-medium">Documentation</div>
-                        <div className="text-muted-foreground">
-                          Learn how to use the library.
-                        </div>
-                      </Link>
+                      <Link href="/about">About us</Link>
                     </NavigationMenuLink>
                     <NavigationMenuLink asChild>
-                      <Link href="#">
-                        <div className="font-medium">Blog</div>
-                        <div className="text-muted-foreground">
-                          Read our latest blog posts.
-                        </div>
-                      </Link>
+                      <Link href="/news">News</Link>
                     </NavigationMenuLink>
                   </li>
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>Simple</NavigationMenuTrigger>
+              <NavigationMenuTrigger>Support</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid w-[200px] gap-4">
                   <li>
                     <NavigationMenuLink asChild>
-                      <Link href="#">Components</Link>
+                      <Link href="/contact">Contact us</Link>
                     </NavigationMenuLink>
                     <NavigationMenuLink asChild>
-                      <Link href="#">Documentation</Link>
+                      <Link href="/enquiry">Enquire now</Link>
                     </NavigationMenuLink>
                     <NavigationMenuLink asChild>
-                      <Link href="#">Blocks</Link>
-                    </NavigationMenuLink>
-                  </li>
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger>With Icon</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid w-[200px] gap-4">
-                  <li>
-                    <NavigationMenuLink asChild>
-                      <Link href="#" className="flex-row items-center gap-2">
-                        <CircleHelpIcon />
-                        Backlog
-                      </Link>
-                    </NavigationMenuLink>
-                    <NavigationMenuLink asChild>
-                      <Link href="#" className="flex-row items-center gap-2">
-                        <CircleIcon />
-                        To Do
-                      </Link>
-                    </NavigationMenuLink>
-                    <NavigationMenuLink asChild>
-                      <Link href="#" className="flex-row items-center gap-2">
-                        <CircleCheckIcon />
-                        Done
-                      </Link>
+                      <Link href="/track-loan">Track loan</Link>
                     </NavigationMenuLink>
                   </li>
                 </ul>

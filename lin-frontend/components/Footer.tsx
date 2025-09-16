@@ -7,21 +7,19 @@ import { Button } from "./ui/button";
 export default function Footer() {
   return (
     <footer className="bg-[#FEF5F5] py-10 px-6 md:px-12 lg:px-20 mt-32">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2">
         {/* Logo & Info */}
-        <div className="space-y-4">
-          <div className="flex items-center space-x-2">
-            <Image
-              src="/lin-logo.png"
-              alt="Loan In Need"
-              width={300}
-              height={300}
-              className="h-16 w-auto"
-            />
-          </div>
+        <div className="space-y-4 md:w-1/2">
+          <Image
+            src="/lin-logo.png"
+            alt="Loan In Need"
+            width={300}
+            height={300}
+            className="h-16 w-auto"
+          />
           <p className="text-sm text-gray-600">
             Welcome to LoanInNeed. We provide loan at very reasonable interest,
-            and minimal documentation.
+            on minimal documentation.
           </p>
           <div className="flex flex-col space-y-2">
             <Input
@@ -39,22 +37,22 @@ export default function Footer() {
           </address>
           <div className="flex space-x-3 text-primary">
             <Link href="#">
-              <Instagram className="h-5 w-5 hover:fill-current hover:stroke-white" />
+              <Instagram className="h-5 w-5" />
             </Link>
             <Link href="#">
-              <Facebook className="h-5 w-5 hover:fill-current" />
+              <Facebook className="h-5 w-5" />
             </Link>
             <Link href="#">
-              <Linkedin className="h-5 w-5 hover:fill-current" />
+              <Linkedin className="h-5 w-5" />
             </Link>
             <Link href="#">
-              <Twitter className="h-5 w-5 hover:fill-current" />
+              <Twitter className="h-5 w-5" />
             </Link>
           </div>
         </div>
 
-        {/* Useful Links */}
-        <div className="lg:col-span-1 grid grid-cols-2 md:grid-cols-1 space-y-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5 col-span-1">
+          {/* Useful Links */}
           <div>
             <h4 className="font-semibold text-primary mb-3">Useful links</h4>
             <ul className="space-y-2 text-sm text-gray-700">
@@ -69,8 +67,78 @@ export default function Footer() {
               </li>
             </ul>
           </div>
+
+          {/* Tools */}
           <div>
-            <h4 className="font-semibold mb-3 text-primary">
+            <h4 className="font-semibold text-primary mb-3">Tools</h4>
+            <ul className="space-y-2 text-sm text-gray-700">
+              <li>
+                <Link href="#">Personal loan EMI calculator</Link>
+              </li>
+              <li>
+                <Link href="#">Eligibility Loan calculator</Link>
+              </li>
+              <li>
+                <Link href="#">Cibil score checker</Link>
+              </li>
+              <li>
+                <Link href="#">Loan comparison calculator</Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Company */}
+          <div>
+            <h4 className="font-semibold text-primary mb-3">Company</h4>
+            <ul className="space-y-2 text-sm text-gray-700">
+              <li>
+                <Link href="#">About Us</Link>
+              </li>
+              <li>
+                <Link href="#">Career</Link>
+              </li>
+              <li>
+                <Link href="#">Blog</Link>
+              </li>
+              <li>
+                <Link href="#">News</Link>
+              </li>
+              <li>
+                <Link href="#">Contact us</Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Short term loan by needs */}
+          <div>
+            <h4 className="font-semibold text-primary mb-3">
+              Short term loan by needs
+            </h4>
+            <ul className="space-y-2 text-sm text-gray-700">
+              <li>
+                <Link href="#">Medical emergency loan</Link>
+              </li>
+              <li>
+                <Link href="#">Utility bill loan</Link>
+              </li>
+              <li>
+                <Link href="#">House rent loan</Link>
+              </li>
+              <li>
+                <Link href="#">Daily expense loan</Link>
+              </li>
+              <li>
+                <Link href="#">Education purpose loan</Link>
+              </li>
+              <li>
+                <Link href="#">Debt consolidation loan</Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Short term loan by cities */}
+          <div>
+            <h4 className="font-semibold text-primary mb-3">
               Short term loan by cities
             </h4>
             <ul className="space-y-2 text-sm text-gray-700">
@@ -101,34 +169,15 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-        </div>
 
-        {/* Tools */}
-        <div className="lg:col-span-1 grid grid-cols-2 md:grid-cols-1 gap-10">
+          {/* Short term loan by states */}
           <div>
-            <h4 className="font-semibold text-primary mb-3">Tools</h4>
-            <ul className="space-y-2 text-sm text-gray-700">
-              <li>
-                <Link href="#">Personal loan EMI calculator</Link>
-              </li>
-              <li>
-                <Link href="#">Eligibility Loan calculator</Link>
-              </li>
-              <li>
-                <Link href="#">Cibil score checker</Link>
-              </li>
-              <li>
-                <Link href="#">Loan comparison calculator</Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-3 text-primary">
+            <h4 className="font-semibold text-primary mb-3">
               Short term loan by states
             </h4>
             <ul className="space-y-2 text-sm text-gray-700">
               <li>
-                <Link href="/loans/gujrat">Short term loan in Gujrat</Link>
+                <Link href="/loans/gujarat">Short term loan in Gujarat</Link>
               </li>
               <li>
                 <Link href="/loans/bihar">Short term loan in Bihar</Link>
@@ -148,8 +197,8 @@ export default function Footer() {
                 <Link href="/loans/punjab">Short term loan in Punjab</Link>
               </li>
               <li>
-                <Link href="/loans/chattisgarh">
-                  Short term loan in Chattisgarh
+                <Link href="/loans/chhattisgarh">
+                  Short term loan in Chhattisgarh
                 </Link>
               </li>
               <li>
@@ -164,38 +213,11 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-        </div>
 
-        {/* Short term loan by needs */}
-        <div className="lg:col-span-1 grid grid-cols-2 md:grid-cols-1 gap-10">
+          {/* Short term loan by salary */}
           <div>
             <h4 className="font-semibold text-primary mb-3">
-              Short term loan by needs
-            </h4>
-            <ul className="space-y-2 text-sm text-gray-700">
-              <li>
-                <Link href="#">Medical emergency loan</Link>
-              </li>
-              <li>
-                <Link href="#">Utility bill loan</Link>
-              </li>
-              <li>
-                <Link href="#">House rent loan</Link>
-              </li>
-              <li>
-                <Link href="#">Daily expense loan</Link>
-              </li>
-              <li>
-                <Link href="#">Education purpose loan</Link>
-              </li>
-              <li>
-                <Link href="#">Debt consolidation loan</Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-3 text-primary">
-              Short term loan by salary
+              Personal loan by salary
             </h4>
             <ul className="space-y-2 text-sm text-gray-700">
               <li>
@@ -213,33 +235,11 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-
-        {/* Company */}
-        <div>
-          <h4 className="font-semibold text-primary mb-3">Company</h4>
-          <ul className="space-y-2 text-sm text-gray-700">
-            <li>
-              <Link href="#">About Us</Link>
-            </li>
-            <li>
-              <Link href="#">Career</Link>
-            </li>
-            <li>
-              <Link href="#">Blog</Link>
-            </li>
-            <li>
-              <Link href="#">News</Link>
-            </li>
-            <li>
-              <Link href="#">Contact us</Link>
-            </li>
-          </ul>
-        </div>
       </div>
 
       {/* Bottom Bar */}
       <div className="mt-10 border-t border-gray-300 pt-6 flex flex-col md:flex-row justify-between items-center text-sm text-gray-600">
-        <p>© 2025 Loaninneed. All rights reserved.</p>
+        <p>© 2025 Loan in need. All rights reserved.</p>
         <div className="flex flex-wrap gap-4 mt-4 md:mt-0">
           <Link href="#">Privacy policy</Link>
           <Link href="#">Terms & conditions</Link>

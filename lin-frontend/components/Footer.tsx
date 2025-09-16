@@ -7,9 +7,10 @@ import { Button } from "./ui/button";
 export default function Footer() {
   return (
     <footer className="bg-[#FEF5F5] py-10 px-6 md:px-12 lg:px-20 mt-32">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2">
-        {/* Logo & Info */}
-        <div className="space-y-4 md:w-1/2">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-10">
+        {/* Left side */}
+        <div className="space-y-6 lg:col-span-[1.5]">
+          {/* Logo & Info */}
           <Image
             src="/lin-logo.png"
             alt="Loan In Need"
@@ -51,7 +52,8 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5 col-span-1">
+        {/* Right side (links) */}
+        <div className="lg:col-span-4 grid grid-cols-2 md:grid-cols-4 gap-8">
           {/* Useful Links */}
           <div>
             <h4 className="font-semibold text-primary mb-3">Useful links</h4>
@@ -87,28 +89,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Company */}
-          <div>
-            <h4 className="font-semibold text-primary mb-3">Company</h4>
-            <ul className="space-y-2 text-sm text-gray-700">
-              <li>
-                <Link href="#">About Us</Link>
-              </li>
-              <li>
-                <Link href="#">Career</Link>
-              </li>
-              <li>
-                <Link href="#">Blog</Link>
-              </li>
-              <li>
-                <Link href="#">News</Link>
-              </li>
-              <li>
-                <Link href="#">Contact us</Link>
-              </li>
-            </ul>
-          </div>
-
           {/* Short term loan by needs */}
           <div>
             <h4 className="font-semibold text-primary mb-3">
@@ -132,6 +112,28 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="#">Debt consolidation loan</Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Company */}
+          <div>
+            <h4 className="font-semibold text-primary mb-3">Company</h4>
+            <ul className="space-y-2 text-sm text-gray-700">
+              <li>
+                <Link href="#">About Us</Link>
+              </li>
+              <li>
+                <Link href="#">Career</Link>
+              </li>
+              <li>
+                <Link href="#">Blog</Link>
+              </li>
+              <li>
+                <Link href="#">News</Link>
+              </li>
+              <li>
+                <Link href="#">Contact us</Link>
               </li>
             </ul>
           </div>

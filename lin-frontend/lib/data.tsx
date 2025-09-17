@@ -143,23 +143,23 @@ export const homeFAQdata: FAQItem[] = [
       "Not at all. We focus on your current income and repayment ability rather than your past credit score.",
   },
   {
-    question: "What’s the maximum loan amount I can get?",
+    question: "What's the maximum loan amount I can get?",
     answer:
       "You can borrow from ₹5,000 up to ₹2,00,000, depending on your eligibility.",
   },
   {
     question: "Is collateral needed for this loan?",
-    answer: "No, there’s no need to provide any security or guarantor.",
+    answer: "No, there's no need to provide any security or guarantor.",
   },
   {
     question: "Can I still apply if my CIBIL score is low?",
     answer:
-      "Yes, you can. Even with a score below 600, we’ll consider your application based on your present financial status.",
+      "Yes, you can. Even with a score below 600, we'll consider your application based on your present financial status.",
   },
   {
     question: "What documents are required?",
     answer:
-      "Just the basics – identity proof, address proof, and income proof. No long forms or unnecessary paperwork.",
+      "Just the basics - identity proof, address proof, and income proof. No long forms or unnecessary paperwork.",
   },
   {
     question: "What interest rates do you charge?",
@@ -253,7 +253,7 @@ export const aboutFAQdata: FAQItem[] = [
   {
     question: "What is a payday loan?",
     answer:
-      "It’s a short-term loan given against your salary to meet urgent financial needs, disbursed quickly and repaid easily.",
+      "It's a short-term loan given against your salary to meet urgent financial needs, disbursed quickly and repaid easily.",
   },
   {
     question: "What is the repayment tenure of a payday loan?",
@@ -268,12 +268,12 @@ export const aboutFAQdata: FAQItem[] = [
   {
     question: "What are the interest rates for a payday loan?",
     answer:
-      "Interest rates are transparent and depend on your profile and loan amount. You’ll see all charges upfront before applying.",
+      "Interest rates are transparent and depend on your profile and loan amount. You'll see all charges upfront before applying.",
   },
   {
     question: "What is a Credit Builder Loan?",
     answer:
-      "It’s a small loan designed to help you build or improve your credit score by repaying on time.",
+      "It's a small loan designed to help you build or improve your credit score by repaying on time.",
   },
   {
     question: "Who can benefit from a Credit Builder Loan?",
@@ -297,7 +297,7 @@ export const aboutFAQdata: FAQItem[] = [
   {
     question: "What if my loan application is not approved?",
     answer:
-      "We’ll share the reason with you, and you can reapply after improving your eligibility.",
+      "We'll share the reason with you, and you can reapply after improving your eligibility.",
   },
   {
     question: "What happens in case of a delayed EMI payment?",
@@ -318,3 +318,136 @@ export const aboutFAQdata: FAQItem[] = [
       "All your loan details, EMI schedule, and payment history are available on your dashboard.",
   },
 ];
+
+export const personalLoanFAQdata: FAQItem[] = [
+  {
+    question: "How to Apply for a Personal Loan with LoanInNeed?",
+    answer:
+      "Applying for a loan with LoanInNeed is simple and fast. Start by visiting the official website and choose the type of loan you need. Fill in your basic details such as name, income, contact information, and desired loan amount. Next, upload the required documents like identity proof, address proof, and income proof. You can also check your eligibility using the online calculator to know how much you can borrow. Once you submit the application, it is quickly processed, and upon approval, the loan amount is disbursed directly to your bank account.",
+  },
+  {
+    question:
+      "What is the minimum CIBIL score required to get a personal loan?",
+    answer: "To get a personal loan you must have a CIBIL score of 650+",
+  },
+  {
+    question: "How much can I borrow with a personal loan?",
+    answer:
+      "Loan amounts typically range from a few thousand up to several lakhs, depending on your income, eligibility, and lender policies.",
+  },
+  {
+    question: "What is the typical repayment tenure for personal loans?",
+    answer:
+      "Tenures generally range between 30-45 days depending upon your flexibility and convenience.",
+  },
+  {
+    question: "Are personal loans secured or unsecured?",
+    answer:
+      "Personal loans are usually unsecured—no collateral is required. This makes them quick and convenient, and with low interest rates.",
+  },
+];
+
+export const instaLoanFAQdata: FAQItem[] = [
+  {
+    question: "How to Apply for a Insta Loan with LoanInNeed?",
+    answer:
+      "Applying for a short-term loan with LoanInNeed is simple and fast. Start by visiting the official website and choose the type of loan you need. Fill in your basic details such as name, income, contact information, and desired loan amount. Next, upload the required documents like identity proof, address proof, and income proof. You can also check your eligibility using the online calculator to know how much you can borrow. Once you submit the application, it is quickly processed, and upon approval, the loan amount is disbursed directly to your bank account.",
+  },
+  {
+    question: "How much short-term loan amount can I get with LoanInNeed?",
+    answer:
+      "You can get amounts ranging from ₹5,000 to ₹1,00,000, depending on your eligibility and lender's policies.",
+  },
+  {
+    question:
+      "What are the eligibility criteria for a short-term personal loan?",
+    answer:
+      "Any salaried or self-employed individual with a stable income, valid ID proof, and a bank account can apply for a short-term personal loan.",
+  },
+  {
+    question: "How fast can I get the money?",
+    answer:
+      "Most short-term personal loans are disbursed within a few minutes to 24 hours after your application is approved.",
+  },
+  {
+    question:
+      "What documents are required to apply for a Short-Term Personal Loan?",
+    answer:
+      "Basic documents such as ID proof, address proof, income proof, and bank statements are usually required.",
+  },
+  {
+    question: "Do I need a guarantor or collateral for a short-term loan?",
+    answer:
+      "No, short-term personal loans are unsecured loans and do not require any guarantor or collateral.",
+  },
+  {
+    question: "What is the repayment period for a short-term personal loan?",
+    answer:
+      "The repayment tenure usually ranges from 30-45 days as per your convenience.",
+  },
+  {
+    question: "Can I repay my short-term loan early?",
+    answer:
+      "Yes, LoanInNeed allows prepayment or foreclosure of the loan, though some may charge a small fee.",
+  },
+];
+
+export const eligibilityCriteria = {
+  spanTitle: "Eligibility check",
+  title: "What are the eligibility criteria for",
+  titleColoured: "personal loan?",
+  desc: "Our instant loan process is designed for speed and convenience",
+  criteria: [
+    {
+      iconImg: "/personal-insta-loan/age.png",
+      itemTitle: "Age",
+      itemDesc: "21 to 60 years",
+    },
+    {
+      iconImg: "/personal-insta-loan/employment.png",
+      itemTitle: "Employment",
+      itemDesc: "Salaried professional having income more than ₹35,000",
+    },
+    {
+      iconImg: "/personal-insta-loan/cibil.png",
+      itemTitle: "CIBIL Score",
+      itemDesc: "Preferably 650 or above for faster approval",
+    },
+  ],
+};
+
+export const mandatoryDocuments = {
+  spanTitle: "Mandatory Documents",
+  title: "Documents required to avail",
+  titleColoured: "personal loan?",
+  desc: "Our instant loan process is designed for speed and convenience",
+  criteria: [
+    {
+      iconImg: "/personal-insta-loan/identity.png",
+      itemTitle: "Identity Proof",
+      itemDesc: "PAN Card & Aadhaar Card",
+    },
+    {
+      iconImg: "/personal-insta-loan/income.png",
+      itemTitle: "Income Proof",
+      itemDesc: (
+        <>
+          Last 3 months' salary slips
+          <br />
+          Last 6 months' bank statements (salary account)
+        </>
+      ),
+    },
+    {
+      iconImg: "/personal-insta-loan/house.png",
+      itemTitle: "Address Proof",
+      itemDesc: (
+        <>
+          If rented house - Rent Agreement
+          <br />
+          If own house - Electricity Bill
+        </>
+      ),
+    },
+  ],
+};

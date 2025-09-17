@@ -30,7 +30,7 @@ const AboutHero = () => {
           <h2 className="lg:text-5xl text-3xl font-bold">
             All about <span className="text-primary">Loaninneed</span>
           </h2>
-          <p className="text-gray-500 my-1.5 text-md">
+          <p className="text-gray-500 my-1.5 text-base">
             Some expenses don&apos;t wait for payday. Sometimes, a medical bill,
             school fee, or sudden expense comes out without knocking and you are
             left wondering, “What to do now?”

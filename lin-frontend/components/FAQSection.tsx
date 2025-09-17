@@ -32,7 +32,7 @@ export default function FAQSection({ faqData }: { faqData: FAQItem[] }) {
               <AccordionTrigger className="hover:no-underline leading-tight [&[data-state=open]]:text-primary font-semibold text-base [&[data-state=open]>svg]:text-primary [&[data-state=open]>svg]:font-bold [&[data-state]>svg]:size-5">
                 {faq.question}
               </AccordionTrigger>
-              <AccordionContent className="flex flex-col text-gray-600 text-md gap-4 text-balance">
+              <AccordionContent className="flex flex-col text-gray-600 text-base gap-4 text-balance">
                 <p>{faq.answer}</p>
               </AccordionContent>
             </AccordionItem>

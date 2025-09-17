@@ -59,7 +59,7 @@ export default function Footer() {
             <h4 className="font-semibold text-primary mb-3">Useful links</h4>
             <ul className="space-y-2 text-sm text-gray-700">
               <li>
-                <Link href="#">Short term loans</Link>
+                <Link href="#">Insta loans</Link>
               </li>
               <li>
                 <Link href="#">Track loan</Link>
@@ -89,10 +89,10 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Short term loan by needs */}
+          {/* Insta loan by needs */}
           <div>
             <h4 className="font-semibold text-primary mb-3">
-              Short term loan by needs
+              Insta loan by needs
             </h4>
             <ul className="space-y-2 text-sm text-gray-700">
               <li>
@@ -138,85 +138,77 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Short term loan by cities */}
+          {/* Insta loan by cities */}
           <div>
             <h4 className="font-semibold text-primary mb-3">
-              Short term loan by cities
+              Insta loan by cities
             </h4>
             <ul className="space-y-2 text-sm text-gray-700">
               <li>
-                <Link href="/loans/mumbai">Short term loan in Mumbai</Link>
+                <Link href="/loans/mumbai">Insta loan in Mumbai</Link>
               </li>
               <li>
-                <Link href="/loans/delhi">Short term loan in Delhi</Link>
+                <Link href="/loans/delhi">Insta loan in Delhi</Link>
               </li>
               <li>
-                <Link href="/loans/bangalore">
-                  Short term loan in Bengaluru
-                </Link>
+                <Link href="/loans/bangalore">Insta loan in Bengaluru</Link>
               </li>
               <li>
-                <Link href="/loans/hyderabad">
-                  Short term loan in Hyderabad
-                </Link>
+                <Link href="/loans/hyderabad">Insta loan in Hyderabad</Link>
               </li>
               <li>
-                <Link href="/loans/pune">Short term loan in Pune</Link>
+                <Link href="/loans/pune">Insta loan in Pune</Link>
               </li>
               <li>
-                <Link href="/loans/kolkata">Short term loan in Kolkata</Link>
+                <Link href="/loans/kolkata">Insta loan in Kolkata</Link>
               </li>
               <li>
-                <Link href="/loans/chennai">Short term loan in Chennai</Link>
+                <Link href="/loans/chennai">Insta loan in Chennai</Link>
               </li>
             </ul>
           </div>
 
-          {/* Short term loan by states */}
+          {/* Insta loan by states */}
           <div>
             <h4 className="font-semibold text-primary mb-3">
-              Short term loan by states
+              Insta loan by states
             </h4>
             <ul className="space-y-2 text-sm text-gray-700">
               <li>
-                <Link href="/loans/gujarat">Short term loan in Gujarat</Link>
+                <Link href="/loans/gujarat">Insta loan in Gujarat</Link>
               </li>
               <li>
-                <Link href="/loans/bihar">Short term loan in Bihar</Link>
+                <Link href="/loans/bihar">Insta loan in Bihar</Link>
               </li>
               <li>
-                <Link href="/loans/orissa">Short term loan in Orissa</Link>
+                <Link href="/loans/orissa">Insta loan in Orissa</Link>
               </li>
               <li>
-                <Link href="/loans/jharkhand">
-                  Short term loan in Jharkhand
-                </Link>
+                <Link href="/loans/jharkhand">Insta loan in Jharkhand</Link>
               </li>
               <li>
-                <Link href="/loans/assam">Short term loan in Assam</Link>
+                <Link href="/loans/assam">Insta loan in Assam</Link>
               </li>
               <li>
-                <Link href="/loans/punjab">Short term loan in Punjab</Link>
+                <Link href="/loans/punjab">Insta loan in Punjab</Link>
               </li>
               <li>
                 <Link href="/loans/chhattisgarh">
-                  Short term loan in Chhattisgarh
+                  Insta loan in Chhattisgarh
                 </Link>
               </li>
               <li>
                 <Link href="/loans/madhya-pradesh">
-                  Short term loan in Madhya Pradesh
+                  Insta loan in Madhya Pradesh
                 </Link>
               </li>
               <li>
-                <Link href="/loans/west-bengal">
-                  Short term loan in West Bengal
-                </Link>
+                <Link href="/loans/west-bengal">Insta loan in West Bengal</Link>
               </li>
             </ul>
           </div>
 
-          {/* Short term loan by salary */}
+          {/* Insta loan by salary */}
           <div>
             <h4 className="font-semibold text-primary mb-3">
               Personal loan by salary

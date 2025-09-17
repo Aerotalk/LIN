@@ -10,7 +10,7 @@ const HowItWorks = () => {
             how it works
           </span>
           <h2 className="lg:text-4xl text-3xl font-bold">
-            How to get short term loan in{" "}
+            How to get insta loan in{" "}
             <span className="text-primary">3 simple step?</span>
           </h2>
           <p className="text-center text-gray-500 font-medium my-1.5 max-w-2xl">

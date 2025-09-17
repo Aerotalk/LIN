@@ -18,9 +18,9 @@ const FootCTA = () => {
           />
           <div className="text-center flex flex-col justify-center items-center-safe space-y-4">
             <h2 className="text-white lg:text-3xl text-2xl font-bold">
-              Get your short term personal loan now
+              Get your insta personal loan now
             </h2>
-            <p className="text-white text-md max-w-lg">
+            <p className="text-white text-base max-w-lg">
               Apply online today and receive instant approval with quick
               disbursal directly to your bank account—no hidden charges, no
               collateral required.

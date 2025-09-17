@@ -14,7 +14,7 @@ const BenefitTabsSection = () => {
             our benefits
           </span>
           <h2 className="lg:text-4xl text-3xl font-bold text-center">
-            We offer short term loan for your{" "}
+            We offer insta loan for your{" "}
             <span className="text-primary">financial emergencies</span>
           </h2>
         </div>

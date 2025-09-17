@@ -6,6 +6,7 @@ import {
   ScatterChartIcon,
 } from "lucide-react";
 import { FAQItem } from "./types";
+import Image from "next/image";
 
 export const benefitTabsData = [
   {
@@ -13,7 +14,7 @@ export const benefitTabsData = [
     value: "medical-emergency-loan",
     tabIcon: <BriefcaseMedical />,
     title:
-      "Instant short term medical emergency loan - quick cash for urgent Healthcare Needs",
+      "Instant insta medical emergency loan - quick cash for urgent Healthcare Needs",
     description: (
       <>
         When sudden medical expenses arise, waiting for insurance claims or
@@ -174,49 +175,146 @@ export const homeFAQdata: FAQItem[] = [
 
 export const cardBenefits = [
   {
-    iconImg: <CircleQuestionMarkIcon className="h-6 w-6 text-white" />,
+    iconImg: "/icons/icon1.png",
     title: "100% Digital Process",
     description:
       "Our loan with less paperwork approach eliminates branch visits and document hassles.",
   },
   {
-    iconImg: <CircleQuestionMarkIcon className="h-6 w-6 text-white" />,
-    title: "Transparent Process",
-    description: "No hidden fees or charges - what you see is what you get.",
+    iconImg: "/icons/icon2.png",
+    title: "Transparent Loan Terms",
+    description:
+      "No hidden charges in our insta loans. What you see is what you pay.",
   },
   {
-    iconImg: <CircleQuestionMarkIcon className="h-6 w-6 text-white" />,
+    iconImg: "/icons/icon3.png",
+    title: "Instant Loan Approval",
+    description:
+      "You don't have to stand in long queues. Get instant loan approvals in less than 2 hours!",
+  },
+  {
+    iconImg: "/icons/icon4.png",
     title: "Flexible Repayment",
     description:
-      "Choose a repayment plan that suits your budget and lifestyle.",
+      "Choose repayment terms from 30 to 45 days. Pay back your loan at your convenience.",
   },
   {
-    iconImg: <CircleQuestionMarkIcon className="h-6 w-6 text-white" />,
-    title: "Secure & Confidential",
+    iconImg: "/icons/icon5.png",
+
+    title: "24/7 Customer Support",
     description:
-      "Your data is protected with bank-level security and confidentiality.",
+      "Get help with your loan. Our team assists with instant loan approval queries round the clock",
   },
   {
-    iconImg: <CircleQuestionMarkIcon className="h-6 w-6 text-white" />,
-    title: "Quick & Easy",
+    iconImg: "/icons/icon6.png",
+    title: "Best Interest Rates",
     description:
-      "Simple online application with instant approval and fast disbursal.",
+      "We assure you the best of interest rates available in the market, with no hidden costs!",
   },
   {
-    iconImg: <CircleQuestionMarkIcon className="h-6 w-6 text-white" />,
-    title: "Transparent Process",
-    description: "No hidden fees or charges – what you see is what you get.",
-  },
-  {
-    iconImg: <CircleQuestionMarkIcon className="h-6 w-6 text-white" />,
-    title: "Flexible Repayment",
+    iconImg: "/icons/icon7.png",
+    title: "Regulated & Trustworthy",
     description:
-      "Choose a repayment plan that suits your budget and lifestyle.",
+      "RBI-licensed personal loan provider with grievance support, and transparent terms.",
   },
   {
-    iconImg: <CircleQuestionMarkIcon className="h-6 w-6 text-white" />,
-    title: "Secure & Confidential",
+    iconImg: "/icons/icon8.png",
+    title: "Secure transactions",
+    description: "End-to-end encryption for all transactions.",
+  },
+];
+
+export const missionVision = [
+  {
+    iconImg: "/icons/mission-vision.png",
+    title: "Our Mission",
     description:
-      "Your data is protected with bank-level security and confidentiality.",
+      "We want you to feel safe and supported when you need money the most. With fast approval, simple steps and fair repayment plans, we make borrowing easy.",
+  },
+  {
+    iconImg: "/icons/mission-vision.png",
+    title: "Our Vision",
+    description:
+      "We dream of a time when anyone in India can get personal loans fast and safely, without long waits or complicated paperworks. Just a few clicks, quick support, and money into your bank account",
+  },
+];
+
+export const aboutFAQdata: FAQItem[] = [
+  {
+    question: "What is LoanInNeed?",
+    answer:
+      "LoanInNeed is a digital lending platform that provides quick salary-based loans to help you manage urgent financial needs and improve your financial health.",
+  },
+  {
+    question: "What types of loans does LoanInNeed offer?",
+    answer:
+      "We offer instant salary loans and short-term personal loans designed for emergencies, bills, or other quick financial requirements.",
+  },
+  {
+    question: "What is a payday loan?",
+    answer:
+      "It’s a short-term loan given against your salary to meet urgent financial needs, disbursed quickly and repaid easily.",
+  },
+  {
+    question: "What is the repayment tenure of a payday loan?",
+    answer:
+      "Our repayment terms are flexible and can be customized based on your needs, usually ranging from 30-40 days.",
+  },
+  {
+    question: "Is a guarantor or collateral required for an Insta loan?",
+    answer:
+      "No, you don’t need any guarantor or collateral to apply for our loans.",
+  },
+  {
+    question: "What are the interest rates for a payday loan?",
+    answer:
+      "Interest rates are transparent and depend on your profile and loan amount. You’ll see all charges upfront before applying.",
+  },
+  {
+    question: "What is a Credit Builder Loan?",
+    answer:
+      "It’s a small loan designed to help you build or improve your credit score by repaying on time.",
+  },
+  {
+    question: "Who can benefit from a Credit Builder Loan?",
+    answer:
+      "Anyone looking to start their credit journey or repair their credit score.",
+  },
+  {
+    question: "How can I repay the Credit Builder Loan?",
+    answer: "You can repay it through monthly auto-debit or online transfers.",
+  },
+  {
+    question: "Can the Credit Builder Loan be closed early?",
+    answer:
+      "Yes! You can close it early with minimal or no extra charges, depending on the terms.",
+  },
+  {
+    question: "Can multiple loans be applied for at the same time?",
+    answer:
+      "No, you can only have one active loan at a time to ensure easy repayment.",
+  },
+  {
+    question: "What if my loan application is not approved?",
+    answer:
+      "We’ll share the reason with you, and you can reapply after improving your eligibility.",
+  },
+  {
+    question: "What happens in case of a delayed EMI payment?",
+    answer:
+      "A small late fee may apply, and delays can impact your credit score.",
+  },
+  {
+    question: "Can the loan be prepaid or foreclosed?",
+    answer: "Yes, you can prepay or foreclose your loan anytime.",
+  },
+  {
+    question: "What is the charge for a bounced EMI?",
+    answer: "A nominal bounce charge may apply if your EMI payment fails.",
+  },
+  {
+    question: "Where can loan details be tracked?",
+    answer:
+      "All your loan details, EMI schedule, and payment history are available on your dashboard.",
   },
 ];

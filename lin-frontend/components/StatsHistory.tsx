@@ -18,9 +18,7 @@ const StatsHistory = () => {
         <div className="flex flex-col space-y-2 justify-center items-center">
           <Image src="/money-min.png" alt="Money" width={80} height={80} />
           <h3 className="text-3xl font-bold text-center">₹100 Cr+</h3>
-          <p className="text-center text-gray-600">
-            Short Term Loans Disbursed
-          </p>
+          <p className="text-center text-gray-600">Insta Loans Disbursed</p>
         </div>
         <div className="flex flex-col space-y-2 justify-center items-center">
           <Image src="/check-min.png" alt="Customer" width={80} height={80} />

@@ -4,7 +4,7 @@ export interface FAQItem {
 }
 
 export interface CardData {
-  iconImg: React.ReactNode;
+  iconImg: string;
   title: string;
   description: string;
 }

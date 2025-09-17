@@ -97,7 +97,7 @@ export default function Navbar() {
 
         {/* Desktop Navigation */}
         <div className="hidden lg:flex">
-          <NavigationMenu>
+          <NavigationMenu viewport={false}>
             <NavigationMenuList>
               <NavigationMenuItem>
                 <NavigationMenuTrigger>Personal loan</NavigationMenuTrigger>

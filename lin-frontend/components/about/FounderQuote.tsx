@@ -12,14 +12,14 @@ const FounderQuote = () => {
         className="w-full md:w-10/12 object-cover"
       />
       <div className="flex flex-col space-y-2 text-start">
-        <p className="italic text-md max-w-3xl mb-6">
+        <p className="italic text-base max-w-3xl mb-6">
           “When we started LoanInNeed, we had one simple belief that borrowing
           money should not feel like a burden or a battle. Too many people were
           losing valuable time running from bank to bank, filling endless forms,
           or getting lost in hidden charges. We wanted to change that”
         </p>
-        <span className="text-md font-medium">Indradeep</span>
-        <span className="text-md text-gray-600">CEO LoanInNeed</span>
+        <span className="text-base font-medium">Indradeep</span>
+        <span className="text-base text-gray-600">CEO LoanInNeed</span>
       </div>
     </div>
   );

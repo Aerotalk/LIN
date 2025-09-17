@@ -16,7 +16,7 @@ export default function Home() {
       <StatsHistory />
       <HowItWorks />
       <BenefitTabsSection />
-      <CardGrids cardsData={cardBenefits} />
+      <CardGrids cardsData={cardBenefits} colsNoMdScreen={4} />
       <LoanCalculator />
       <TestimonialSection />
       <FAQSection faqData={homeFAQdata} />

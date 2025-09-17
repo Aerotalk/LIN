@@ -1,15 +1,20 @@
-import { se } from "date-fns/locale";
 import React from "react";
 import { Card } from "./ui/card";
 import { CardData } from "@/lib/types";
 
-const CardGrids = ({ cardsData }: { cardsData: CardData[] }) => {
+const CardGrids = ({
+  cardsData,
+  colsNoMdScreen,
+}: {
+  cardsData: CardData[];
+  colsNoMdScreen: number;
+}) => {
   return (
     <section className="w-full max-w-7xl mx-auto py-4 px-6 md:p-12 lg:p-20">
       <div
-        className={`grid md:grid-cols-${Math.ceil(
-          cardsData.length / 2
-        )} grid-cols-1 gap-6 w-full`}
+        className={`grid lg:grid-cols-${colsNoMdScreen} md:grid-cols-${
+          colsNoMdScreen - 1
+        } grid-cols-1 gap-6 w-full`}
       >
         {cardsData.map((card, index) => (
           <Card key={index} className="bg-secondary rounded-lg shadow-md p-6">

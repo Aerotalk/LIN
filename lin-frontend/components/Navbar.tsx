@@ -100,10 +100,17 @@ export default function Navbar() {
           <NavigationMenu viewport={false}>
             <NavigationMenuList>
               <NavigationMenuItem>
-                <NavigationMenuTrigger>Personal loan</NavigationMenuTrigger>
+                <NavigationMenuTrigger>
+                  <NavigationMenuLink asChild>
+                    <Link href="/personal-loan">Personal loan</Link>
+                  </NavigationMenuLink>
+                </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid w-[300px] gap-3 p-3">
-                    <ListItem href="/apply-loan" title="Insta Loan">
+                    <ListItem
+                      href="/personal-loan/insta-loan"
+                      title="Insta Loan"
+                    >
                       Get an instant personal loan with quick approval.
                     </ListItem>
                   </ul>

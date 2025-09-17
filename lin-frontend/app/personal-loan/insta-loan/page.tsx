@@ -28,7 +28,7 @@ export default function InstaLoan() {
       />
       <LoanDefine
         heading="What is insta loan?"
-        description="A short-term loan is money you borrow for a short period of time, usually from a few days up to months. It helps you cover your urgent expenses or quick cash needs and gets approved faster than long term loans and the repayment tenure can also be flexible as per your convenience."
+        description="A insta loan is money you borrow for a short period of time, usually from a few days up to months. It helps you cover your urgent expenses or quick cash needs and gets approved faster than long term loans and the repayment tenure can also be flexible as per your convenience."
       />
       <HowItWorks />
       <EligibilityMandatoryGrid

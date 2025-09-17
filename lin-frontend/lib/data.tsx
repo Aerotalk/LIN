@@ -20,10 +20,10 @@ export const benefitTabsData = [
         When sudden medical expenses arise, waiting for insurance claims or
         arranging money from friends can delay critical treatment.
         <br />
-        <br />A short-term medical emergency loan provides immediate funds so
-        you can pay hospital bills, buy medicines, or handle surgery costs
-        without stress. It's the fastest way to secure financial support during
-        health emergencies.
+        <br />A insta medical emergency loan provides immediate funds so you can
+        pay hospital bills, buy medicines, or handle surgery costs without
+        stress. It's the fastest way to secure financial support during health
+        emergencies.
       </>
     ),
     imageUrl: "/benefits-tab/medical-emergency-loan-doctor-tab-min.png",
@@ -248,12 +248,12 @@ export const aboutFAQdata: FAQItem[] = [
   {
     question: "What types of loans does LoanInNeed offer?",
     answer:
-      "We offer instant salary loans and short-term personal loans designed for emergencies, bills, or other quick financial requirements.",
+      "We offer instant salary loans and insta personal loans designed for emergencies, bills, or other quick financial requirements.",
   },
   {
     question: "What is a payday loan?",
     answer:
-      "It's a short-term loan given against your salary to meet urgent financial needs, disbursed quickly and repaid easily.",
+      "It's a insta loan given against your salary to meet urgent financial needs, disbursed quickly and repaid easily.",
   },
   {
     question: "What is the repayment tenure of a payday loan?",
@@ -351,42 +351,40 @@ export const instaLoanFAQdata: FAQItem[] = [
   {
     question: "How to Apply for a Insta Loan with LoanInNeed?",
     answer:
-      "Applying for a short-term loan with LoanInNeed is simple and fast. Start by visiting the official website and choose the type of loan you need. Fill in your basic details such as name, income, contact information, and desired loan amount. Next, upload the required documents like identity proof, address proof, and income proof. You can also check your eligibility using the online calculator to know how much you can borrow. Once you submit the application, it is quickly processed, and upon approval, the loan amount is disbursed directly to your bank account.",
+      "Applying for a insta loan with LoanInNeed is simple and fast. Start by visiting the official website and choose the type of loan you need. Fill in your basic details such as name, income, contact information, and desired loan amount. Next, upload the required documents like identity proof, address proof, and income proof. You can also check your eligibility using the online calculator to know how much you can borrow. Once you submit the application, it is quickly processed, and upon approval, the loan amount is disbursed directly to your bank account.",
   },
   {
-    question: "How much short-term loan amount can I get with LoanInNeed?",
+    question: "How much insta loan amount can I get with LoanInNeed?",
     answer:
       "You can get amounts ranging from ₹5,000 to ₹1,00,000, depending on your eligibility and lender's policies.",
   },
   {
-    question:
-      "What are the eligibility criteria for a short-term personal loan?",
+    question: "What are the eligibility criteria for a insta personal loan?",
     answer:
-      "Any salaried or self-employed individual with a stable income, valid ID proof, and a bank account can apply for a short-term personal loan.",
+      "Any salaried or self-employed individual with a stable income, valid ID proof, and a bank account can apply for a insta personal loan.",
   },
   {
     question: "How fast can I get the money?",
     answer:
-      "Most short-term personal loans are disbursed within a few minutes to 24 hours after your application is approved.",
+      "Most insta personal loans are disbursed within a few minutes to 24 hours after your application is approved.",
   },
   {
-    question:
-      "What documents are required to apply for a Short-Term Personal Loan?",
+    question: "What documents are required to apply for a insta Personal Loan?",
     answer:
       "Basic documents such as ID proof, address proof, income proof, and bank statements are usually required.",
   },
   {
-    question: "Do I need a guarantor or collateral for a short-term loan?",
+    question: "Do I need a guarantor or collateral for a insta loan?",
     answer:
-      "No, short-term personal loans are unsecured loans and do not require any guarantor or collateral.",
+      "No, insta personal loans are unsecured loans and do not require any guarantor or collateral.",
   },
   {
-    question: "What is the repayment period for a short-term personal loan?",
+    question: "What is the repayment period for a insta personal loan?",
     answer:
       "The repayment tenure usually ranges from 30-45 days as per your convenience.",
   },
   {
-    question: "Can I repay my short-term loan early?",
+    question: "Can I repay my insta loan early?",
     answer:
       "Yes, LoanInNeed allows prepayment or foreclosure of the loan, though some may charge a small fee.",
   },

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { ArrowRight } from "lucide-react";
@@ -19,9 +18,9 @@ const AboutFootCTA = () => {
           </div>
           <p className="text-white text-base max-w-lg">
             We want passionate problem-solvers who believe in making finance
-            simpler for everyone. Whether you're a developer, marketer, customer
-            support hero, or financial expert, your role here makes a real
-            difference.
+            simpler for everyone. Whether you&apos;re a developer, marketer,
+            customer support hero, or financial expert, your role here makes a
+            real difference.
           </p>
           <Link href="/careers">
             <Button

@@ -22,8 +22,8 @@ export const benefitTabsData = [
         <br />
         <br />A insta medical emergency loan provides immediate funds so you can
         pay hospital bills, buy medicines, or handle surgery costs without
-        stress. It's the fastest way to secure financial support during health
-        emergencies.
+        stress. It&apos;s the fastest way to secure financial support during
+        health emergencies.
       </>
     ),
     imageUrl: "/benefits-tab/medical-emergency-loan-doctor-tab-min.png",
@@ -37,13 +37,13 @@ export const benefitTabsData = [
       "Affordable travel loans for your dream vacation - flexible plans, low interest rates",
     description: (
       <>
-        Don't let finances hold you back from exploring the world. Our travel
-        loans offer competitive interest rates and flexible repayment options,
-        making it easier than ever to fund your next adventure.
+        Don&apos;t let finances hold you back from exploring the world. Our
+        travel loans offer competitive interest rates and flexible repayment
+        options, making it easier than ever to fund your next adventure.
         <br />
         <br />
-        Whether it's a family vacation, honeymoon, or solo trip, we provide the
-        financial support you need to make your travel dreams a reality.
+        Whether it&apos;s a family vacation, honeymoon, or solo trip, we provide
+        the financial support you need to make your travel dreams a reality.
       </>
     ),
     imageUrl: "/benefits-tab/medical-emergency-loan-doctor-tab-min.png",
@@ -77,9 +77,9 @@ export const benefitTabsData = [
       "Transform your living space with our home renovation loans - low rates, flexible repayment",
     description: (
       <>
-        Whether it's a kitchen upgrade, bathroom remodel, or adding a new room,
-        our home renovation loans provide the funds you need to enhance your
-        home's value and comfort.
+        Whether it&apos;s a kitchen upgrade, bathroom remodel, or adding a new
+        room, our home renovation loans provide the funds you need to enhance
+        your home&apos;s value and comfort.
         <br />
         <br />
         With competitive interest rates and customizable repayment plans, we
@@ -430,9 +430,9 @@ export const mandatoryDocuments = {
       itemTitle: "Income Proof",
       itemDesc: (
         <>
-          Last 3 months' salary slips
+          Last 3 months&apos; salary slips
           <br />
-          Last 6 months' bank statements (salary account)
+          Last 6 months&apos; bank statements (salary account)
         </>
       ),
     },

@@ -18,7 +18,7 @@ export default function PersonalLoan() {
         loanType="Personal"
         loanDesc={
           <>
-            Whether it's a medical emergency, monthly bills, travel, or
+            Whether it&apos;s a medical emergency, monthly bills, travel, or
             unexpected expenses,{" "}
             <span className="text-primary">Loan In Need</span> gives you fast,
             hassle-free personal loans. Simple online process, flexible tenures,

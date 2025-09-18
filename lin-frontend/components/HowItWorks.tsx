@@ -32,7 +32,13 @@ const HowItWorks = () => {
             </p>
           </div>
           <div className="md:block hidden items-center justify-center">
-            <img src="/how-it-works/arrow.png" alt="Arrow" className="w-full" />
+            <Image
+              width={100}
+              height={100}
+              src="/how-it-works/arrow.png"
+              alt="Arrow"
+              className="w-full"
+            />
           </div>
           <div className="flex flex-col space-y-2 justify-center items-center">
             <Image
@@ -48,7 +54,13 @@ const HowItWorks = () => {
             </p>
           </div>
           <div className="md:block hidden items-center justify-center">
-            <img src="/how-it-works/arrow.png" alt="Arrow" className="w-full" />
+            <Image
+              width={100}
+              height={100}
+              src="/how-it-works/arrow.png"
+              alt="Arrow"
+              className="w-full"
+            />
           </div>
           <div className="flex flex-col space-y-2 justify-center items-center">
             <Image

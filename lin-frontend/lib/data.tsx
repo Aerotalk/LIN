@@ -6,7 +6,6 @@ import {
   ScatterChartIcon,
 } from "lucide-react";
 import { FAQItem } from "./types";
-import Image from "next/image";
 
 export const benefitTabsData = [
   {

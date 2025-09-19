@@ -96,22 +96,26 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-sm text-gray-700">
               <li>
-                <Link href="#">Medical emergency loan</Link>
+                <Link href="/medical-emergency-loan">
+                  Medical emergency loan
+                </Link>
               </li>
               <li>
-                <Link href="#">Utility bill loan</Link>
+                <Link href="/utility-bill-loan">Utility bill loan</Link>
               </li>
               <li>
-                <Link href="#">House rent loan</Link>
+                <Link href="/house-rent-loan">House rent loan</Link>
               </li>
               <li>
-                <Link href="#">Daily expense loan</Link>
+                <Link href="/daily-expense-loan">Daily expense loan</Link>
               </li>
               <li>
-                <Link href="#">Education purpose loan</Link>
+                <Link href="/education-loan">Education purpose loan</Link>
               </li>
               <li>
-                <Link href="#">Debt consolidation loan</Link>
+                <Link href="/debt-consolidation-loan">
+                  Debt consolidation loan
+                </Link>
               </li>
             </ul>
           </div>

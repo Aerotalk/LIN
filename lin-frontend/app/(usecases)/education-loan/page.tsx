@@ -1,9 +1,9 @@
 import FAQSection from "@/components/FAQSection";
 import FootCTA from "@/components/FootCTA";
 import HowItWorks from "@/components/HowItWorks";
-import LoanCalculator from "@/components/LoanCalculator";
 import EligibilityMandatoryGrid from "@/components/personal-insta/EligibilityMandatoryGrid";
 import LoanDefine from "@/components/personal-insta/LoanDefine";
+import DefineLoanTypeQA from "@/components/use-cases/DefineLoanTypeQA";
 import UseCaseHero from "@/components/use-cases/UseCaseHero";
 import {
   eligibilityCriteria,
@@ -31,6 +31,10 @@ export default function EducationLoan() {
         heading="What is education loan?"
         description="An education loan is a type of loan specifically designed to help students cover the costs of their education, including tuition fees, books, and living expenses. These loans often come with lower interest rates and flexible repayment options."
       />
+      <DefineLoanTypeQA
+        loanType="education purpose"
+        loanDesc="A short-term education loan is a type of personal loan designed to cover immediate or upcoming educational expenses without any secured collateral. It helps parents or guardians manage school or college fees, coaching classes, online programs, or study materials, ensuring their child's learning continues smoothly without financial burdens."
+      />
       <HowItWorks />
       <EligibilityMandatoryGrid
         spanTitle={eligibilityCriteria.spanTitle}
@@ -39,7 +43,6 @@ export default function EducationLoan() {
         desc={eligibilityCriteria.desc}
         elimangridData={eligibilityCriteria.criteria}
       />
-      <LoanCalculator />
       <EligibilityMandatoryGrid
         spanTitle={mandatoryDocuments.spanTitle}
         title={mandatoryDocuments.title}

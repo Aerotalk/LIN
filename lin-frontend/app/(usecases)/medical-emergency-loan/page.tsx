@@ -8,7 +8,7 @@ import UseCaseHero from "@/components/use-cases/UseCaseHero";
 import {
   eligibilityCriteria,
   mandatoryDocuments,
-  personalLoanFAQdata,
+  medicalLoanFAQ,
 } from "@/lib/data";
 
 export default function MedicalEmergencyLoan() {
@@ -51,7 +51,7 @@ export default function MedicalEmergencyLoan() {
         elimangridData={mandatoryDocuments.criteria}
       />
       <FootCTA />
-      <FAQSection faqData={personalLoanFAQdata} />
+      <FAQSection faqData={medicalLoanFAQ} />
     </>
   );
 }

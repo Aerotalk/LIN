@@ -448,3 +448,80 @@ export const mandatoryDocuments = {
     },
   ],
 };
+
+export const medicalLoanFAQ = [
+  {
+    question: "What is a medical crisis loan?",
+    answer:
+      "A medical crisis loan is a quick personal loan designed to help you cover unexpected medical expenses such as hospitalization, surgery, medicines, or emergency treatments.",
+  },
+  {
+    question: "How quickly can I get a medical emergency loan?",
+    answer:
+      "At LoanInNeed, your loan application can be approved within minutes, and the funds are disbursed quickly to ensure you get immediate financial support during emergencies.",
+  },
+  {
+    question:
+      "Do I need collateral or a guarantor for a Medical Emergency Loan?",
+    answer:
+      "No, our medical emergency loans are unsecured, meaning you do not need to provide collateral or a guarantor.",
+  },
+  {
+    question:
+      "What documents are required to apply for a Medical Emergency Loan?",
+    answer:
+      "You generally need to submit basic KYC documents such as ID proof, address proof, and income proof.",
+  },
+  {
+    question: "Can I repay the medical loan early without penalties?",
+    answer:
+      "Yes, LoanInNeed offers flexible repayment options, including early repayment or foreclosure without heavy charges.",
+  },
+  {
+    question:
+      "What are the factors to be considered while applying for a personal loan for medical emergencies?",
+    answer:
+      "While applying for a personal loan for a medical emergency, you should first consider the loan application and disbursal process to ensure that you get the funds you need at the right time. In addition to that, you should check whether your health insurance policy covers the treatment you require, whether in full or part. Finally, you should consider the interest rate offered along with the repayment tenure to ensure that you can repay the loan comfortably over time.",
+  },
+  {
+    question:
+      "Where can I get the best Medical Emergency personal loan at lower interest?",
+    answer:
+      "At LoanInNeed get an instant medical emergency loan with an effortless application process. We offer lower interest loans without any collateral.",
+  },
+];
+
+export const educationLoanFAQ = [
+  {
+    question: "What is an education purpose loan?",
+    answer:
+      "An education purpose loan is a short-term personal loan designed to cover expenses like tuition fees, books, exam costs, or other study-related needs.",
+  },
+  {
+    question: "How much loan amount can I get for Education Purpose?",
+    answer:
+      "The amount depends on your eligibility, income, and repayment capacity, usually ranging from a few thousand to several lakhs.",
+  },
+  {
+    question: "Do I need to provide collateral for an Education Purpose Loan?",
+    answer:
+      "No, our short-term education loans are unsecured and do not require any collateral.",
+  },
+  {
+    question: "How fast is the approval process of Personal Education Loan?",
+    answer:
+      "Approval is quick and can often be completed within minutes, with funds disbursed shortly after approval.",
+  },
+  {
+    question:
+      "Who can be a guarantor for a personal loan for education in India?",
+    answer:
+      "Applicant’s parents or the legal guardians are allowed to apply as a guarantor to avail of a personal loan for education in India.",
+  },
+  {
+    question:
+      "Where can I get the best Education Purpose personal loan at lower interest?",
+    answer:
+      "At LoanInNeed get an instant educational personal loan with an effortless application process. We offer lower interest loans without any collateral.",
+  },
+];

@@ -6,9 +6,9 @@ import LoanDefine from "@/components/personal-insta/LoanDefine";
 import DefineLoanTypeQA from "@/components/use-cases/DefineLoanTypeQA";
 import UseCaseHero from "@/components/use-cases/UseCaseHero";
 import {
+  educationLoanFAQ,
   eligibilityCriteria,
   mandatoryDocuments,
-  personalLoanFAQdata,
 } from "@/lib/data";
 
 export default function EducationLoan() {
@@ -51,7 +51,7 @@ export default function EducationLoan() {
         elimangridData={mandatoryDocuments.criteria}
       />
       <FootCTA />
-      <FAQSection faqData={personalLoanFAQdata} />
+      <FAQSection faqData={educationLoanFAQ} />
     </>
   );
 }

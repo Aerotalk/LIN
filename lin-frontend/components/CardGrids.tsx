@@ -1,7 +1,19 @@
+"use client";
+
 import React from "react";
 import { Card } from "./ui/card";
 import { CardData } from "@/lib/types";
 import Image from "next/image";
+
+const getGridCols = (cols: number) => {
+  const gridMap: { [key: number]: string } = {
+    2: "md:grid-cols-2",
+    3: "md:grid-cols-3",
+    4: "md:grid-cols-4",
+    // add more if needed
+  };
+  return gridMap[cols] || "md:grid-cols-1";
+};
 
 const CardGrids = ({
   cardsData,
@@ -12,10 +24,23 @@ const CardGrids = ({
 }) => {
   return (
     <div
-      className={`grid md:grid-cols-${colsNoMdScreen} grid-cols-1 gap-6 w-full my-8`}
+      className={`grid ${getGridCols(
+        colsNoMdScreen
+      )} grid-cols-1 gap-6 w-full my-8`}
     >
       {cardsData.map((card, index) => (
-        <Card key={index} className="bg-secondary rounded-lg shadow-md p-6">
+        <Card
+          key={index}
+          className={`${
+            index % 4 === 0
+              ? "bg-blue-100"
+              : index % 4 === 1
+              ? "bg-yellow-50"
+              : index % 4 === 2
+              ? "bg-blue-100"
+              : "bg-purple-100"
+          } rounded-lg p-6`}
+        >
           <div className="flex flex-col justify-center items-center text-center space-y-3">
             <Image
               src={card.iconImg}

@@ -11,7 +11,7 @@ import Image from "next/image";
 
 const AboutHero = () => {
   return (
-    <section className="w-full max-w-7xl mx-auto py-4 p-6 md:p-12 lg:p-20 my-12">
+    <section className="w-full max-w-7xl mx-auto py-4 p-6 md:p-12 lg:p-20 md:mt-12 mt-24">
       <div className="flex flex-col md:flex-row justify-between items-center-safe gap-12 w-full">
         <div className="flex flex-col items-start space-y-4 w-full">
           <Breadcrumb>

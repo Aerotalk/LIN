@@ -29,11 +29,27 @@ const PersonalInstaHeroSection: React.FC<PersonalInstaHeroSectionProps> = ({
               <BreadcrumbLink href="/">Home</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage className="text-primary font-medium">
-                Personal Loan
-              </BreadcrumbPage>
-            </BreadcrumbItem>
+            {loanType === "Personal" ? (
+              <BreadcrumbItem>
+                <BreadcrumbPage className="text-primary font-medium">
+                  Personal Loan
+                </BreadcrumbPage>
+              </BreadcrumbItem>
+            ) : (
+              <>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/personal-loan">
+                    Personal Loan
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator className="text-primary" />
+                <BreadcrumbItem>
+                  <BreadcrumbPage className="text-primary font-medium">
+                    {loanType} Loan
+                  </BreadcrumbPage>
+                </BreadcrumbItem>
+              </>
+            )}
           </BreadcrumbList>
         </Breadcrumb>
         <div className="space-y-2">

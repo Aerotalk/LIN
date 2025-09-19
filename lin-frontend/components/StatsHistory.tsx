@@ -1,9 +1,10 @@
+"use client";
 import Image from "next/image";
 import React from "react";
 
 const StatsHistory = () => {
   return (
-    <section className="w-full max-w-[90rem] mx-auto py-4 p-6 md:p-12 lg:p-20">
+    <section className="w-full max-w-[90rem] mx-auto py-4 p-6">
       <div className="grid md:grid-cols-3 grid-cols-1 justify-items-center items-center-safe w-full gap-4">
         <div className="flex flex-col space-y-2 justify-center items-center">
           <Image

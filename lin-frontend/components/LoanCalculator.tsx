@@ -46,8 +46,10 @@ export default function LoanCalculator() {
                 <Input
                   className="justify-end w-1/6 max-w-[80px] bg-gray-200 border-0 focus:border-0 focus:ring-0 active:border-0 active:ring-0"
                   type="text"
-                  value={principal}
-                  onChange={(e) => setPrincipal(Number(e.target.value))}
+                  value={`₹ ${principal}`}
+                  onChange={(e) =>
+                    setPrincipal(Number(e.target.value.replace("₹ ", "")))
+                  }
                 />
               </div>
               <Slider

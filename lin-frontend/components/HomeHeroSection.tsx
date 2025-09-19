@@ -38,8 +38,8 @@ const HomeHeroSection = () => {
         <Image
           src="/Graphic-min.png"
           alt="Hero Image"
-          width={300}
-          height={300}
+          width={3000}
+          height={3000}
           className="ml-8 w-8/12 h-full object-cover md:block md:w-1/2"
         />
       </div>

@@ -14,24 +14,23 @@ import {
   medicalLoanUseCaseData,
 } from "@/lib/data";
 
-export default function EducationLoan() {
+export default function UtilityBillsLoan() {
   return (
     <>
       <UseCaseHero
-        loanType="Education"
+        loanType="Utility Bills Payment"
         loanDesc={
           <>
-            Whether it&apos;s a medical emergency, monthly bills, travel, or
-            unexpected expenses,{" "}
-            <span className="text-primary">Loan In Need</span> gives you fast,
-            hassle-free personal loans. Simple online process, flexible tenures,
-            and money in your account within hours.
+            Need urgent cash to pay your utility bills, like electricity, water,
+            or internet? With our short-term personal loans, you can pay your
+            bills on time without any burden, flexible repayment options, and no
+            need to wait for your next payday.
           </>
         }
-        heroImg={"/use-cases/education-hero.png"}
+        heroImg={"/use-cases/utility-bill.png"}
       />
       <LoanQuestionCard
-        heading="What makes LoanInNeed the best Short-Term Loan provider for education purpose?"
+        heading="What makes LoanInNeed the best Short-Term Loan provider for Utility bills payment?"
         imageUrl="/use-cases/loan-docs.png"
         ticks={[
           "No collateral required",
@@ -41,11 +40,11 @@ export default function EducationLoan() {
         ]}
       />
       <DefineLoanTypeQA
-        loanType="education purpose"
-        loanDesc="A short-term education loan is a type of personal loan designed to cover immediate or upcoming educational expenses without any secured collateral. It helps parents or guardians manage school or college fees, coaching classes, online programs, or study materials, ensuring their child's learning continues smoothly without financial burdens."
+        loanType="Utility Bills Payment"
+        loanDesc="A utility bill payment loan is a short-term personal loan designed to help you pay your essential utility bills on time without any financial stress. It provides quick access to funds so you can cover your electricity, water, gas, internet, or mobile bills when your monthly budget is tight. This type of loan is ideal for avoiding service interruptions and late payment penalties, giving you peace of mind and financial flexibility."
       />
       <ByUseCases
-        loanType="Medical Emergency"
+        loanType="Utility Bills Payment"
         loanUseCaseData={medicalLoanUseCaseData}
       />
       <HowItWorks />

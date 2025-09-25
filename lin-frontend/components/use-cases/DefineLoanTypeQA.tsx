@@ -8,7 +8,7 @@ const DefineLoanTypeQA = ({
   loanDesc: string;
 }) => {
   return (
-    <section className="w-full max-w-7xl mx-auto py-4 p-6 md:p-12 lg:p-20 my-12">
+    <section className="w-full max-w-7xl mx-auto py-4 p-6 md:p-12 lg:p-20 mt-12">
       <div className="flex flex-col justify-center items-center-safe space-y-6 text-center w-full">
         <h2 className="lg:text-4xl text-3xl font-bold">
           What is Personal{" "}

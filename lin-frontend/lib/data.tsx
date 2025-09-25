@@ -525,3 +525,30 @@ export const educationLoanFAQ = [
       "At LoanInNeed get an instant educational personal loan with an effortless application process. We offer lower interest loans without any collateral.",
   },
 ];
+
+export const medicalLoanUseCaseData = [
+  {
+    title: "Sudden illness or injury",
+    description: "Requiring hospitalization or urgent treatment.",
+  },
+  {
+    title: "Planned or unplanned surgeries",
+    description: "Like appendicitis, gallbladder removal, or minor operations.",
+  },
+  {
+    title: "Childbirth-related expenses",
+    description: "Including normal delivery, C-section, or newborn care.",
+  },
+  {
+    title: "High-cost medical tests or treatments",
+    description: "Such as MRI, CT scans, or specialized therapies.",
+  },
+  {
+    title: "Medical expenses not fully covered by insurance",
+    description: "Like doctor's fees, room charges, or post-surgery care.",
+  },
+  {
+    title: "Immediate purchase of medicines or medical equipment",
+    description: "Needed for recovery at home.",
+  },
+];

@@ -14,23 +14,24 @@ import {
   medicalLoanUseCaseData,
 } from "@/lib/data";
 
-export default function HouseRentLoan() {
+export default function DailyExpenseLoan() {
   return (
     <>
       <UseCaseHero
-        loanType="House Rent Payment"
+        loanType="Everyday Expenses"
         loanDesc={
           <>
-            Need urgent cash to pay your utility bills, like electricity, water,
-            or internet? With our short-term personal loans, you can pay your
-            bills on time without any burden, flexible repayment options, and no
-            need to wait for your next payday.
+            Whether it&apos;s a medical emergency, monthly bills, travel, or
+            unexpected expenses,{" "}
+            <span className="text-primary">Loan In Need</span> gives you fast,
+            hassle-free personal loans. Simple online process, flexible tenures,
+            and money in your account within hours.
           </>
         }
-        heroImg={"/use-cases/house-rent.png"}
+        heroImg={"/use-cases/expenses.png"}
       />
       <LoanQuestionCard
-        heading="What makes LoanInNeed the best Short-Term Loan provider for House Rent Payment?"
+        heading="What makes LoanInNeed the best Short-Term Loan provider for education purpose?"
         imageUrl="/use-cases/loan-docs.png"
         ticks={[
           "No collateral required",
@@ -40,14 +41,14 @@ export default function HouseRentLoan() {
         ]}
       />
       <DefineLoanTypeQA
-        loanType="House Rent Payment"
-        loanDesc="A house rent payment loan is a short-term personal loan designed to help you pay your rent on time without any financial stress. It provides quick access to funds so you can cover your monthly rent when your budget is tight. This type of loan is ideal for avoiding late payment penalties and ensuring you have a place to live."
+        loanType="daily expense"
+        loanDesc="A daily expense loan is a type of personal loan designed to cover immediate or upcoming daily expenses without any secured collateral. It helps individuals manage their everyday costs, ensuring they can meet their financial obligations without stress."
       />
       <ByUseCases
-        loanType="House Rent Payment"
+        loanType="daily expense"
         loanUseCaseData={medicalLoanUseCaseData}
       />
-      <HowItWorks loanType="house rent payment" />
+      <HowItWorks loanType="daily expense" />
       <EligibilityMandatoryGrid
         spanTitle={eligibilityCriteria.spanTitle}
         title={eligibilityCriteria.title}

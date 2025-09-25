@@ -47,7 +47,7 @@ export default function UtilityBillsLoan() {
         loanType="Utility Bills Payment"
         loanUseCaseData={medicalLoanUseCaseData}
       />
-      <HowItWorks />
+      <HowItWorks loanType="utility bill payment" />
       <EligibilityMandatoryGrid
         spanTitle={eligibilityCriteria.spanTitle}
         title={eligibilityCriteria.title}

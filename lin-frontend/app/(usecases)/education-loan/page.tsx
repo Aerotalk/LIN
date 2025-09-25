@@ -48,7 +48,7 @@ export default function EducationLoan() {
         loanType="Medical Emergency"
         loanUseCaseData={medicalLoanUseCaseData}
       />
-      <HowItWorks />
+      <HowItWorks loanType="education" />
       <EligibilityMandatoryGrid
         spanTitle={eligibilityCriteria.spanTitle}
         title={eligibilityCriteria.title}

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-const HowItWorks = () => {
+const HowItWorks = ({ loanType = "insta" }: { loanType?: string }) => {
   return (
     <section className="w-full max-w-7xl mx-auto py-4 p-6 md:p-12 lg:p-16">
       <div className="flex flex-col justify-center items-center-safe space-y-6 w-full">
@@ -10,7 +10,7 @@ const HowItWorks = () => {
             how it works
           </span>
           <h2 className="lg:text-4xl text-3xl font-bold">
-            How to get insta loan in{" "}
+            How to get {loanType} loan in{" "}
             <span className="text-primary">3 simple step?</span>
           </h2>
           <p className="text-center text-gray-500 font-medium my-1.5 max-w-2xl">

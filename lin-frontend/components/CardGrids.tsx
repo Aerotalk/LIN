@@ -33,12 +33,12 @@ const CardGrids = ({
           key={index}
           className={`${
             index % 4 === 0
-              ? "bg-blue-100"
+              ? "bg-blue-50"
               : index % 4 === 1
               ? "bg-yellow-50"
               : index % 4 === 2
-              ? "bg-blue-100"
-              : "bg-purple-100"
+              ? "bg-blue-50"
+              : "bg-purple-50"
           } rounded-lg p-6`}
         >
           <div className="flex flex-col justify-center items-center text-center space-y-3">

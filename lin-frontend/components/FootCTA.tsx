@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react";
 
 const FootCTA = () => {
   return (
-    <section className="w-full max-w-7xl mx-auto py-4 px-6 md:p-12 lg:p-20 lg:-my-32">
+    <section className="w-full max-w-7xl mx-auto py-4 px-6 md:p-12 lg:p-20 lg:-my-16">
       <div className="rounded-3xl py-10 px-6 w-full bg-primary">
         <div className="flex lg:justify-between justify-center items-center-safe gap-8 w-full bg-[url('/cta-foot-gradient.svg')] bg-cover bg-no-repeat">
           <Image

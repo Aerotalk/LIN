@@ -58,26 +58,6 @@ const cities: { title: string; href: string; description: string }[] = [
     href: "/cities/payday-loan-in-chennai",
     description: "Avail loans in Chennai",
   },
-  {
-    title: "Gujarat",
-    href: "/states/payday-loan-in-gujarat",
-    description: "Avail loans in Gujarat",
-  },
-  {
-    title: "Bihar",
-    href: "/states/payday-loan-in-bihar",
-    description: "Avail loans in Bihar",
-  },
-  {
-    title: "Punjab",
-    href: "/states/payday-loan-in-punjab",
-    description: "Avail loans in Punjab",
-  },
-  {
-    title: "Madhya Pradesh",
-    href: "/states/payday-loan-in-madhya-pradesh",
-    description: "Avail loans in Madhya Pradesh",
-  },
 ];
 
 function ListItem({

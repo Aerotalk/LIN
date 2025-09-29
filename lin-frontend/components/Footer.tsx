@@ -44,24 +44,60 @@ export default function Footer() {
           <div className="flex flex-col space-y-3 text-primary">
             <div className="flex space-x-3 text-primary">
               <Link href="#">
-                <Instagram className="h-5 w-5" />
+                <Image
+                  src="/instagram.png"
+                  alt="Instagram"
+                  width={20}
+                  height={20}
+                  className="h-5 w-5"
+                />
               </Link>
               <Link href="#">
-                <Facebook className="h-5 w-5" />
+                <Image
+                  src="/facebook.png"
+                  alt="Facebook"
+                  width={20}
+                  height={20}
+                  className="h-5 w-5"
+                />
               </Link>
               <Link href="#">
-                <Linkedin className="h-5 w-5" />
+                <Image
+                  src="/linkedin.png"
+                  alt="LinkedIn"
+                  width={20}
+                  height={20}
+                  className="h-5 w-5"
+                />
               </Link>
               <Link href="#">
-                <Twitter className="h-5 w-5" />
+                <Image
+                  src="/twitter.png"
+                  alt="Twitter"
+                  width={20}
+                  height={20}
+                  className="h-5 w-5"
+                />
               </Link>
             </div>
             <div className="flex space-x-3 text-primary">
               <Link href="#">
-                <Instagram className="h-5 w-5" />
+                <Image
+                  src="/instagram.png"
+                  alt="Instagram"
+                  width={20}
+                  height={20}
+                  className="h-5 w-5"
+                />
               </Link>
               <Link href="#">
-                <Facebook className="h-5 w-5" />
+                <Image
+                  src="/facebook.png"
+                  alt="Facebook"
+                  width={20}
+                  height={20}
+                  className="h-5 w-5"
+                />
               </Link>
             </div>
           </div>

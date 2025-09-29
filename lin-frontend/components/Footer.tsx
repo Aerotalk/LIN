@@ -41,19 +41,29 @@ export default function Footer() {
             OFFICE NO.-202, PLOT 9, Veer Savarkar Block, Guru Nanak Nagar,
             Shakurpur, Delhi, 110092
           </address>
-          <div className="flex space-x-3 text-primary">
-            <Link href="#">
-              <Instagram className="h-5 w-5" />
-            </Link>
-            <Link href="#">
-              <Facebook className="h-5 w-5" />
-            </Link>
-            <Link href="#">
-              <Linkedin className="h-5 w-5" />
-            </Link>
-            <Link href="#">
-              <Twitter className="h-5 w-5" />
-            </Link>
+          <div className="flex flex-col space-y-3 text-primary">
+            <div className="flex space-x-3 text-primary">
+              <Link href="#">
+                <Instagram className="h-5 w-5" />
+              </Link>
+              <Link href="#">
+                <Facebook className="h-5 w-5" />
+              </Link>
+              <Link href="#">
+                <Linkedin className="h-5 w-5" />
+              </Link>
+              <Link href="#">
+                <Twitter className="h-5 w-5" />
+              </Link>
+            </div>
+            <div className="flex space-x-3 text-primary">
+              <Link href="#">
+                <Instagram className="h-5 w-5" />
+              </Link>
+              <Link href="#">
+                <Facebook className="h-5 w-5" />
+              </Link>
+            </div>
           </div>
         </div>
 
@@ -64,13 +74,13 @@ export default function Footer() {
             <h4 className="font-semibold text-primary mb-3">Useful links</h4>
             <ul className="space-y-2 text-sm text-gray-700">
               <li>
-                <Link href="#">Insta loans</Link>
+                <Link href="/personal-loan/insta-loan">Insta loans</Link>
               </li>
               <li>
-                <Link href="#">Track loan</Link>
+                <Link href="/track-loan">Track loan</Link>
               </li>
               <li>
-                <Link href="#">Repay loan</Link>
+                <Link href="/repay-loan">Repay loan</Link>
               </li>
             </ul>
           </div>
@@ -80,16 +90,24 @@ export default function Footer() {
             <h4 className="font-semibold text-primary mb-3">Tools</h4>
             <ul className="space-y-2 text-sm text-gray-700">
               <li>
-                <Link href="#">Personal loan EMI calculator</Link>
+                <Link href="/loan-calculators/personal-emi-calculator">
+                  Personal loan EMI calculator
+                </Link>
               </li>
               <li>
-                <Link href="#">Eligibility Loan calculator</Link>
+                <Link href="/loan-calculators/eligibility-loan-calculator">
+                  Eligibility Loan calculator
+                </Link>
               </li>
               <li>
-                <Link href="#">Cibil score checker</Link>
+                <Link href="/loan-calculators/cibil-score-checker">
+                  Cibil score checker
+                </Link>
               </li>
               <li>
-                <Link href="#">Loan comparison calculator</Link>
+                <Link href="/loan-calculators/loan-comparison-calculator">
+                  Loan comparison calculator
+                </Link>
               </li>
             </ul>
           </div>
@@ -115,7 +133,9 @@ export default function Footer() {
                 <Link href="/daily-expense-loan">Daily expense loan</Link>
               </li>
               <li>
-                <Link href="/education-loan">Education purpose loan</Link>
+                <Link href="/education-purpose-loan">
+                  Education purpose loan
+                </Link>
               </li>
               <li>
                 <Link href="/debt-consolidation-loan">
@@ -130,19 +150,19 @@ export default function Footer() {
             <h4 className="font-semibold text-primary mb-3">Company</h4>
             <ul className="space-y-2 text-sm text-gray-700">
               <li>
-                <Link href="#">About Us</Link>
+                <Link href="/about-us">About Us</Link>
               </li>
               <li>
-                <Link href="#">Career</Link>
+                <Link href="/careers">Career</Link>
               </li>
               <li>
-                <Link href="#">Blog</Link>
+                <Link href="/blogs">Blog</Link>
               </li>
               <li>
-                <Link href="#">News</Link>
+                <Link href="/news">News</Link>
               </li>
               <li>
-                <Link href="#">Contact us</Link>
+                <Link href="/contact-us">Contact us</Link>
               </li>
             </ul>
           </div>
@@ -154,25 +174,39 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-sm text-gray-700">
               <li>
-                <Link href="/loans/mumbai">Insta loan in Mumbai</Link>
+                <Link href="/cities/payday-loan-in-mumbai">
+                  Insta loan in Mumbai
+                </Link>
               </li>
               <li>
-                <Link href="/loans/delhi">Insta loan in Delhi</Link>
+                <Link href="/cities/payday-loan-in-delhi">
+                  Insta loan in Delhi
+                </Link>
               </li>
               <li>
-                <Link href="/loans/bangalore">Insta loan in Bengaluru</Link>
+                <Link href="/cities/payday-loan-in-bengaluru">
+                  Insta loan in Bengaluru
+                </Link>
               </li>
               <li>
-                <Link href="/loans/hyderabad">Insta loan in Hyderabad</Link>
+                <Link href="/cities/payday-loan-in-hyderabad">
+                  Insta loan in Hyderabad
+                </Link>
               </li>
               <li>
-                <Link href="/loans/pune">Insta loan in Pune</Link>
+                <Link href="/cities/payday-loan-in-pune">
+                  Insta loan in Pune
+                </Link>
               </li>
               <li>
-                <Link href="/loans/kolkata">Insta loan in Kolkata</Link>
+                <Link href="/cities/payday-loan-in-kolkata">
+                  Insta loan in Kolkata
+                </Link>
               </li>
               <li>
-                <Link href="/loans/chennai">Insta loan in Chennai</Link>
+                <Link href="/cities/payday-loan-in-chennai">
+                  Insta loan in Chennai
+                </Link>
               </li>
             </ul>
           </div>
@@ -184,35 +218,49 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-sm text-gray-700">
               <li>
-                <Link href="/loans/gujarat">Insta loan in Gujarat</Link>
+                <Link href="/states/payday-loan-in-gujarat">
+                  Insta loan in Gujarat
+                </Link>
               </li>
               <li>
-                <Link href="/loans/bihar">Insta loan in Bihar</Link>
+                <Link href="/states/payday-loan-in-bihar">
+                  Insta loan in Bihar
+                </Link>
               </li>
               <li>
-                <Link href="/loans/orissa">Insta loan in Orissa</Link>
+                <Link href="/states/payday-loan-in-orissa">
+                  Insta loan in Orissa
+                </Link>
               </li>
               <li>
-                <Link href="/loans/jharkhand">Insta loan in Jharkhand</Link>
+                <Link href="/states/payday-loan-in-jharkhand">
+                  Insta loan in Jharkhand
+                </Link>
               </li>
               <li>
-                <Link href="/loans/assam">Insta loan in Assam</Link>
+                <Link href="/states/payday-loan-in-assam">
+                  Insta loan in Assam
+                </Link>
               </li>
               <li>
-                <Link href="/loans/punjab">Insta loan in Punjab</Link>
+                <Link href="/states/payday-loan-in-punjab">
+                  Insta loan in Punjab
+                </Link>
               </li>
               <li>
-                <Link href="/loans/chhattisgarh">
+                <Link href="/states/payday-loan-in-chhattisgarh">
                   Insta loan in Chhattisgarh
                 </Link>
               </li>
               <li>
-                <Link href="/loans/madhya-pradesh">
+                <Link href="/states/payday-loan-in-madhya-pradesh">
                   Insta loan in Madhya Pradesh
                 </Link>
               </li>
               <li>
-                <Link href="/loans/west-bengal">Insta loan in West Bengal</Link>
+                <Link href="/states/payday-loan-in-west-bengal">
+                  Insta loan in West Bengal
+                </Link>
               </li>
             </ul>
           </div>
@@ -224,16 +272,24 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-sm text-gray-700">
               <li>
-                <Link href="/loans/forty-thousand">40,000 salary loan</Link>
+                <Link href="/personal-loan/40000-salary-loan">
+                  40,000 salary loan
+                </Link>
               </li>
               <li>
-                <Link href="/loans/fifty-thousand">50,000 salary loan</Link>
+                <Link href="/personal-loan/50000-salary-loan">
+                  50,000 salary loan
+                </Link>
               </li>
               <li>
-                <Link href="/loans/eighty-thousand">80,000 salary loan</Link>
+                <Link href="/personal-loan/80000-salary-loan">
+                  80,000 salary loan
+                </Link>
               </li>
               <li>
-                <Link href="/loans/one-lakh">1,00,000 salary loan</Link>
+                <Link href="/personal-loan/100000-salary-loan">
+                  1,00,000 salary loan
+                </Link>
               </li>
             </ul>
           </div>
@@ -244,10 +300,10 @@ export default function Footer() {
       <div className="mt-10 border-t border-gray-300 pt-6 flex flex-col md:flex-row justify-between items-center text-sm text-gray-600">
         <p>© 2025 Loan in need. All rights reserved.</p>
         <div className="flex flex-wrap gap-4 mt-4 md:mt-0">
-          <Link href="#">Privacy policy</Link>
-          <Link href="#">Terms & conditions</Link>
-          <Link href="#">Refunds & cancellation</Link>
-          <Link href="#">Disclaimer</Link>
+          <Link href="/privacy-policy">Privacy policy</Link>
+          <Link href="/terms-and-conditions">Terms & conditions</Link>
+          <Link href="/refunds-and-cancellation">Refunds & cancellation</Link>
+          <Link href="/disclaimer">Disclaimer</Link>
         </div>
       </div>
     </footer>

@@ -25,46 +25,58 @@ import { Menu } from "lucide-react";
 const cities: { title: string; href: string; description: string }[] = [
   {
     title: "Mumbai",
-    href: "/loan/mumbai",
+    href: "/cities/payday-loan-in-mumbai",
     description: "Avail loans in Mumbai",
   },
-  { title: "Delhi", href: "/loan/delhi", description: "Avail loans in Delhi" },
+  {
+    title: "Delhi",
+    href: "/cities/payday-loan-in-delhi",
+    description: "Avail loans in Delhi",
+  },
   {
     title: "Bengaluru",
-    href: "/loan/bengaluru",
+    href: "/cities/payday-loan-in-bengaluru",
     description: "Avail loans in Bengaluru",
   },
   {
     title: "Hyderabad",
-    href: "/loan/hyderabad",
+    href: "/cities/payday-loan-in-hyderabad",
     description: "Avail loans in Hyderabad",
   },
-  { title: "Pune", href: "/loan/pune", description: "Avail loans in Pune" },
   {
-    title: "Gujrat",
-    href: "/loan/gujrat",
-    description: "Avail loans in Gujrat",
+    title: "Pune",
+    href: "/cities/payday-loan-in-pune",
+    description: "Avail loans in Pune",
   },
   {
     title: "Kolkata",
-    href: "/loan/kolkata",
+    href: "/cities/payday-loan-in-kolkata",
     description: "Avail loans in Kolkata",
   },
-  { title: "Bihar", href: "/loan/bihar", description: "Avail loans in Bihar" },
+  {
+    title: "Chennai",
+    href: "/cities/payday-loan-in-chennai",
+    description: "Avail loans in Chennai",
+  },
+  {
+    title: "Gujarat",
+    href: "/states/payday-loan-in-gujarat",
+    description: "Avail loans in Gujarat",
+  },
+  {
+    title: "Bihar",
+    href: "/states/payday-loan-in-bihar",
+    description: "Avail loans in Bihar",
+  },
   {
     title: "Punjab",
-    href: "/loan/punjab",
+    href: "/states/payday-loan-in-punjab",
     description: "Avail loans in Punjab",
   },
   {
     title: "Madhya Pradesh",
-    href: "/loan/madhya-pradesh",
+    href: "/states/payday-loan-in-madhya-pradesh",
     description: "Avail loans in Madhya Pradesh",
-  },
-  {
-    title: "Chennai",
-    href: "/loan/chennai",
-    description: "Avail loans in Chennai",
   },
 ];
 
@@ -123,16 +135,24 @@ export default function Navbar() {
                   <ul className="grid w-[300px] gap-4 p-3">
                     <li>
                       <NavigationMenuLink asChild>
-                        <Link href="#">Personal EMI Calculator</Link>
+                        <Link href="/loan-calculators/personal-emi-calculator">
+                          Personal EMI Calculator
+                        </Link>
                       </NavigationMenuLink>
                       <NavigationMenuLink asChild>
-                        <Link href="#">Eligibility Loan Calculator</Link>
+                        <Link href="/loan-calculators/eligibility-loan-calculator">
+                          Eligibility Loan Calculator
+                        </Link>
                       </NavigationMenuLink>
                       <NavigationMenuLink asChild>
-                        <Link href="#">Cibil Score Checker</Link>
+                        <Link href="/loan-calculators/cibil-score-checker">
+                          Cibil Score Checker
+                        </Link>
                       </NavigationMenuLink>
                       <NavigationMenuLink asChild>
-                        <Link href="#">Loan Comparison Calculator</Link>
+                        <Link href="/loan-calculators/loan-comparison-calculator">
+                          Loan Comparison Calculator
+                        </Link>
                       </NavigationMenuLink>
                     </li>
                   </ul>
@@ -160,7 +180,7 @@ export default function Navbar() {
                       <Link href="/blogs">Blogs</Link>
                     </li>
                     <li>
-                      <Link href="/about">About us</Link>
+                      <Link href="/about-us">About us</Link>
                     </li>
                     <li>
                       <Link href="/news">News</Link>
@@ -174,10 +194,10 @@ export default function Navbar() {
                 <NavigationMenuContent>
                   <ul className="grid w-[200px] gap-3 p-3">
                     <li>
-                      <Link href="/contact">Contact us</Link>
+                      <Link href="/contact-us">Contact us</Link>
                     </li>
                     <li>
-                      <Link href="/enquiry">Enquire now</Link>
+                      <Link href="/enquire-now">Enquire now</Link>
                     </li>
                     <li>
                       <Link href="/track-loan">Track loan</Link>

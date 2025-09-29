@@ -28,9 +28,14 @@ export default function Footer() {
               placeholder="Enter your mobile number"
               className="px-3 py-2 rounded-md border border-gray-300 text-sm w-full"
             />
-            <Button size="sm" className="bg-primary hover:bg-primary/90 w-1/2">
-              Apply now
-            </Button>
+            <Link href="/apply-now">
+              <Button
+                size="sm"
+                className="bg-primary hover:bg-primary/90 w-1/2"
+              >
+                Apply now
+              </Button>
+            </Link>
           </div>
           <address className="not-italic text-sm text-gray-600">
             OFFICE NO.-202, PLOT 9, Veer Savarkar Block, Guru Nanak Nagar,

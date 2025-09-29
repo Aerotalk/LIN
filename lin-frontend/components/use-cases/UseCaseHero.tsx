@@ -46,7 +46,7 @@ const UseCaseHero: React.FC<UseCaseHeroProps> = ({
         </div>
         <p className="text-lg text-gray-600 leading-tight">{loanDesc}</p>
         <p className="font-semibold">Loan Range: ₹INR 5,000 to INR 1,00,000</p>
-        <Link href="/personal-loan">
+        <Link href="/apply-now">
           <Button size="lg" className="text-base my-3">
             Apply now
           </Button>

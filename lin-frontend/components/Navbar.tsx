@@ -197,7 +197,7 @@ export default function Navbar() {
 
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <Link href="/apply">
+                  <Link href="/apply-now">
                     <Button size="sm" className="text-base">
                       Apply now
                     </Button>

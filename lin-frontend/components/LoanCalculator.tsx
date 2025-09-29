@@ -7,7 +7,7 @@ import useEMIcalc from "@/hooks/useEMIcalc";
 import { Separator } from "./ui/separator";
 import { Input } from "./ui/input";
 
-export default function LoanCalculator({ loanType }: { loanType: string }) {
+export default function LoanCalculator({ loanType }: { loanType?: string }) {
   const { calculateEMI } = useEMIcalc();
   const [principal, setPrincipal] = useState(5000); // Default principal amount
   const [annualInterestRate, setAnnualInterestRate] = useState(12); // Default interest rate

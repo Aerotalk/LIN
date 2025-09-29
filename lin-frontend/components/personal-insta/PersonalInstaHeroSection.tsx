@@ -70,7 +70,7 @@ const PersonalInstaHeroSection: React.FC<PersonalInstaHeroSectionProps> = ({
           </h2>
         </div>
         <p className="text-lg text-gray-600 leading-tight">{loanDesc}</p>
-        <Link href="/personal-loan">
+        <Link href="/apply-now">
           <Button size="lg" className="text-base my-3">
             Apply now
           </Button>

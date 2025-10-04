@@ -21,12 +21,12 @@ export default function FortyKSalary() {
         breadcrumb="Loan on ₹40,000 salary"
         loanDesc={
           <>
-            If you're earning a salary of Rs. 40,000 and need quick financial
-            help, a personal loan can be a smart saviour to cover your urgent or
-            unexpected expenses. These loans are easy to access, come with
-            flexible repayment options, and offer fast approval. Always compare
-            interest rates and terms before applying to ensure you choose the
-            best option for your needs.
+            If you&apos;re earning a salary of Rs. 40,000 and need quick
+            financial help, a personal loan can be a smart saviour to cover your
+            urgent or unexpected expenses. These loans are easy to access, come
+            with flexible repayment options, and offer fast approval. Always
+            compare interest rates and terms before applying to ensure you
+            choose the best option for your needs.
           </>
         }
         heroImg="/salary-phone.png"

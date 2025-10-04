@@ -225,13 +225,13 @@ export const cardBenefits = [
 
 export const missionVision = [
   {
-    iconImg: "/icons/mission-vision.png",
+    iconImg: "/icons/mission-vission.png",
     title: "Our Mission",
     description:
       "We want you to feel safe and supported when you need money the most. With fast approval, simple steps and fair repayment plans, we make borrowing easy.",
   },
   {
-    iconImg: "/icons/mission-vision.png",
+    iconImg: "/icons/mission-vission.png",
     title: "Our Vision",
     description:
       "We dream of a time when anyone in India can get personal loans fast and safely, without long waits or complicated paperworks. Just a few clicks, quick support, and money into your bank account",

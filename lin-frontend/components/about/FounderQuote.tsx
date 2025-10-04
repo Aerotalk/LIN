@@ -3,7 +3,7 @@ import React from "react";
 
 const FounderQuote = () => {
   return (
-    <div className="flex flex-col md:flex-row justify-between items-center-safe text-center p-8 md:p-16 my-12 w-full max-w-7xl mx-auto gap-12">
+    <div className="flex flex-col md:flex-row justify-between items-center-safe text-center p-8 md:px-12 my-10 w-full max-w-7xl mx-auto gap-12">
       <Image
         src="/about/founder.png"
         alt="Founder"

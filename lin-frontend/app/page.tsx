@@ -16,7 +16,7 @@ export default function Home() {
       <StatsHistory />
       <HowItWorks />
       <BenefitTabsSection />
-      <section className="w-full max-w-7xl mx-auto py-4 px-6 md:p-12 lg:p-20">
+      <section className="w-full max-w-7xl mx-auto py-4 px-6 md:p-12">
         <div className="flex flex-col justify-center items-center-safe space-y-6 w-full">
           <div className="flex flex-col justify-center items-center-safe space-y-2 text-center w-full">
             <span className="text-primary font-semibold leading-tight uppercase">

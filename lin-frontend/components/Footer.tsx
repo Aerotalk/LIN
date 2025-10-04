@@ -80,23 +80,23 @@ export default function Footer() {
                 />
               </Link>
             </div>
-            <div className="flex space-x-3 text-primary">
+            <div className="flex flex-col justify-start text-primary">
               <Link href="#">
                 <Image
-                  src="/instagram.png"
-                  alt="Instagram"
-                  width={20}
-                  height={20}
-                  className="h-5 w-5"
+                  src="/apple-store.png"
+                  alt="Apple Store"
+                  width={500}
+                  height={500}
+                  className="h-1/2 w-36"
                 />
               </Link>
               <Link href="#">
                 <Image
-                  src="/facebook.png"
-                  alt="Facebook"
-                  width={20}
-                  height={20}
-                  className="h-5 w-5"
+                  src="/google-play.png"
+                  alt="Google Play"
+                  width={500}
+                  height={500}
+                  className="h-1/2 w-44 md:-ml-3"
                 />
               </Link>
             </div>

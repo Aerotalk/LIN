@@ -20,7 +20,7 @@ const LoanQuestionCard = ({
       <div className="rounded-3xl p-2 w-full bg-primary">
         <div className="flex lg:justify-between justify-center items-center-safe gap-8 w-full bg-[url('/cta-foot-gradient.svg')] bg-cover bg-no-repeat px-6 py-2">
           <div className="flex flex-col justify-start items-start space-y-8 w-full lg:w-8/12">
-            <h2 className="text-white lg:text-4xl text-2xl font-bold leading-12">
+            <h2 className="text-white lg:text-4xl text-2xl font-bold md:leading-12">
               {heading}
             </h2>
             <div className="grid grid-cols-2 gap-4">

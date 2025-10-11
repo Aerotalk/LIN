@@ -124,11 +124,11 @@ export default function Navbar() {
                           Eligibility Loan Calculator
                         </Link>
                       </NavigationMenuLink>
-                      <NavigationMenuLink asChild>
+                      {/* <NavigationMenuLink asChild>
                         <Link href="/loan-calculators/cibil-score-checker">
                           Cibil Score Checker
                         </Link>
-                      </NavigationMenuLink>
+                      </NavigationMenuLink> */}
                       <NavigationMenuLink asChild>
                         <Link href="/loan-calculators/loan-comparison-calculator">
                           Loan Comparison Calculator

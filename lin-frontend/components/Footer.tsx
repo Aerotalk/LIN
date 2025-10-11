@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 import Image from "next/image";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
@@ -135,11 +134,11 @@ export default function Footer() {
                   Eligibility Loan calculator
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link href="/loan-calculators/cibil-score-checker">
                   Cibil score checker
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link href="/loan-calculators/loan-comparison-calculator">
                   Loan comparison calculator

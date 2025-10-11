@@ -31,7 +31,7 @@ const ByUseCases = ({
               <div className="flex flex-row">
                 <div
                   className={`border-l w-px h-36 border-gray-300 ${
-                    index === 0 ? "-ml-6" : ""
+                    index === 0 ? "md:-ml-6" : ""
                   }`}
                 />
                 <div className="flex flex-col justify-start items-start space-y-3 w-full pl-4">

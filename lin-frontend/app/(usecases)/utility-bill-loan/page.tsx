@@ -22,15 +22,15 @@ export default function UtilityBillsLoan() {
         loanDesc={
           <>
             Need urgent cash to pay your utility bills, like electricity, water,
-            or internet? With our short-term personal loans, you can pay your
-            bills on time without any burden, flexible repayment options, and no
-            need to wait for your next payday.
+            or internet? With our insta personal loans, you can pay your bills
+            on time without any burden, flexible repayment options, and no need
+            to wait for your next payday.
           </>
         }
         heroImg={"/use-cases/utility-bill.png"}
       />
       <LoanQuestionCard
-        heading="What makes LoanInNeed the best Short-Term Loan provider for Utility bills payment?"
+        heading="What makes LoanInNeed the best Insta Loan provider for Utility bills payment?"
         imageUrl="/use-cases/loan-docs.png"
         ticks={[
           "No collateral required",
@@ -41,7 +41,7 @@ export default function UtilityBillsLoan() {
       />
       <DefineLoanTypeQA
         loanType="Utility Bills Payment"
-        loanDesc="A utility bill payment loan is a short-term personal loan designed to help you pay your essential utility bills on time without any financial stress. It provides quick access to funds so you can cover your electricity, water, gas, internet, or mobile bills when your monthly budget is tight. This type of loan is ideal for avoiding service interruptions and late payment penalties, giving you peace of mind and financial flexibility."
+        loanDesc="A utility bill payment loan is a insta personal loan designed to help you pay your essential utility bills on time without any financial stress. It provides quick access to funds so you can cover your electricity, water, gas, internet, or mobile bills when your monthly budget is tight. This type of loan is ideal for avoiding service interruptions and late payment penalties, giving you peace of mind and financial flexibility."
       />
       <ByUseCases
         loanType="Utility Bills Payment"

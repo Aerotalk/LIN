@@ -2,7 +2,6 @@ import FAQSection from "@/components/FAQSection";
 import FootCTA from "@/components/FootCTA";
 import HowItWorks from "@/components/HowItWorks";
 import EligibilityMandatoryGrid from "@/components/personal-insta/EligibilityMandatoryGrid";
-import LoanDefine from "@/components/personal-insta/LoanDefine";
 import ByUseCases from "@/components/use-cases/ByUseCases";
 import DefineLoanTypeQA from "@/components/use-cases/DefineLoanTypeQA";
 import LoanQuestionCard from "@/components/use-cases/LoanQuestionCard";
@@ -42,7 +41,7 @@ export default function MedicalEmergencyLoan() {
       />
       <DefineLoanTypeQA
         loanType="Medical Emergency"
-        loanDesc="A personal medical emergency loan is a quick, unsecured loan designed to help you cover unexpected medical expenses without any colateral. It provides immediate financial assistance to pay for hospital bills, doctor consultations, diagnostic tests, surgeries, medications, or any other urgent healthcare costs. This type of loan is ideal when you need instant short-term funds and don't want to wait for your payday."
+        loanDesc="A personal medical emergency loan is a quick, unsecured loan designed to help you cover unexpected medical expenses without any colateral. It provides immediate financial assistance to pay for hospital bills, doctor consultations, diagnostic tests, surgeries, medications, or any other urgent healthcare costs. This type of loan is ideal when you need instant insta funds and don't want to wait for your payday."
       />
       <ByUseCases
         loanType="Medical Emergency"

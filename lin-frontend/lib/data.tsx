@@ -495,7 +495,7 @@ export const educationLoanFAQ = [
   {
     question: "What is an education purpose loan?",
     answer:
-      "An education purpose loan is a short-term personal loan designed to cover expenses like tuition fees, books, exam costs, or other study-related needs.",
+      "An education purpose loan is a insta personal loan designed to cover expenses like tuition fees, books, exam costs, or other study-related needs.",
   },
   {
     question: "How much loan amount can I get for Education Purpose?",
@@ -505,7 +505,7 @@ export const educationLoanFAQ = [
   {
     question: "Do I need to provide collateral for an Education Purpose Loan?",
     answer:
-      "No, our short-term education loans are unsecured and do not require any collateral.",
+      "No, our insta education loans are unsecured and do not require any collateral.",
   },
   {
     question: "How fast is the approval process of Personal Education Loan?",
@@ -550,5 +550,50 @@ export const medicalLoanUseCaseData = [
   {
     title: "Immediate purchase of medicines or medical equipment",
     description: "Needed for recovery at home.",
+  },
+];
+
+export const locationUseCaseData = [
+  {
+    title: "Medical emergency loan",
+    description:
+      "Get instant funds to cover your urgent medical bills or hospital expenses without any delay.",
+    iconUrl: "/cities/medical.png",
+    pageLink: "/medical-emergency-loan",
+  },
+  {
+    title: "Utility bill loan",
+    description:
+      "Get quick cash to pay your electricity, water, or internet bills on time, hassle-free.",
+    iconUrl: "/cities/utility.png",
+    pageLink: "/utility-bill-loan",
+  },
+  {
+    title: "House rent loan",
+    description:
+      "Easily pay your monthly house rent with fast approval and flexible repayment options.",
+    iconUrl: "/cities/house.png",
+    pageLink: "/house-rent-loan",
+  },
+  {
+    title: "Daily expense loan",
+    description:
+      "Manage your everyday essentials and household expenses with quick, insta funding.",
+    iconUrl: "/cities/daily.png",
+    pageLink: "/daily-expense-loan",
+  },
+  {
+    title: "Education Purpose Loan",
+    description:
+      "Cover school fees, tuition, or other educational costs with an easy personal loan.",
+    iconUrl: "/cities/education.png",
+    pageLink: "/education-purpose-loan",
+  },
+  {
+    title: "Debt consolidation loan",
+    description:
+      "Consolidate or repay your debts with a single, low-interest loan and stress-free terms.",
+    iconUrl: "/cities/debt.png",
+    pageLink: "/debt-consolidation-loan",
   },
 ];

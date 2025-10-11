@@ -2,7 +2,6 @@ import FAQSection from "@/components/FAQSection";
 import FootCTA from "@/components/FootCTA";
 import HowItWorks from "@/components/HowItWorks";
 import EligibilityMandatoryGrid from "@/components/personal-insta/EligibilityMandatoryGrid";
-import LoanDefine from "@/components/personal-insta/LoanDefine";
 import ByUseCases from "@/components/use-cases/ByUseCases";
 import DefineLoanTypeQA from "@/components/use-cases/DefineLoanTypeQA";
 import LoanQuestionCard from "@/components/use-cases/LoanQuestionCard";
@@ -31,7 +30,7 @@ export default function EducationLoan() {
         heroImg={"/use-cases/education-hero.png"}
       />
       <LoanQuestionCard
-        heading="What makes LoanInNeed the best Short-Term Loan provider for education purpose?"
+        heading="What makes LoanInNeed the best Insta Loan provider for education purpose?"
         imageUrl="/use-cases/loan-docs.png"
         ticks={[
           "No collateral required",
@@ -42,7 +41,7 @@ export default function EducationLoan() {
       />
       <DefineLoanTypeQA
         loanType="education purpose"
-        loanDesc="A short-term education loan is a type of personal loan designed to cover immediate or upcoming educational expenses without any secured collateral. It helps parents or guardians manage school or college fees, coaching classes, online programs, or study materials, ensuring their child's learning continues smoothly without financial burdens."
+        loanDesc="A insta education loan is a type of personal loan designed to cover immediate or upcoming educational expenses without any secured collateral. It helps parents or guardians manage school or college fees, coaching classes, online programs, or study materials, ensuring their child's learning continues smoothly without financial burdens."
       />
       <ByUseCases
         loanType="Medical Emergency"

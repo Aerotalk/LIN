@@ -2,7 +2,6 @@ import FAQSection from "@/components/FAQSection";
 import FootCTA from "@/components/FootCTA";
 import HowItWorks from "@/components/HowItWorks";
 import EligibilityMandatoryGrid from "@/components/personal-insta/EligibilityMandatoryGrid";
-import LoanDefine from "@/components/personal-insta/LoanDefine";
 import ByUseCases from "@/components/use-cases/ByUseCases";
 import DefineLoanTypeQA from "@/components/use-cases/DefineLoanTypeQA";
 import LoanQuestionCard from "@/components/use-cases/LoanQuestionCard";
@@ -31,7 +30,7 @@ export default function DailyExpenseLoan() {
         heroImg={"/use-cases/expenses.png"}
       />
       <LoanQuestionCard
-        heading="What makes LoanInNeed the best Short-Term Loan provider for education purpose?"
+        heading="What makes LoanInNeed the best Insta Loan provider for education purpose?"
         imageUrl="/use-cases/loan-docs.png"
         ticks={[
           "No collateral required",

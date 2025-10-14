@@ -1,30 +1,39 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import useEMIcalc from "@/hooks/useEMIcalc";
 import { Separator } from "./ui/separator";
 import { Input } from "./ui/input";
+import { useRouter } from "next/navigation";
 
 export default function LoanCalculator({ loanType }: { loanType?: string }) {
+  const router = useRouter();
   const { calculateEMI } = useEMIcalc();
+
   const [principal, setPrincipal] = useState(5000); // Default principal amount
   const [annualInterestRate, setAnnualInterestRate] = useState(12); // Default interest rate
-  const [tenureDays, setTenureDays] = useState(2); // Default tenure in days
+  const [tenureMonths, setTenureMonths] = useState(2); // Default tenure in months
+
   const [emi, setEmi] = useState(0);
   const [totalInterest, setTotalInterest] = useState(0);
   const [totalPayment, setTotalPayment] = useState(0);
 
-  const handleCalculate = () => {
+  // Real-time calculation on any value change
+  useEffect(() => {
     const { emi, totalInterest, totalPayment } = calculateEMI(
       principal,
       annualInterestRate,
-      tenureDays
+      tenureMonths
     );
-    setTotalPayment(totalPayment);
     setEmi(emi);
     setTotalInterest(totalInterest);
+    setTotalPayment(totalPayment);
+  }, [principal, annualInterestRate, tenureMonths, calculateEMI]);
+
+  const handleApplyLoan = () => {
+    router.push("/apply-now");
   };
 
   return (
@@ -39,17 +48,20 @@ export default function LoanCalculator({ loanType }: { loanType?: string }) {
             <span className="text-primary">EMI Calculator</span>
           </h2>
         </div>
+
         <div className="flex flex-col lg:flex-row lg:space-x-8 justify-between items-center gap-4 w-full">
+          {/* Left side sliders/inputs */}
           <div className="w-full flex flex-col space-y-4">
+            {/* Principal */}
             <div className="w-full flex flex-col space-y-3">
               <div className="w-full flex justify-between items-center">
                 <span className="text-start font-medium">Principal Amount</span>
                 <Input
-                  className="justify-end w-1/6 max-w-[80px] bg-gray-200 border-0 focus:border-0 focus:ring-0 active:border-0 active:ring-0"
+                  className="justify-end w-1/6 max-w-[80px] bg-gray-200 border-0 focus:ring-0"
                   type="text"
                   value={`₹ ${principal}`}
                   onChange={(e) =>
-                    setPrincipal(Number(e.target.value.replace("₹ ", "")))
+                    setPrincipal(Number(e.target.value.replace(/[₹ ,]/g, "")))
                   }
                 />
               </div>
@@ -61,18 +73,18 @@ export default function LoanCalculator({ loanType }: { loanType?: string }) {
                 step={1000}
                 className="flex-1"
               />
-              <div className="w-full flex justify-between items-center text-sm">
-                <span className="text-start">5k</span>
-                <span className="text-end">5,00,000</span>
+              <div className="w-full flex justify-between text-sm">
+                <span>₹5k</span>
+                <span>₹5,00,000</span>
               </div>
             </div>
+
+            {/* Interest rate */}
             <div className="w-full flex flex-col space-y-3">
               <div className="w-full flex justify-between items-center">
-                <span className="text-start font-medium">
-                  Annual Interest Rate
-                </span>
+                <span className="font-medium">Annual Interest Rate</span>
                 <Input
-                  className="justify-end w-1/6 max-w-[80px] bg-gray-200 border-0 focus:border-0 focus:ring-0 active:border-0 active:ring-0"
+                  className="justify-end w-1/6 max-w-[80px] bg-gray-200 border-0 focus:ring-0"
                   type="text"
                   value={annualInterestRate}
                   onChange={(e) =>
@@ -88,60 +100,65 @@ export default function LoanCalculator({ loanType }: { loanType?: string }) {
                 step={1}
                 className="flex-1"
               />
-              <div className="w-full flex justify-between items-center text-sm">
-                <span className="text-start">12%</span>
-                <span className="text-end">30%</span>
+              <div className="w-full flex justify-between text-sm">
+                <span>12%</span>
+                <span>30%</span>
               </div>
             </div>
+
+            {/* Tenure (Months) */}
             <div className="w-full flex flex-col space-y-3">
               <div className="w-full flex justify-between items-center">
-                <span className="text-start font-semibold">
-                  Tenure (In Days)
-                </span>
+                <span className="font-semibold">Tenure (In Months)</span>
                 <Input
-                  className="justify-end w-1/6 max-w-[80px] bg-gray-200 border-0 focus:border-0 focus:ring-0 active:border-0 active:ring-0"
+                  className="justify-end w-1/6 max-w-[80px] bg-gray-200 border-0 focus:ring-0"
                   type="text"
-                  value={tenureDays}
-                  onChange={(e) => setTenureDays(Number(e.target.value))}
+                  value={tenureMonths}
+                  onChange={(e) => setTenureMonths(Number(e.target.value))}
                 />
               </div>
               <Slider
-                value={[tenureDays]}
-                onValueChange={(value) => setTenureDays(value[0])}
+                value={[tenureMonths]}
+                onValueChange={(value) => setTenureMonths(value[0])}
                 min={2}
-                max={45}
+                max={36}
                 step={1}
                 className="flex-1"
               />
-              <div className="w-full flex justify-between items-center text-sm">
-                <span className="text-start">2</span>
-                <span className="text-end">45</span>
+              <div className="w-full flex justify-between text-sm">
+                <span>2</span>
+                <span>36</span>
               </div>
             </div>
           </div>
 
+          {/* Right side results */}
           <div className="bg-primary text-white w-full lg:w-1/2 px-6 py-8 rounded-lg flex flex-col space-y-4">
             <div className="space-y-2 flex flex-col">
-              <p className="capitalize leading-tight text-sm">monthly EMI</p>
+              <p className="capitalize leading-tight text-sm">Monthly EMI</p>
               <h3 className="lg:text-3xl text-2xl font-bold">
                 ₹ {emi.toFixed(2)}
               </h3>
             </div>
+
             <Separator className="bg-white" />
+
             <div className="w-full flex justify-between items-center">
               <p>Total Interest</p>
               <p>₹ {totalInterest.toFixed(2)}</p>
             </div>
+
             <div className="w-full flex justify-between items-center">
               <p>Total Payable</p>
               <p>₹ {totalPayment.toFixed(2)}</p>
             </div>
+
             <Button
-              onClick={handleCalculate}
-              className="w-full mt-2 bg-white text-black hover:bg-gray-100 font-medium cursor-pointer py-3"
+              onClick={handleApplyLoan}
+              className="w-full mt-2 bg-white text-black hover:bg-gray-100 font-medium py-3 cursor-pointer"
               type="button"
             >
-              Apply loan
+              Apply Loan
             </Button>
           </div>
         </div>

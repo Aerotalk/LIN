@@ -27,7 +27,7 @@ export default function PaydayLoanChattisgarh() {
             payday.
           </>
         }
-        heroImg="/cities/Chattisgarh.png"
+        heroImg="/cities/chattisgarh.png"
       />
       <LoanQuestionCard
         heading="What makes LoanInNeed the best Insta Loan provider in Chattisgarh?"

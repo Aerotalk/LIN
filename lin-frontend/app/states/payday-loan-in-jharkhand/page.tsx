@@ -27,7 +27,7 @@ export default function PaydayLoanJharkhand() {
             payday.
           </>
         }
-        heroImg="/cities/Jharkhand.png"
+        heroImg="/cities/jharkhand.png"
       />
       <LoanQuestionCard
         heading="What makes LoanInNeed the best Insta Loan provider in Jharkhand?"

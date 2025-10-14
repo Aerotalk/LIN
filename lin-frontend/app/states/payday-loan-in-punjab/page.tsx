@@ -27,7 +27,7 @@ export default function PaydayLoanPunjab() {
             payday.
           </>
         }
-        heroImg="/cities/Punjab.png"
+        heroImg="/cities/punjab.png"
       />
       <LoanQuestionCard
         heading="What makes LoanInNeed the best Insta Loan provider in Punjab?"

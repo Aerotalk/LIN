@@ -27,7 +27,7 @@ export default function PaydayLoanWestBengal() {
             payday.
           </>
         }
-        heroImg="/cities/WestBengal.png"
+        heroImg="/cities/west-bengal.png"
       />
       <LoanQuestionCard
         heading="What makes LoanInNeed the best Insta Loan provider in West Bengal?"

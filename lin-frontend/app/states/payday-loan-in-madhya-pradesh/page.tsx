@@ -27,7 +27,7 @@ export default function PaydayLoanMadhyaPradesh() {
             payday.
           </>
         }
-        heroImg="/cities/MadhyaPradesh.png"
+        heroImg="/cities/madhya-pradesh.png"
       />
       <LoanQuestionCard
         heading="What makes LoanInNeed the best Insta Loan provider in Madhya Pradesh?"

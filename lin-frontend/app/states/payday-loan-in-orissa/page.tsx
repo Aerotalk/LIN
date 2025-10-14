@@ -27,7 +27,7 @@ export default function PaydayLoanOrissa() {
             payday.
           </>
         }
-        heroImg="/cities/Orissa.png"
+        heroImg="/cities/orissa.png"
       />
       <LoanQuestionCard
         heading="What makes LoanInNeed the best Insta Loan provider in Orissa?"

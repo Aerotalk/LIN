@@ -27,7 +27,7 @@ export default function PaydayLoanBihar() {
             payday.
           </>
         }
-        heroImg="/cities/Bihar.png"
+        heroImg="/cities/bihar.png"
       />
       <LoanQuestionCard
         heading="What makes LoanInNeed the best Insta Loan provider in Bihar?"

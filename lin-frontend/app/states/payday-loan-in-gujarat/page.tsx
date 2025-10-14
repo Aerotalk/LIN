@@ -27,7 +27,7 @@ export default function PaydayLoanGujarat() {
             payday.
           </>
         }
-        heroImg="/cities/Gujarat.png"
+        heroImg="/cities/gujarat.png"
       />
       <LoanQuestionCard
         heading="What makes LoanInNeed the best Insta Loan provider in Gujarat?"

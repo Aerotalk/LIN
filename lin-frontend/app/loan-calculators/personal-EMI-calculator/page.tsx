@@ -62,7 +62,9 @@ Here's what the letters mean:"
           <ul className="space-y-3 max-w-3xl mx-auto">
             <li className="flex items-start gap-3 text-gray-700">
               <span className="text-red-500 font-bold mt-1">•</span>
-              <span>Go to the 'Personal Loan EMI Calculator' page.</span>
+              <span>
+                Go to the &apos;Personal Loan EMI Calculator&apos; page.
+              </span>
             </li>
             <li className="flex items-start gap-3 text-gray-700">
               <span className="text-red-500 font-bold mt-1">•</span>

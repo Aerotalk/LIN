@@ -198,7 +198,7 @@ export default function Navbar() {
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
                   <Link href="/apply-now">
-                    <Button size="sm" className="text-base">
+                    <Button size="default" variant="default" className="text-base">
                       Apply now
                     </Button>
                   </Link>
@@ -234,7 +234,7 @@ export default function Navbar() {
                 <Link href="/blogs">Learn</Link>
                 <Link href="/contact">Support</Link>
                 <Link href="/login">Login</Link>
-                <Button className="w-full">Apply now</Button>
+                <Button variant="default" className="w-full">Apply now</Button>
               </div>
             </SheetContent>
           </Sheet>

@@ -117,6 +117,12 @@ export default function Footer() {
               <li>
                 <Link href="/repay-loan">Repay loan</Link>
               </li>
+              <li>
+                <Link href="/affiliate-program">Affiliate Program</Link>
+              </li>
+              <li>
+                <Link href="/direct-sales-agent">Direct Sales Agent</Link>
+              </li>
             </ul>
           </div>
 

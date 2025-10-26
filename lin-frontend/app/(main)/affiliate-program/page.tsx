@@ -204,7 +204,7 @@ function AffiliateCTA() {
         <section className="bg-red-500 rounded-xl py-10 px-5 mt-8 flex flex-col items-center text-center text-white">
             <h3 className="text-2xl font-bold mb-2">Join our affiliate program</h3>
             <p className="mb-4 text-lg">
-                Zero investment, instant payouts, and high commissions. Partner with India's trusted digital loan provider. Apply now!
+                Zero investment, instant payouts, and high commissions. Partner with India&apos;s trusted digital loan provider. Apply now!
             </p>
             <button className="bg-white text-red-500 font-semibold py-3 px-8 rounded-full shadow hover:bg-red-100 transition text-base mt-2">
                 Connect now &rarr;

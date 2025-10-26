@@ -125,8 +125,8 @@ export default function LoginPage() {
 
             {/* Heading */}
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              Because Life Can't Wait —<br />
-              We're Here to Help
+              Because Life Can&apos;t Wait —<br />
+              We&apos;re Here to Help
             </h1>
 
             {/* Description */}
@@ -228,7 +228,7 @@ export default function LoginPage() {
 
                   <div className="text-center">
                     <p className="text-sm text-gray-600">
-                      Didn't have an account?{" "}
+                      Didn&apos;t have an account?{" "}
                       <Link href="/signup" className="text-red-600 hover:underline font-medium">
                         Create now
                       </Link>

@@ -28,8 +28,8 @@ export function Step3BasicDetails({ onSubmit, onBack, formData, setFormData }: S
   }
 
   const handleSelectChange = (field: keyof BasicDetailsForm, value: string) => {
-    setValue(field, value as any)
-    setFormData({ ...formData, [field]: value as any })
+    setValue(field, value)
+    setFormData({ ...formData, [field]: value })
   }
 
   const handleNumberChange = (field: keyof BasicDetailsForm, value: string) => {
@@ -40,7 +40,7 @@ export function Step3BasicDetails({ onSubmit, onBack, formData, setFormData }: S
 
   const handleFileChange = (field: keyof BasicDetailsForm, file: File | null) => {
     if (file) {
-      setValue(field, file as any)
+      setValue(field, file as File)
       setFormData({ ...formData, [field]: file })
     }
   }

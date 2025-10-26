@@ -27,7 +27,7 @@ export function Step4DocumentVerification({ onSubmit, formData, setFormData }: S
 
   const handleFileChange = (field: keyof DocumentVerificationForm, file: File | null) => {
     if (file) {
-      setValue(field, file as any)
+      setValue(field, file as File)
       setFormData({ ...formData, [field]: file })
     }
   }

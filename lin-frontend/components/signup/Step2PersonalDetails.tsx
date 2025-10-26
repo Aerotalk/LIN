@@ -10,38 +10,27 @@ import { personalDetailsSchema, type PersonalDetailsForm } from "@/lib/signup-sc
 import { Eye, EyeOff, Loader2 } from "lucide-react"
 
 interface Step2Props {
-  onSubmit: (data: PersonalDetailsForm) => void
-  onGoToDashboard: () => void
-  formData: PersonalDetailsForm
-  setFormData: (data: PersonalDetailsForm) => void
+  onSubmit: (data: PersonalDetailsForm) => void;
+  onGoToDashboard: () => void;
+  formData: PersonalDetailsForm;
+  setFormData: (data: PersonalDetailsForm) => void;
 }
 
 export function Step2PersonalDetails({ onSubmit, onGoToDashboard, formData, setFormData }: Step2Props) {
-  const [isSaved, setIsSaved] = useState(false)
-  const [isSaving, setIsSaving] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
-  
-  const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm<PersonalDetailsForm>({
+  const [isSaved, setIsSaved] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const { register, handleSubmit, setValue, watch, formState } = useForm<PersonalDetailsForm>({
     resolver: zodResolver(personalDetailsSchema),
-    defaultValues: formData
-  })
+    defaultValues: formData,
+    mode: "onChange",
+  });
 
-  const firstName = watch("firstName")
-  const lastName = watch("lastName")
-  const dateOfBirth = watch("dateOfBirth")
-  const gender = watch("gender")
-  const email = watch("email")
-  const password = watch("password")
-
-  const handleFormSubmit = (data: PersonalDetailsForm) => {
-    setFormData(data)
-    onSubmit(data)
-  }
+  const { errors, isValid } = formState;
 
   const handleSaveData = async (data: PersonalDetailsForm) => {
-    setIsSaving(true)
-    setFormData(data)
-    
+    setIsSaving(true);
     try {
       // TODO: Replace with actual API call
       // const response = await fetch('/api/save-personal-details', {
@@ -51,32 +40,40 @@ export function Step2PersonalDetails({ onSubmit, onGoToDashboard, formData, setF
       // })
       
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500))
-      
-      setIsSaved(true)
-    } catch (error) {
-      console.error('Error saving data:', error)
-      // Handle error - show toast notification
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      setFormData(data);
+      setIsSaved(true);
     } finally {
-      setIsSaving(false)
+      setIsSaving(false);
     }
-  }
+  };
 
-  const handleGenderChange = (value: string) => {
-    setValue("gender", value as any)
-    setFormData({ ...formData, gender: value as any })
-  }
+  const handleGenderChange = (value: "Male" | "Female" | "Prefer not to say") => {
+    setValue("gender", value);
+    setFormData({ ...formData, gender: value });
+  };
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setValue("dateOfBirth", value)
-    setFormData({ ...formData, dateOfBirth: value })
-  }
+    const value = e.target.value;
+    setValue("dateOfBirth", value);
+    setFormData({ ...formData, dateOfBirth: value });
+  };
 
+  const onValidSubmit = (data: PersonalDetailsForm) => {
+    if (isSaved) onSubmit(data);
+    else handleSaveData(data);
+  };
+  const firstName = watch("firstName");
+  const lastName = watch("lastName");
+  const dateOfBirth = watch("dateOfBirth");
+  const gender = watch("gender");
+  const email = watch("email");
+  const password = watch("password");
+  
   const isFormValid = firstName && lastName && dateOfBirth && gender && email && password
 
   return (
-    <form onSubmit={handleSubmit(isSaved ? handleFormSubmit : handleSaveData)} className="space-y-6">
+    <form onSubmit={handleSubmit(onValidSubmit)} className="space-y-6">
       <div className="space-y-6">
         <div className="flex justify-between gap-4">
           <div className="w-full">

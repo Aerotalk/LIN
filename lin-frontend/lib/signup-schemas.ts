@@ -35,7 +35,7 @@ export const personalDetailsSchema = z.object({
     .min(2, "First name must be at least 2 characters")
     .max(50, "First name must be less than 50 characters")
     .regex(/^[a-zA-Z\s]+$/, "First name can only contain letters and spaces"),
-  middleName: z.string().default(""),
+  middleName: z.string().default("").optional(),
   lastName: z.string()
     .min(2, "Last name must be at least 2 characters")
     .max(50, "Last name must be less than 50 characters")
@@ -54,9 +54,7 @@ export const personalDetailsSchema = z.object({
   password: z.string()
     .min(8, "Password must be at least 8 characters")
     .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, "Password must contain at least one uppercase letter, one lowercase letter, and one number"),
-  gender: z.enum(["Male", "Female", "Prefer not to say"], {
-    required_error: "Please select your gender"
-  })
+  gender: z.enum(["Male", "Female", "Prefer not to say"])
 })
 
 // Step 3: Basic details
@@ -79,17 +77,13 @@ export const basicDetailsSchema = z.object({
   monthlyIncome: z.number()
     .min(35000, "Minimum monthly income is ₹35,000")
     .max(1000000, "Maximum monthly income is ₹10,00,000"),
-  jobStability: z.enum(["Very unstable", "Somewhat unstable", "Neutral / moderate", "Stable", "Very stable"], {
-    required_error: "Please select your job stability"
-  }),
+  jobStability: z.enum(["Very unstable", "Somewhat unstable", "Neutral / moderate", "Stable", "Very stable"]),
 
   // Address details
   currentAddress: z.string()
     .min(10, "Current address must be at least 10 characters")
     .max(200, "Current address must be less than 200 characters"),
-  currentAddressType: z.enum(["Owner(Self or Family)", "Rented"], {
-    required_error: "Please select address type"
-  }),
+  currentAddressType: z.enum(["Owner(Self or Family)", "Rented"]),
   permanentAddress: z.string()
     .min(10, "Permanent address must be at least 10 characters")
     .max(200, "Permanent address must be less than 200 characters"),

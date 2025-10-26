@@ -44,6 +44,11 @@ export function Step5AadhaarOtp({
     setFormData({ ...formData, aadhaarOtp: value })
   }
 
+  const handleResendClick = () => {
+    if (resendTimer > 0) return // Prevent click if timer is running
+    onResend()
+  }
+
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
       {/* Back Button */}

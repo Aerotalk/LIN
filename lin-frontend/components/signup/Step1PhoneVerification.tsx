@@ -42,6 +42,11 @@ export function Step1PhoneVerification({
     setFormData({ ...formData, otp: value })
   }
 
+  const handleResendClick = () => {
+    if (resendTimer > 0) return // Prevent click if timer is running
+    onResend()
+  }
+
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
       <div className="space-y-6">
@@ -102,19 +107,21 @@ export function Step1PhoneVerification({
               <p className="text-sm text-gray-600">
                 OTP sent on XXXXXXX{phoneNumber?.slice(-4)}
               </p>
-              {resendTimer > 0 ? (
-                <p className="text-sm text-gray-500">
-                  Resend OTP in {resendTimer} sec
-                </p>
-              ) : (
-                <button
-                  type="button"
-                  onClick={onResend}
-                  className="text-red-600 hover:underline text-sm font-medium"
-                >
-                  Resend OTP
-                </button>
-              )}
+              <div className="text-sm">
+                {resendTimer > 0 ? (
+                  <p className="text-gray-500">
+                    Resend OTP in {resendTimer} sec
+                  </p>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleResendClick}
+                    className="text-red-600 hover:underline font-medium"
+                  >
+                    Resend OTP
+                  </button>
+                )}
+              </div>
             </div>
 
             <div>
@@ -123,7 +130,7 @@ export function Step1PhoneVerification({
               </label>
               <InputOTP
                 maxLength={6}
-                value={formData.otp}
+                value={formData.otp || ""}
                 onChange={handleOtpChange}
                 className="justify-center"
               >

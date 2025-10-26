@@ -10,23 +10,29 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { FileUpload } from "@/components/ui/file-upload"
 import { Progress } from "@/components/ui/progress"
-import { 
-  phoneVerificationSchema, 
-  personalDetailsSchema, 
-  basicDetailsSchema, 
-  documentVerificationSchema, 
+import {
+  phoneVerificationSchema,
+  personalDetailsSchema,
+  basicDetailsSchema,
+  documentVerificationSchema,
   aadhaarOtpSchema,
+  photoAndLocationSchema,
   type PhoneVerificationForm,
   type PersonalDetailsForm,
   type BasicDetailsForm,
   type DocumentVerificationForm,
-  type AadhaarOtpForm
+  type AadhaarOtpForm,
+  type PhotoLocationForm,
+  SignupFormData
 } from "@/lib/signup-schemas"
 import { Step1PhoneVerification } from "@/components/signup/Step1PhoneVerification"
 import { Step2PersonalDetails } from "@/components/signup/Step2PersonalDetails"
 import { Step3BasicDetails } from "@/components/signup/Step3BasicDetails"
 import { Step4DocumentVerification } from "@/components/signup/Step4DocumentVerification"
 import { Step5AadhaarOtp } from "@/components/signup/Step5AadhaarOtp"
+import Link from "next/link"
+import Image from "next/image"
+import { Step6PhotoGPS } from "@/components/signup/Step6PhotoGPS"
 
 const STEPS = [
   { id: 1, title: "Verifying number", description: "Sign Up & Get Loan Offers in Minutes" },
@@ -45,21 +51,21 @@ export default function SignupForm() {
   const [applicationSubmitted, setApplicationSubmitted] = useState(false)
 
   // Form data state
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<SignupFormData>({
     phoneVerification: { phoneNumber: "", otp: "" as string | undefined },
     personalDetails: { firstName: "", middleName: "", lastName: "", dateOfBirth: "", gender: "" as "Male" | "Female" | "Other" },
-    basicDetails: { 
-      loanAmount: 0, purposeOfLoan: "", companyName: "", companyAddress: "", 
-      monthlyIncome: 0, jobStability: "" as "Less than 1 year" | "1-2 years" | "2-5 years" | "More than 5 years", 
-      currentAddress: "", currentAddressType: "" as "Owned" | "Rented" | "Company Provided" | "Family Owned", 
+    basicDetails: {
+      loanAmount: 0, purposeOfLoan: "", companyName: "", companyAddress: "",
+      monthlyIncome: 0, jobStability: "" as "Less than 1 year" | "1-2 years" | "2-5 years" | "More than 5 years",
+      currentAddress: "", currentAddressType: "" as "Owned" | "Rented" | "Company Provided" | "Family Owned",
       permanentAddress: "", addressProof: "" as "Current Rent agreement" | "Gas Bill" | "Utility Bill" | "Electricity Bill" | "WiFi Bill"
     },
-    documentVerification: { 
+    documentVerification: {
       payslipFile: new File([], ""), bankStatementFile: new File([], ""),
-      panNumber: "", aadhaarNumber: "", photoFile: new File([], ""),
-      autoDetectLocation: false, location: ""
+      panNumber: "", aadhaarNumber: ""
     },
-    aadhaarOtp: { aadhaarOtp: "" }
+    aadhaarOtp: { aadhaarOtp: "" },
+    photoAndLocationSchema: { photoFile: new File([], ""), autoDetectLocation: false, location: "" }
   })
 
   const progress = (currentStep / STEPS.length) * 100
@@ -80,7 +86,7 @@ export default function SignupForm() {
     setFormData(prev => ({ ...prev, phoneVerification: data }))
     setOtpSent(true)
     setOtpResendTimer(30)
-    
+
     // Start countdown timer
     const timer = setInterval(() => {
       setOtpResendTimer(prev => {
@@ -119,7 +125,7 @@ export default function SignupForm() {
     setFormData(prev => ({ ...prev, documentVerification: data }))
     setAadhaarOtpSent(true)
     setAadhaarOtpResendTimer(30)
-    
+
     // Start countdown timer
     const timer = setInterval(() => {
       setAadhaarOtpResendTimer(prev => {
@@ -134,6 +140,10 @@ export default function SignupForm() {
 
   const handleAadhaarOtpSubmit = (data: AadhaarOtpForm) => {
     setFormData(prev => ({ ...prev, aadhaarOtp: data }))
+  }
+
+  const handlePhotoLocationSubmit = (data: PhotoLocationForm) => {
+    setFormData(prev => ({ ...prev, photoAndLocationSchema: data }))
     setApplicationSubmitted(true)
   }
 
@@ -172,10 +182,9 @@ export default function SignupForm() {
             <div className="max-w-md mx-auto">
               {/* Logo */}
               <div className="mb-8">
-                <h1 className="text-4xl font-bold text-red-600 mb-2">
-                  LOAN<span className="text-red-600">₹</span> IN NEED
-                </h1>
-                <p className="text-sm text-gray-600">AN INSTANT LOAN PASS</p>
+                <Link href="/" className="flex items-center">
+                  <Image src="/lin-logo.png" alt="Logo" width={120} height={40} />
+                </Link>
               </div>
 
               {/* Main Heading */}
@@ -189,15 +198,7 @@ export default function SignupForm() {
               </p>
 
               {/* Wallet Illustration */}
-              <div className="w-64 h-48 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg flex items-center justify-center relative">
-                <div className="text-6xl">💰</div>
-                {/* Purple notes */}
-                <div className="absolute -top-2 -right-2 w-8 h-12 bg-purple-500 rounded transform rotate-12"></div>
-                <div className="absolute -top-1 -right-4 w-8 h-12 bg-purple-400 rounded transform rotate-6"></div>
-                {/* Gold coins */}
-                <div className="absolute -top-4 left-4 w-6 h-6 bg-yellow-300 rounded-full"></div>
-                <div className="absolute -bottom-2 right-8 w-6 h-6 bg-yellow-300 rounded-full"></div>
-              </div>
+              <Image src="/signup-money.png" alt="Wallet Illustration" width={256} height={192} />
             </div>
           </div>
 
@@ -216,7 +217,7 @@ export default function SignupForm() {
               <p className="text-gray-600 mb-8">Our representative will contact you soon</p>
 
               {/* Action Button */}
-              <Button 
+              <Button
                 onClick={() => window.location.href = '/'}
                 className="w-full bg-red-600 hover:bg-red-700 text-white h-12 text-base font-medium"
               >
@@ -237,14 +238,13 @@ export default function SignupForm() {
           <div className="max-w-md mx-auto">
             {/* Logo */}
             <div className="mb-8">
-              <h1 className="text-4xl font-bold text-red-600 mb-2">
-                LOAN<span className="text-red-600">₹</span> IN NEED
-              </h1>
-              <p className="text-sm text-gray-600">AN INSTANT LOAN PASS</p>
+              <Link href="/" className="flex items-center">
+                <Image src="/lin-logo.png" alt="Logo" width={120} height={40} />
+              </Link>
             </div>
 
             {/* Main Heading */}
-            <h2 className="text-3xl font-bold text-gray-800 mb-6 leading-tight">
+            <h2 className="text-3xl font-semibold text-gray-800 mb-6 leading-tight">
               {STEPS[currentStep - 1].description}
             </h2>
 
@@ -254,15 +254,7 @@ export default function SignupForm() {
             </p>
 
             {/* Wallet Illustration */}
-            <div className="w-64 h-48 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg flex items-center justify-center relative">
-              <div className="text-6xl">💰</div>
-              {/* Purple notes */}
-              <div className="absolute -top-2 -right-2 w-8 h-12 bg-purple-500 rounded transform rotate-12"></div>
-              <div className="absolute -top-1 -right-4 w-8 h-12 bg-purple-400 rounded transform rotate-6"></div>
-              {/* Gold coins */}
-              <div className="absolute -top-4 left-4 w-6 h-6 bg-yellow-300 rounded-full"></div>
-              <div className="absolute -bottom-2 right-8 w-6 h-6 bg-yellow-300 rounded-full"></div>
-            </div>
+            <Image src="/signup-money.png" alt="Wallet Illustration" width={256} height={192} />
           </div>
         </div>
 
@@ -275,10 +267,10 @@ export default function SignupForm() {
                 <h3 className="text-xl font-bold text-red-600">{STEPS[currentStep - 1].title}</h3>
                 <span className="text-sm text-gray-600">{currentStep}/5</span>
               </div>
-              
+
               {/* Progress Bar */}
               <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
+                <div
                   className="bg-red-600 h-2 rounded-full transition-all duration-300"
                   style={{ width: `${progress}%` }}
                 ></div>
@@ -288,7 +280,7 @@ export default function SignupForm() {
             {/* Form Content */}
             <div className="space-y-6">
               {currentStep === 1 && (
-                <Step1PhoneVerification 
+                <Step1PhoneVerification
                   onSubmit={otpSent ? handleOtpVerify : handlePhoneSubmit}
                   otpSent={otpSent}
                   resendTimer={otpResendTimer}
@@ -299,7 +291,7 @@ export default function SignupForm() {
               )}
 
               {currentStep === 2 && (
-                <Step2PersonalDetails 
+                <Step2PersonalDetails
                   onSubmit={handlePersonalDetailsSubmit}
                   onGoToDashboard={handleGoToDashboard}
                   formData={formData.personalDetails}
@@ -308,7 +300,7 @@ export default function SignupForm() {
               )}
 
               {currentStep === 3 && (
-                <Step3BasicDetails 
+                <Step3BasicDetails
                   onSubmit={handleBasicDetailsSubmit}
                   onBack={handlePrevious}
                   formData={formData.basicDetails}
@@ -317,7 +309,7 @@ export default function SignupForm() {
               )}
 
               {currentStep === 4 && (
-                <Step4DocumentVerification 
+                <Step4DocumentVerification
                   onSubmit={handleDocumentVerificationSubmit}
                   formData={formData.documentVerification}
                   setFormData={(data) => setFormData(prev => ({ ...prev, documentVerification: data }))}
@@ -325,7 +317,7 @@ export default function SignupForm() {
               )}
 
               {currentStep === 5 && (
-                <Step5AadhaarOtp 
+                <Step5AadhaarOtp
                   onSubmit={handleAadhaarOtpSubmit}
                   onBack={handlePrevious}
                   otpSent={aadhaarOtpSent}
@@ -333,6 +325,14 @@ export default function SignupForm() {
                   onResend={resendAadhaarOtp}
                   formData={formData.aadhaarOtp}
                   setFormData={(data) => setFormData(prev => ({ ...prev, aadhaarOtp: data }))}
+                />
+              )}
+              {currentStep === 6 && (
+                <Step6PhotoGPS
+                  onSubmit={handlePhotoLocationSubmit}
+                  onBack={handlePrevious}
+                  formData={formData.photoAndLocationSchema}
+                  setFormData={(data) => setFormData(prev => ({ ...prev, photoAndLocationSchema: data }))}
                 />
               )}
             </div>

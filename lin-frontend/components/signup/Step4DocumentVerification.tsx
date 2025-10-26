@@ -32,18 +32,6 @@ export function Step4DocumentVerification({ onSubmit, formData, setFormData }: S
     }
   }
 
-  const handleLocationToggle = (checked: boolean) => {
-    setValue("autoDetectLocation", checked)
-    setFormData({ ...formData, autoDetectLocation: checked })
-    
-    if (checked) {
-      // Simulate location detection
-      const mockLocation = "12.56899667, 23.0098656"
-      setValue("location", mockLocation)
-      setFormData({ ...formData, autoDetectLocation: checked, location: mockLocation })
-    }
-  }
-
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
       <div className="space-y-6">
@@ -120,41 +108,6 @@ export function Step4DocumentVerification({ onSubmit, formData, setFormData }: S
             )}
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Upload your recent photo*
-            </label>
-            <FileUpload
-              accept="image/*"
-              placeholder="Click to upload or take photo"
-              onFileChange={(file) => handleFileChange("photoFile", file)}
-            />
-            {errors.photoFile && (
-              <p className="text-red-500 text-sm mt-1">{errors.photoFile.message}</p>
-            )}
-          </div>
-
-          <div className="space-y-2">
-            <label className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                checked={formData.autoDetectLocation}
-                onChange={(e) => handleLocationToggle(e.target.checked)}
-                className="rounded border-gray-300 text-red-600 focus:ring-red-500"
-              />
-              <span className="text-sm font-medium text-gray-700">
-                Auto-detect location *
-              </span>
-            </label>
-            <p className="text-xs text-gray-500">
-              Make your GPS is turned on
-            </p>
-            {formData.autoDetectLocation && formData.location && (
-              <p className="text-xs text-gray-600">
-                Location: {formData.location}
-              </p>
-            )}
-          </div>
         </div>
 
         <p className="text-sm text-gray-600">

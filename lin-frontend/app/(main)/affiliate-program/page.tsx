@@ -3,6 +3,7 @@ import HeroSection from '@/components/affiliate/AffiliateHero';
 import StepsCard from '@/components/affiliate/StepsCard';
 import FAQSection from '@/components/FAQSection';
 import { medicalLoanFAQ } from '@/lib/data';
+import AboutFootCTA from '@/components/about/AboutFootCTA';
 
 const steps = [
     {
@@ -28,7 +29,7 @@ export default function AffiliateProgramPage() {
             <WhyPartnerSection />
             <CommissionStructure />
             <EligibilityCriteria />
-            <AffiliateCTA />
+            <AboutFootCTA />
             <FAQSection faqData={medicalLoanFAQ} />
         </div>
     );

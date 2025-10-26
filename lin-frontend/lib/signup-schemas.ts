@@ -96,28 +96,27 @@ export const basicDetailsSchema = z.object({
 })
 
 // Step 4: Document verification
+const MAX_5MB = 5 * 1024 * 1024;
+const MAX_2MB = 2 * 1024 * 1024;
+
 export const documentVerificationSchema = z.object({
-  // Salary details
-  payslipFile: z.instanceof(File, "Please upload your payslip")
-    .refine((file) => file.size <= 5 * 1024 * 1024, "File size must be less than 5MB")
-    .refine((file) => file.type === "application/pdf", "Only PDF files are allowed"),
-  bankStatementFile: z.instanceof(File, "Please upload your bank statement")
-    .refine((file) => file.size <= 5 * 1024 * 1024, "File size must be less than 5MB")
-    .refine((file) => file.type === "application/pdf", "Only PDF files are allowed"),
-  
-  // Documents
+  payslipFile: z
+    .instanceof(File)
+    .refine(file => ["application/pdf"].includes(file.type), "Must be a PDF file")
+    .refine(file => file.size <= MAX_5MB, "File size must be ≤ 5MB"),
+
+  bankStatementFile: z
+    .instanceof(File)
+    .refine(file => ["application/pdf"].includes(file.type), "Must be a PDF file")
+    .refine(file => file.size <= MAX_5MB, "File size must be ≤ 5MB"),
+
   panNumber: z.string()
-    .length(10, "PAN number must be exactly 10 characters")
-    .regex(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/, "Please enter a valid PAN number"),
+    .regex(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/, "Invalid PAN number"),
+
   aadhaarNumber: z.string()
-    .length(12, "Aadhaar number must be exactly 12 digits")
-    .regex(/^\d{12}$/, "Aadhaar number must contain only numbers"),
-  photoFile: z.instanceof(File, "Please upload your recent photo")
-    .refine((file) => file.size <= 2 * 1024 * 1024, "File size must be less than 2MB")
-    .refine((file) => file.type.startsWith("image/"), "Only image files are allowed"),
-  autoDetectLocation: z.boolean(),
-  location: z.string().default("")
-})
+    .regex(/^\d{12}$/, "Aadhaar number must be 12 digits"),
+});
+
 
 // Step 5: Aadhaar OTP verification
 export const aadhaarOtpSchema = z.object({
@@ -127,13 +126,26 @@ export const aadhaarOtpSchema = z.object({
     .regex(/^\d{6}$/, "OTP must contain only numbers")
 })
 
+// Step 6: Upload photo and auto detect location
+export const photoAndLocationSchema = z.object({
+  photoFile: z
+    .instanceof(File)
+    .refine(file => file.size <= MAX_2MB, "File size must be ≤ 2MB")
+    .refine(file => ["image/png", "image/jpeg", "image/jpg"].includes(file.type),
+      "Only .png/.jpg/.jpeg images allowed"),
+
+  autoDetectLocation: z.boolean(),
+  location: z.string().optional(),
+})
+
 // Combined schema for all steps
 export const signupFormSchema = z.object({
   phoneVerification: phoneVerificationSchema,
   personalDetails: personalDetailsSchema,
   basicDetails: basicDetailsSchema,
   documentVerification: documentVerificationSchema,
-  aadhaarOtp: aadhaarOtpSchema
+  aadhaarOtp: aadhaarOtpSchema,
+  photoAndLocationSchema: photoAndLocationSchema
 })
 
 export type PhoneVerificationForm = z.infer<typeof phoneVerificationSchema>
@@ -143,4 +155,5 @@ export type PersonalDetailsForm = z.infer<typeof personalDetailsSchema>
 export type BasicDetailsForm = z.infer<typeof basicDetailsSchema>
 export type DocumentVerificationForm = z.infer<typeof documentVerificationSchema>
 export type AadhaarOtpForm = z.infer<typeof aadhaarOtpSchema>
+export type PhotoLocationForm = z.infer<typeof photoAndLocationSchema>
 export type SignupFormData = z.infer<typeof signupFormSchema>

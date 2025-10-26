@@ -54,12 +54,14 @@ export default function SignupForm() {
   // Form data state
   const [formData, setFormData] = useState<SignupFormData>({
     phoneVerification: { phoneNumber: "", otp: "" as string | undefined },
-    personalDetails: { firstName: "", middleName: "", lastName: "", dateOfBirth: "", gender: "" as "Male" | "Female" | "Other" },
+    personalDetails: {
+      firstName: "", middleName: "", lastName: "", dateOfBirth: "", email: "", password: "", gender: "" as "Male" | "Female" | "Prefer not to say"
+    },
     basicDetails: {
       loanAmount: 0, purposeOfLoan: "", companyName: "", companyAddress: "",
-      monthlyIncome: 0, jobStability: "" as "Less than 1 year" | "1-2 years" | "2-5 years" | "More than 5 years",
-      currentAddress: "", currentAddressType: "" as "Owned" | "Rented" | "Company Provided" | "Family Owned",
-      permanentAddress: "", addressProof: "" as "Current Rent agreement" | "Gas Bill" | "Utility Bill" | "Electricity Bill" | "WiFi Bill"
+      monthlyIncome: 0, jobStability: "" as "Very unstable" | "Somewhat unstable" | "Neutral / moderate" | "Stable" | "Very stable",
+      currentAddress: "", currentAddressType: "" as "Owner(Self or Family)" | "Rented",
+      permanentAddress: "", addressProof: new File([], ""), pinCode: ""
     },
     documentVerification: {
       payslipFile: new File([], ""), bankStatementFile: new File([], ""),
@@ -137,7 +139,7 @@ export default function SignupForm() {
         return prev - 1
       })
     }, 1000)
-    
+
     handleNext()
   }
 

@@ -1,5 +1,8 @@
 import { z } from "zod"
 
+const MAX_5MB = 5 * 1024 * 1024;
+const MAX_2MB = 2 * 1024 * 1024;
+
 // Step 1: Phone verification
 export const phoneVerificationSchema = z.object({
   phoneNumber: z.string()
@@ -45,7 +48,13 @@ export const personalDetailsSchema = z.object({
       const age = today.getFullYear() - parsedDate.getFullYear()
       return age >= 18 && age <= 65
     }, "Age must be between 18 and 65 years"),
-  gender: z.enum(["Male", "Female", "Other"], {
+  email: z.string()
+    .min(1, "Email is required")
+    .email("Please enter a valid email address"),
+  password: z.string()
+    .min(8, "Password must be at least 8 characters")
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, "Password must contain at least one uppercase letter, one lowercase letter, and one number"),
+  gender: z.enum(["Male", "Female", "Prefer not to say"], {
     required_error: "Please select your gender"
   })
 })
@@ -54,12 +63,12 @@ export const personalDetailsSchema = z.object({
 export const basicDetailsSchema = z.object({
   // Loan details
   loanAmount: z.number()
-    .min(10000, "Minimum loan amount is ₹10,000")
+    .min(5000, "Minimum loan amount is ₹5,000")
     .max(5000000, "Maximum loan amount is ₹50,00,000"),
   purposeOfLoan: z.string()
     .min(5, "Please describe your loan purpose")
     .max(200, "Purpose description must be less than 200 characters"),
-  
+
   // Employment details
   companyName: z.string()
     .min(2, "Company name must be at least 2 characters")
@@ -68,36 +77,32 @@ export const basicDetailsSchema = z.object({
     .min(10, "Company address must be at least 10 characters")
     .max(200, "Company address must be less than 200 characters"),
   monthlyIncome: z.number()
-    .min(15000, "Minimum monthly income is ₹15,000")
+    .min(35000, "Minimum monthly income is ₹35,000")
     .max(1000000, "Maximum monthly income is ₹10,00,000"),
-  jobStability: z.enum(["Less than 1 year", "1-2 years", "2-5 years", "More than 5 years"], {
+  jobStability: z.enum(["Very unstable", "Somewhat unstable", "Neutral / moderate", "Stable", "Very stable"], {
     required_error: "Please select your job stability"
   }),
-  
+
   // Address details
   currentAddress: z.string()
     .min(10, "Current address must be at least 10 characters")
     .max(200, "Current address must be less than 200 characters"),
-  currentAddressType: z.enum(["Owned", "Rented", "Company Provided", "Family Owned"], {
+  currentAddressType: z.enum(["Owner(Self or Family)", "Rented"], {
     required_error: "Please select address type"
   }),
   permanentAddress: z.string()
     .min(10, "Permanent address must be at least 10 characters")
     .max(200, "Permanent address must be less than 200 characters"),
-  addressProof: z.enum([
-    "Current Rent agreement",
-    "Gas Bill",
-    "Utility Bill", 
-    "Electricity Bill",
-    "WiFi Bill"
-  ], {
-    required_error: "Please select address proof type"
-  })
+  pinCode: z.string()
+    .min(6, "Pin code must be 6 digits")
+    .max(6, "Pin code must be 6 digits"),
+  addressProof: z
+    .instanceof(File)
+    .refine(file => ["application/pdf"].includes(file.type), "Must be a PDF file")
+    .refine(file => file.size <= MAX_5MB, "File size must be ≤ 5MB"),
 })
 
 // Step 4: Document verification
-const MAX_5MB = 5 * 1024 * 1024;
-const MAX_2MB = 2 * 1024 * 1024;
 
 export const documentVerificationSchema = z.object({
   payslipFile: z

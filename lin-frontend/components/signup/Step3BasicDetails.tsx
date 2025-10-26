@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { basicDetailsSchema, type BasicDetailsForm } from "@/lib/signup-schemas"
+import { FileUpload } from "../ui/file-upload"
 
 interface Step3Props {
   onSubmit: (data: BasicDetailsForm) => void
@@ -35,6 +36,13 @@ export function Step3BasicDetails({ onSubmit, onBack, formData, setFormData }: S
     const numValue = parseFloat(value) || 0
     setValue(field, numValue)
     setFormData({ ...formData, [field]: numValue })
+  }
+
+  const handleFileChange = (field: keyof BasicDetailsForm, file: File | null) => {
+    if (file) {
+      setValue(field, file as any)
+      setFormData({ ...formData, [field]: file })
+    }
   }
 
   return (
@@ -191,6 +199,19 @@ export function Step3BasicDetails({ onSubmit, onBack, formData, setFormData }: S
                 <p className="text-red-500 text-sm mt-1">{errors.currentAddress.message}</p>
               )}
             </div>
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                PIN <span className="text-primary">*</span>
+              </label>
+              <Input
+                {...register("pinCode")}
+                placeholder="Enter your PIN code"
+                className="w-full"
+              />
+              {errors.pinCode && (
+                <p className="text-red-500 text-sm mt-1">{errors.pinCode.message}</p>
+              )}
+            </div>
 
             <div className="w-full">
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -230,18 +251,11 @@ export function Step3BasicDetails({ onSubmit, onBack, formData, setFormData }: S
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Current address proof <span className="text-primary">*</span>
               </label>
-              <Select value={formData.addressProof} onValueChange={(value) => handleSelectChange("addressProof", value)}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Current Rent agreement">Current Rent agreement</SelectItem>
-                  <SelectItem value="Gas Bill">Gas Bill</SelectItem>
-                  <SelectItem value="Utility Bill">Utility Bill</SelectItem>
-                  <SelectItem value="Electricity Bill">Electricity Bill</SelectItem>
-                  <SelectItem value="WiFi Bill">WiFi Bill</SelectItem>
-                </SelectContent>
-              </Select>
+              <FileUpload
+                accept="application/pdf"
+                placeholder="Click to upload pdf here"
+                onFileChange={(file) => handleFileChange("addressProof", file)}
+              />
               {errors.addressProof && (
                 <p className="text-red-500 text-sm mt-1">{errors.addressProof.message}</p>
               )}

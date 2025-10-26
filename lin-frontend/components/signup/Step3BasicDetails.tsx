@@ -56,197 +56,197 @@ export function Step3BasicDetails({ onSubmit, onBack, formData, setFormData }: S
       <div className="space-y-6">
         {/* Loan details */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-gray-800">Loan details</h3>
-          
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Loan amount *
-            </label>
-            <div className="relative">
-              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">₹</span>
-              <Input
-                type="number"
-                placeholder="Enter loan amount"
-                className="pl-8"
-                {...register("loanAmount", { valueAsNumber: true })}
-                onChange={(e) => handleNumberChange("loanAmount", e.target.value)}
-              />
+          <h3 className="text-lg font-semibold text-primary">Loan details</h3>
+          <div className="flex justify-between gap-4">
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Loan amount <span className="text-primary">*</span>
+              </label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">₹</span>
+                <Input
+                  type="number"
+                  placeholder="Enter loan amount"
+                  className="pl-8"
+                  {...register("loanAmount", { valueAsNumber: true })}
+                  onChange={(e) => handleNumberChange("loanAmount", e.target.value)}
+                />
+              </div>
+              {errors.loanAmount && (
+                <p className="text-red-500 text-sm mt-1">{errors.loanAmount.message}</p>
+              )}
             </div>
-            {errors.loanAmount && (
-              <p className="text-red-500 text-sm mt-1">{errors.loanAmount.message}</p>
-            )}
-          </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Purpose of loan *
-            </label>
-            <Select value={formData.purposeOfLoan} onValueChange={(value) => handleSelectChange("purposeOfLoan", value)}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Describe your purpose" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Medical Emergency">Medical Emergency</SelectItem>
-                <SelectItem value="Education">Education</SelectItem>
-                <SelectItem value="Home Renovation">Home Renovation</SelectItem>
-                <SelectItem value="Debt Consolidation">Debt Consolidation</SelectItem>
-                <SelectItem value="Wedding">Wedding</SelectItem>
-                <SelectItem value="Business">Business</SelectItem>
-                <SelectItem value="Travel">Travel</SelectItem>
-                <SelectItem value="Other">Other</SelectItem>
-              </SelectContent>
-            </Select>
-            {errors.purposeOfLoan && (
-              <p className="text-red-500 text-sm mt-1">{errors.purposeOfLoan.message}</p>
-            )}
-          </div>
-        </div>
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Purpose of loan <span className="text-primary">*</span>
+              </label>
+              <Select value={formData.purposeOfLoan} onValueChange={(value) => handleSelectChange("purposeOfLoan", value)}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Describe your purpose" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Medical Emergency">Medical Emergency</SelectItem>
+                  <SelectItem value="Education">Education</SelectItem>
+                  <SelectItem value="Home Renovation">Home Renovation</SelectItem>
+                  <SelectItem value="Debt Consolidation">Debt Consolidation</SelectItem>
+                  <SelectItem value="Wedding">Wedding</SelectItem>
+                  <SelectItem value="Business">Business</SelectItem>
+                  <SelectItem value="Travel">Travel</SelectItem>
+                  <SelectItem value="Other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+              {errors.purposeOfLoan && (
+                <p className="text-red-500 text-sm mt-1">{errors.purposeOfLoan.message}</p>
+              )}
+            </div>
+          </div></div>
 
         {/* Employment details */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-gray-800">Employment details</h3>
-          
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Company name *
-            </label>
-            <Input
-              {...register("companyName")}
-              placeholder="Enter your company name"
-              className="w-full"
-            />
-            {errors.companyName && (
-              <p className="text-red-500 text-sm mt-1">{errors.companyName.message}</p>
-            )}
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Company address *
-            </label>
-            <Input
-              {...register("companyAddress")}
-              placeholder="Enter your company address"
-              className="w-full"
-            />
-            {errors.companyAddress && (
-              <p className="text-red-500 text-sm mt-1">{errors.companyAddress.message}</p>
-            )}
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Monthly Income *
-            </label>
-            <div className="relative">
-              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">₹</span>
+          <h3 className="text-lg font-semibold text-primary">Employment details</h3>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Company name <span className="text-primary">*</span>
+              </label>
               <Input
-                type="number"
-                placeholder="Enter monthly income"
-                className="pl-8"
-                {...register("monthlyIncome", { valueAsNumber: true })}
-                onChange={(e) => handleNumberChange("monthlyIncome", e.target.value)}
+                {...register("companyName")}
+                placeholder="Enter your company name"
+                className="w-full"
               />
+              {errors.companyName && (
+                <p className="text-red-500 text-sm mt-1">{errors.companyName.message}</p>
+              )}
             </div>
-            {errors.monthlyIncome && (
-              <p className="text-red-500 text-sm mt-1">{errors.monthlyIncome.message}</p>
-            )}
-          </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Stability in current job *
-            </label>
-            <Select value={formData.jobStability} onValueChange={(value) => handleSelectChange("jobStability", value)}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Less than 1 year">Less than 1 year</SelectItem>
-                <SelectItem value="1-2 years">1-2 years</SelectItem>
-                <SelectItem value="2-5 years">2-5 years</SelectItem>
-                <SelectItem value="More than 5 years">More than 5 years</SelectItem>
-              </SelectContent>
-            </Select>
-            {errors.jobStability && (
-              <p className="text-red-500 text-sm mt-1">{errors.jobStability.message}</p>
-            )}
-          </div>
-        </div>
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Company address <span className="text-primary">*</span>
+              </label>
+              <Input
+                {...register("companyAddress")}
+                placeholder="Enter your company address"
+                className="w-full"
+              />
+              {errors.companyAddress && (
+                <p className="text-red-500 text-sm mt-1">{errors.companyAddress.message}</p>
+              )}
+            </div>
+
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Monthly Income <span className="text-primary">*</span>
+              </label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">₹</span>
+                <Input
+                  type="number"
+                  placeholder="Enter monthly income"
+                  className="pl-8"
+                  {...register("monthlyIncome", { valueAsNumber: true })}
+                  onChange={(e) => handleNumberChange("monthlyIncome", e.target.value)}
+                />
+              </div>
+              {errors.monthlyIncome && (
+                <p className="text-red-500 text-sm mt-1">{errors.monthlyIncome.message}</p>
+              )}
+            </div>
+
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Stability in current job <span className="text-primary">*</span>
+              </label>
+              <Select value={formData.jobStability} onValueChange={(value) => handleSelectChange("jobStability", value)}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Less than 1 year">Less than 1 year</SelectItem>
+                  <SelectItem value="1-2 years">1-2 years</SelectItem>
+                  <SelectItem value="2-5 years">2-5 years</SelectItem>
+                  <SelectItem value="More than 5 years">More than 5 years</SelectItem>
+                </SelectContent>
+              </Select>
+              {errors.jobStability && (
+                <p className="text-red-500 text-sm mt-1">{errors.jobStability.message}</p>
+              )}
+            </div>
+          </div></div>
 
         {/* Address details */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-gray-800">Address details</h3>
-          
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Current address with landmark *
-            </label>
-            <Input
-              {...register("currentAddress")}
-              placeholder="Enter your current address"
-              className="w-full"
-            />
-            {errors.currentAddress && (
-              <p className="text-red-500 text-sm mt-1">{errors.currentAddress.message}</p>
-            )}
-          </div>
+          <h3 className="text-lg font-semibold text-primary">Address details</h3>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Current address with landmark <span className="text-primary">*</span>
+              </label>
+              <Input
+                {...register("currentAddress")}
+                placeholder="Enter your current address"
+                className="w-full"
+              />
+              {errors.currentAddress && (
+                <p className="text-red-500 text-sm mt-1">{errors.currentAddress.message}</p>
+              )}
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Current address type *
-            </label>
-            <Select value={formData.currentAddressType} onValueChange={(value) => handleSelectChange("currentAddressType", value)}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Owned">Owned</SelectItem>
-                <SelectItem value="Rented">Rented</SelectItem>
-                <SelectItem value="Company Provided">Company Provided</SelectItem>
-                <SelectItem value="Family Owned">Family Owned</SelectItem>
-              </SelectContent>
-            </Select>
-            {errors.currentAddressType && (
-              <p className="text-red-500 text-sm mt-1">{errors.currentAddressType.message}</p>
-            )}
-          </div>
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Current address type <span className="text-primary">*</span>
+              </label>
+              <Select value={formData.currentAddressType} onValueChange={(value) => handleSelectChange("currentAddressType", value)}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Owned">Owned</SelectItem>
+                  <SelectItem value="Rented">Rented</SelectItem>
+                  <SelectItem value="Company Provided">Company Provided</SelectItem>
+                  <SelectItem value="Family Owned">Family Owned</SelectItem>
+                </SelectContent>
+              </Select>
+              {errors.currentAddressType && (
+                <p className="text-red-500 text-sm mt-1">{errors.currentAddressType.message}</p>
+              )}
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Permanent address *
-            </label>
-            <Input
-              {...register("permanentAddress")}
-              placeholder="Enter your permanent address"
-              className="w-full"
-            />
-            {errors.permanentAddress && (
-              <p className="text-red-500 text-sm mt-1">{errors.permanentAddress.message}</p>
-            )}
-          </div>
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Permanent address <span className="text-primary">*</span>
+              </label>
+              <Input
+                {...register("permanentAddress")}
+                placeholder="Enter your permanent address"
+                className="w-full"
+              />
+              {errors.permanentAddress && (
+                <p className="text-red-500 text-sm mt-1">{errors.permanentAddress.message}</p>
+              )}
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Current address proof *
-            </label>
-            <Select value={formData.addressProof} onValueChange={(value) => handleSelectChange("addressProof", value)}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Current Rent agreement">Current Rent agreement</SelectItem>
-                <SelectItem value="Gas Bill">Gas Bill</SelectItem>
-                <SelectItem value="Utility Bill">Utility Bill</SelectItem>
-                <SelectItem value="Electricity Bill">Electricity Bill</SelectItem>
-                <SelectItem value="WiFi Bill">WiFi Bill</SelectItem>
-              </SelectContent>
-            </Select>
-            {errors.addressProof && (
-              <p className="text-red-500 text-sm mt-1">{errors.addressProof.message}</p>
-            )}
-          </div>
-        </div>
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Current address proof <span className="text-primary">*</span>
+              </label>
+              <Select value={formData.addressProof} onValueChange={(value) => handleSelectChange("addressProof", value)}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Current Rent agreement">Current Rent agreement</SelectItem>
+                  <SelectItem value="Gas Bill">Gas Bill</SelectItem>
+                  <SelectItem value="Utility Bill">Utility Bill</SelectItem>
+                  <SelectItem value="Electricity Bill">Electricity Bill</SelectItem>
+                  <SelectItem value="WiFi Bill">WiFi Bill</SelectItem>
+                </SelectContent>
+              </Select>
+              {errors.addressProof && (
+                <p className="text-red-500 text-sm mt-1">{errors.addressProof.message}</p>
+              )}
+            </div>
+          </div></div>
 
         <p className="text-sm text-gray-600">
           Secure, transparent, and RBI-compliant personal loans — designed to help you when you need it most.

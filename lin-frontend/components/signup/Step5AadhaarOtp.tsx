@@ -31,9 +31,12 @@ export function Step5AadhaarOtp({
     defaultValues: formData
   })
 
-  const handleFormSubmit = (data: AadhaarOtpForm) => {
-    setFormData(data)
-    onSubmit(data)
+  const handleFormSubmit = async (data: AadhaarOtpForm) => {
+    // Simulate OTP verification
+    if (data.aadhaarOtp.length === 6) {
+      setFormData(data)
+      onSubmit(data)
+    }
   }
 
   const handleOtpChange = (value: string) => {
@@ -104,7 +107,7 @@ export function Step5AadhaarOtp({
         </div>
 
         <Button type="submit" className="w-full bg-red-600 hover:bg-red-700 text-white h-12 text-base font-medium">
-          Submit application
+          Verify OTP
         </Button>
       </div>
     </form>

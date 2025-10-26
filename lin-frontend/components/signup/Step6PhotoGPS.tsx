@@ -1,19 +1,16 @@
 "use client"
 
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp"
-import { photoAndLocationSchema, type PhotoLocationForm, } from "@/lib/signup-schemas"
-import { FileUpload } from "../ui/file-upload"
+import { photoAndLocationSchema, type PhotoLocationForm } from "@/lib/signup-schemas"
+import { FileUpload } from "@/components/ui/file-upload"
+import { MapPin, Loader2 } from "lucide-react"
 
-interface Step5Props {
+interface Step6Props {
   onSubmit: (data: PhotoLocationForm) => void
   onBack?: () => void
-  otpSent: boolean
-  resendTimer: number
-  onResend: () => void
   formData: PhotoLocationForm
   setFormData: (data: PhotoLocationForm) => void
 }
@@ -23,33 +20,90 @@ export function Step6PhotoGPS({
   onBack,
   formData,
   setFormData
-}: Step5Props) {
-  const { handleSubmit, formState: { errors }, setValue } = useForm<PhotoLocationForm>({
+}: Step6Props) {
+  const [isLoadingLocation, setIsLoadingLocation] = useState(false)
+  const [locationError, setLocationError] = useState<string | null>(null)
+  
+  const { handleSubmit, formState: { errors }, setValue, watch } = useForm<PhotoLocationForm>({
     resolver: zodResolver(photoAndLocationSchema),
     defaultValues: formData
   })
+
+  const autoDetectLocation = watch("autoDetectLocation")
+  const location = watch("location")
 
   const handleFormSubmit = (data: PhotoLocationForm) => {
     setFormData(data)
     onSubmit(data)
   }
 
-  const handleFileChange = (field: keyof PhotoLocationForm, file: File | null) => {
+  const handleFileChange = (file: File | null) => {
     if (file) {
-      setValue(field, file as any)
-      setFormData({ ...formData, [field]: file })
+      setValue("photoFile", file)
+      setFormData({ ...formData, photoFile: file })
     }
   }
 
-  const handleLocationToggle = (checked: boolean) => {
-    setValue("autoDetectLocation", checked)
-    setFormData({ ...formData, autoDetectLocation: checked })
+  const getLocation = () => {
+    setIsLoadingLocation(true)
+    setLocationError(null)
 
+    if (!navigator.geolocation) {
+      setLocationError("Geolocation is not supported by your browser")
+      setIsLoadingLocation(false)
+      return
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords
+        const locationString = `${latitude.toFixed(8)}, ${longitude.toFixed(8)}`
+        
+        setValue("location", locationString)
+        setValue("autoDetectLocation", true)
+        setFormData({ 
+          ...formData, 
+          autoDetectLocation: true, 
+          location: locationString 
+        })
+        setIsLoadingLocation(false)
+      },
+      (error) => {
+        let errorMessage = "Unable to retrieve your location"
+        
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            errorMessage = "Location access denied. Please enable location permissions in your browser settings."
+            break
+          case error.POSITION_UNAVAILABLE:
+            errorMessage = "Location information is unavailable."
+            break
+          case error.TIMEOUT:
+            errorMessage = "Location request timed out."
+            break
+        }
+        
+        setLocationError(errorMessage)
+        setValue("autoDetectLocation", false)
+        setFormData({ ...formData, autoDetectLocation: false, location: "" })
+        setIsLoadingLocation(false)
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+      }
+    )
+  }
+
+  const handleLocationToggle = (checked: boolean) => {
     if (checked) {
-      // Simulate location detection
-      const mockLocation = "12.56899667, 23.0098656"
-      setValue("location", mockLocation)
-      setFormData({ ...formData, autoDetectLocation: checked, location: mockLocation })
+      getLocation()
+    } else {
+      setValue("autoDetectLocation", false)
+      setValue("location", "")
+      setFormData({ ...formData, autoDetectLocation: false, location: "" })
+      setLocationError(null)
     }
   }
 
@@ -72,41 +126,77 @@ export function Step6PhotoGPS({
       <div className="space-y-6">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Upload your recent photo*
+            Upload your recent photo *
           </label>
           <FileUpload
             accept="image/*"
             placeholder="Click to upload or take photo"
-            onFileChange={(file) => handleFileChange("photoFile", file)}
+            onFileChange={handleFileChange}
           />
           {errors.photoFile && (
             <p className="text-red-500 text-sm mt-1">{errors.photoFile.message}</p>
           )}
         </div>
 
-        <div className="space-y-2">
-          <label className="flex items-center space-x-2">
+        <div className="space-y-3">
+          <label className="flex items-center space-x-2 cursor-pointer">
             <input
               type="checkbox"
-              checked={formData.autoDetectLocation}
+              checked={autoDetectLocation}
               onChange={(e) => handleLocationToggle(e.target.checked)}
-              className="rounded border-gray-300 text-red-600 focus:ring-red-500"
+              disabled={isLoadingLocation}
+              className="rounded border-gray-300 text-red-600 focus:ring-red-500 disabled:opacity-50"
             />
             <span className="text-sm font-medium text-gray-700">
               Auto-detect location *
             </span>
           </label>
-          <p className="text-xs text-gray-500">
-            Make your GPS is turned on
-          </p>
-          {formData.autoDetectLocation && formData.location && (
-            <p className="text-xs text-gray-600">
-              Location: {formData.location}
+          
+          <div className="flex items-start space-x-2">
+            <MapPin className="w-4 h-4 text-gray-500 mt-0.5 flex-shrink-0" />
+            <p className="text-xs text-gray-500">
+              Please enable location permissions in your browser to auto-detect your current location
             </p>
+          </div>
+
+          {isLoadingLocation && (
+            <div className="flex items-center space-x-2 text-blue-600">
+              <Loader2 className="w-4 h-4 animate-spin" />
+              <p className="text-sm">Detecting your location...</p>
+            </div>
+          )}
+
+          {locationError && (
+            <div className="p-3 bg-red-50 border border-red-200 rounded-md">
+              <p className="text-sm text-red-600">{locationError}</p>
+              <button
+                type="button"
+                onClick={getLocation}
+                className="text-sm text-red-600 hover:text-red-700 font-medium mt-1 underline"
+              >
+                Try again
+              </button>
+            </div>
+          )}
+
+          {autoDetectLocation && location && !isLoadingLocation && (
+            <div className="p-3 bg-green-50 border border-green-200 rounded-md">
+              <div className="flex items-start space-x-2">
+                <MapPin className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="text-sm font-medium text-green-800">Location detected</p>
+                  <p className="text-xs text-green-600 font-mono mt-1">{location}</p>
+                </div>
+              </div>
+            </div>
           )}
         </div>
 
-        <Button type="submit" className="w-full bg-red-600 hover:bg-red-700 text-white h-12 text-base font-medium">
+        <Button 
+          type="submit" 
+          className="w-full bg-red-600 hover:bg-red-700 text-white h-12 text-base font-medium"
+          disabled={isLoadingLocation || !autoDetectLocation || !location}
+        >
           Submit application
         </Button>
       </div>

@@ -30,9 +30,9 @@ import { Step2PersonalDetails } from "@/components/signup/Step2PersonalDetails"
 import { Step3BasicDetails } from "@/components/signup/Step3BasicDetails"
 import { Step4DocumentVerification } from "@/components/signup/Step4DocumentVerification"
 import { Step5AadhaarOtp } from "@/components/signup/Step5AadhaarOtp"
+import { Step6PhotoGPS } from "@/components/signup/Step6PhotoGPS"
 import Link from "next/link"
 import Image from "next/image"
-import { Step6PhotoGPS } from "@/components/signup/Step6PhotoGPS"
 
 const STEPS = [
   { id: 1, title: "Verifying number", description: "Sign Up & Get Loan Offers in Minutes" },
@@ -40,6 +40,7 @@ const STEPS = [
   { id: 3, title: "Basic details", description: "Get Instant Financial Support You Can Rely On" },
   { id: 4, title: "Verifying documents", description: "Get Instant Financial Support You Can Rely On" },
   { id: 5, title: "Verifying documents", description: "Get Instant Financial Support You Can Rely On" },
+  { id: 6, title: "Verifying documents", description: "Get Instant Financial Support You Can Rely On" },
 ]
 
 export default function SignupForm() {
@@ -136,10 +137,13 @@ export default function SignupForm() {
         return prev - 1
       })
     }, 1000)
+    
+    handleNext()
   }
 
   const handleAadhaarOtpSubmit = (data: AadhaarOtpForm) => {
     setFormData(prev => ({ ...prev, aadhaarOtp: data }))
+    handleNext()
   }
 
   const handlePhotoLocationSubmit = (data: PhotoLocationForm) => {
@@ -175,7 +179,7 @@ export default function SignupForm() {
 
   if (applicationSubmitted) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen w-full max-w-7xl bg-white">
         <div className="grid grid-cols-1 lg:grid-cols-2 min-h-screen">
           {/* Left Panel - Branding */}
           <div className="bg-gradient-to-br from-purple-50 to-pink-50 flex flex-col justify-center p-8 lg:p-12">
@@ -189,12 +193,12 @@ export default function SignupForm() {
 
               {/* Main Heading */}
               <h2 className="text-3xl font-bold text-gray-800 mb-6 leading-tight">
-                Get Instant Financial Support You Can Rely On
+                No paperwork. No waiting. Just quick approvals and easy access to instant funds, anytime, anywhere.
               </h2>
 
               {/* Description */}
               <p className="text-gray-600 mb-8 leading-relaxed">
-                Secure, transparent, and RBI-compliant personal loans — designed to help you when you need it most.
+                No paperwork. No waiting. Just quick approvals and easy access to instant funds, anytime, anywhere.
               </p>
 
               {/* Wallet Illustration */}
@@ -231,7 +235,7 @@ export default function SignupForm() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen w-full max-w-7xl bg-white">
       <div className="grid grid-cols-1 lg:grid-cols-2 min-h-screen">
         {/* Left Panel - Branding */}
         <div className="bg-gradient-to-br from-purple-50 to-pink-50 flex flex-col justify-center p-8 lg:p-12">
@@ -250,7 +254,7 @@ export default function SignupForm() {
 
             {/* Description */}
             <p className="text-gray-600 mb-8 leading-relaxed">
-              Secure, transparent, and RBI-compliant personal loans — designed to help you when you need it most.
+              No paperwork. No waiting. Just quick approvals and easy access to instant funds, anytime, anywhere.
             </p>
 
             {/* Wallet Illustration */}
@@ -265,7 +269,7 @@ export default function SignupForm() {
             <div className="mb-8">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-xl font-bold text-red-600">{STEPS[currentStep - 1].title}</h3>
-                <span className="text-sm text-gray-600">{currentStep}/5</span>
+                <span className="text-sm text-gray-600">{currentStep}/6</span>
               </div>
 
               {/* Progress Bar */}
@@ -327,6 +331,7 @@ export default function SignupForm() {
                   setFormData={(data) => setFormData(prev => ({ ...prev, aadhaarOtp: data }))}
                 />
               )}
+
               {currentStep === 6 && (
                 <Step6PhotoGPS
                   onSubmit={handlePhotoLocationSubmit}

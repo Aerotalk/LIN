@@ -56,60 +56,62 @@ export function Step2PersonalDetails({ onSubmit, onGoToDashboard, formData, setF
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
       <div className="space-y-6">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-3">
-            First name *
-          </label>
-          <Input
-            {...register("firstName")}
-            placeholder="Enter your first name"
-            className="w-full h-12 text-base"
-          />
-          {errors.firstName && (
-            <p className="text-red-500 text-sm mt-2">{errors.firstName.message}</p>
-          )}
-        </div>
+        <div className="flex justify-between gap-6">
+          <div className="w-full">
+            <label className="block text-sm font-medium text-gray-700 mb-3">
+              First name *
+            </label>
+            <Input
+              {...register("firstName")}
+              placeholder="Enter your first name"
+              className="w-full h-12 text-base"
+            />
+            {errors.firstName && (
+              <p className="text-red-500 text-sm mt-2">{errors.firstName.message}</p>
+            )}
+          </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-3">
-            Middle name
-          </label>
-          <Input
-            {...register("middleName")}
-            placeholder="Enter your middle name"
-            className="w-full h-12 text-base"
-            defaultValue=""
-          />
-        </div>
+          <div className="w-full">
+            <label className="block text-sm font-medium text-gray-700 mb-3">
+              Middle name
+            </label>
+            <Input
+              {...register("middleName")}
+              placeholder="Enter your middle name"
+              className="w-full h-12 text-base"
+              defaultValue=""
+            />
+          </div></div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-3">
-            Last name *
-          </label>
-          <Input
-            {...register("lastName")}
-            placeholder="Enter your last name"
-            className="w-full h-12 text-base"
-          />
-          {errors.lastName && (
-            <p className="text-red-500 text-sm mt-2">{errors.lastName.message}</p>
-          )}
-        </div>
+        <div className="flex justify-between gap-6">
+          <div className="w-full">
+            <label className="block text-sm font-medium text-gray-700 mb-3">
+              Last name *
+            </label>
+            <Input
+              {...register("lastName")}
+              placeholder="Enter your last name"
+              className="w-full h-12 text-base"
+            />
+            {errors.lastName && (
+              <p className="text-red-500 text-sm mt-2">{errors.lastName.message}</p>
+            )}
+          </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-3">
-            Date of birth *
-          </label>
-          <Input
-            type="date"
-            {...register("dateOfBirth")}
-            onChange={handleDateChange}
-            className="w-full h-12 text-base"
-          />
-          {errors.dateOfBirth && (
-            <p className="text-red-500 text-sm mt-2">{errors.dateOfBirth.message}</p>
-          )}
-        </div>
+          <div className="w-full">
+            <label className="block text-sm font-medium text-gray-700 mb-3">
+              Date of birth *
+            </label>
+            <Input
+              type="date"
+              {...register("dateOfBirth")}
+              onChange={handleDateChange}
+              className="w-full h-12 text-base"
+            />
+            {errors.dateOfBirth && (
+              <p className="text-red-500 text-sm mt-2">{errors.dateOfBirth.message}</p>
+            )}
+          </div></div>
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-3">
@@ -131,14 +133,14 @@ export function Step2PersonalDetails({ onSubmit, onGoToDashboard, formData, setF
         </div>
 
         <div className="flex space-x-4">
-          <Button 
-            type="submit" 
+          <Button
+            type="submit"
             className="flex-1 bg-red-600 hover:bg-red-700 text-white h-12 text-base font-medium"
             disabled={!isFormValid}
           >
-            Apply loan →
+            Save Now
           </Button>
-          
+
           {isFormValid && (
             <button
               type="button"

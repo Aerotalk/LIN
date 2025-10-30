@@ -1,25 +1,38 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp"
 import { loginStep1Schema, loginOtpSchema, type LoginStep1Form, type LoginOtpForm } from "@/lib/login-schemas"
+import { useLogin } from "@/hooks/useLogin"
 import { ArrowLeft, Loader2 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 
 export default function LoginPage() {
-  const [step, setStep] = useState<1 | 2 | 3>(1)
-  const [phoneNumber, setPhoneNumber] = useState("")
-  const [otpResendTimer, setOtpResendTimer] = useState(13)
-  const [isVerifying, setIsVerifying] = useState(false)
-  const [otpError, setOtpError] = useState("")
-  const [otpValue, setOtpValue] = useState("")
   const router = useRouter()
+  const {
+    step,
+    phoneNumber,
+    otpResendTimer,
+    isVerifying,
+    error,
+    setStep,
+    setPhoneNumber,
+    setOtpResendTimer,
+    setIsVerifying,
+    setError,
+    loginStep1,
+    verifyOtp,
+    resendOtp,
+    resetLogin,
+  } = useLogin()
+
+  const [otpValue, setOtpValue] = useState("")
 
   const step1Form = useForm<LoginStep1Form>({
     resolver: zodResolver(loginStep1Schema),
@@ -39,7 +52,7 @@ export default function LoginPage() {
   useEffect(() => {
     if (step === 2 && otpResendTimer > 0) {
       const timer = setInterval(() => {
-        setOtpResendTimer(prev => {
+        setOtpResendTimer((prev) => {
           if (prev <= 1) {
             clearInterval(timer)
             return 0
@@ -52,62 +65,41 @@ export default function LoginPage() {
   }, [step, otpResendTimer])
 
   const handleStep1Submit = async (data: LoginStep1Form) => {
-    setPhoneNumber(data.phoneNumber)
-    // TODO: API call to send OTP
-    console.log("Sending OTP to:", data.phoneNumber)
-    setStep(2)
-    setOtpResendTimer(13)
-  }
-
-  const handleOtpSubmit = async (data: LoginOtpForm) => {
-    setOtpError("")
-    setIsVerifying(true)
-
-    try {
-      // TODO: API call to verify OTP
-      console.log("Verifying OTP:", data.otp)
-      await new Promise(resolve => setTimeout(resolve, 1500))
-      
-      // Simulate OTP verification
-      if (data.otp === "123456") {
-        setStep(3)
-        // Redirect after showing success
-        setTimeout(() => {
-          // window.location.href = "/profile"
-          router.push("/dashboard")
-        }, 2000)
-      } else {
-        setOtpError("Wrong OTP!!")
-      }
-    } catch (error) {
-      setOtpError("Verification failed. Please try again.")
-    } finally {
-      setIsVerifying(false)
+    const success = await loginStep1(data)
+    if (success) {
+      setOtpResendTimer(30)
     }
   }
 
-  const handleResendOtp = () => {
+  const handleOtpSubmit = async (data: LoginOtpForm) => {
+    const success = await verifyOtp(data)
+    if (success) {
+      // Redirect after showing success
+      setTimeout(() => {
+        router.push("/dashboard")
+      }, 2000)
+    }
+  }
+
+  const handleResendOtp = async () => {
     if (otpResendTimer > 0) return // Prevent resend if timer is still running
     
-    setOtpResendTimer(13)
-    setOtpError("")
-    setOtpValue("")
-    otpForm.setValue("otp", "")
-    // TODO: API call to resend OTP
-    console.log("Resending OTP to:", phoneNumber)
+    const success = await resendOtp()
+    if (success) {
+      setOtpValue("")
+      otpForm.setValue("otp", "")
+    }
   }
 
   const handleBackToStep1 = () => {
-    setStep(1)
-    setOtpError("")
-    setOtpValue("")
+    resetLogin()
     otpForm.reset()
   }
 
   const handleOtpChange = (value: string) => {
     setOtpValue(value)
     otpForm.setValue("otp", value)
-    setOtpError("") // Clear error when user types
+    setError(null) // Clear error when user types
   }
 
   return (
@@ -161,6 +153,13 @@ export default function LoginPage() {
                 </div>
 
                 <form onSubmit={step1Form.handleSubmit(handleStep1Submit)} className="space-y-6">
+                  {/* Error Display */}
+                  {error && (
+                    <div className="bg-red-50 border border-red-200 rounded-md p-4">
+                      <p className="text-red-600 text-sm">{error}</p>
+                    </div>
+                  )}
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Enter registered mobile number
@@ -273,6 +272,13 @@ export default function LoginPage() {
                 </div>
 
                 <form onSubmit={otpForm.handleSubmit(handleOtpSubmit)} className="space-y-6">
+                  {/* Error Display */}
+                  {error && (
+                    <div className="bg-red-50 border border-red-200 rounded-md p-4">
+                      <p className="text-red-600 text-sm">{error}</p>
+                    </div>
+                  )}
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-3">
                       Enter OTP
@@ -292,9 +298,6 @@ export default function LoginPage() {
                         <InputOTPSlot index={5} />
                       </InputOTPGroup>
                     </InputOTP>
-                    {otpError && (
-                      <p className="text-red-500 text-sm mt-2">{otpError}</p>
-                    )}
                     {otpForm.formState.errors.otp && (
                       <p className="text-red-500 text-sm mt-2">
                         {otpForm.formState.errors.otp.message}

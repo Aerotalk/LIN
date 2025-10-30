@@ -170,10 +170,11 @@ export function Step3BasicDetails({ onSubmit, onBack, formData, setFormData }: S
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Less than 1 year">Less than 1 year</SelectItem>
-                  <SelectItem value="1-2 years">1-2 years</SelectItem>
-                  <SelectItem value="2-5 years">2-5 years</SelectItem>
-                  <SelectItem value="More than 5 years">More than 5 years</SelectItem>
+                  <SelectItem value="Very unstable">Very unstable</SelectItem>
+                  <SelectItem value="Somewhat unstable">Somewhat unstable</SelectItem>
+                  <SelectItem value="Neutral / moderate">Neutral / moderate</SelectItem>
+                  <SelectItem value="Stable">Stable</SelectItem>
+                  <SelectItem value="Very Stable">Very Stable</SelectItem>
                 </SelectContent>
               </Select>
               {errors.jobStability && (
@@ -222,10 +223,8 @@ export function Step3BasicDetails({ onSubmit, onBack, formData, setFormData }: S
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Owned">Owned</SelectItem>
+                  <SelectItem value="Owner(Self or Family)">Owner(Self or Family)</SelectItem>
                   <SelectItem value="Rented">Rented</SelectItem>
-                  <SelectItem value="Company Provided">Company Provided</SelectItem>
-                  <SelectItem value="Family Owned">Family Owned</SelectItem>
                 </SelectContent>
               </Select>
               {errors.currentAddressType && (

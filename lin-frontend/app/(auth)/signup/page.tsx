@@ -1,40 +1,34 @@
 "use client"
 
 import React, { useState } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { CheckCircleIcon } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { FileUpload } from "@/components/ui/file-upload"
-import { Progress } from "@/components/ui/progress"
-import {
-  phoneVerificationSchema,
-  personalDetailsSchema,
-  basicDetailsSchema,
-  documentVerificationSchema,
-  aadhaarOtpSchema,
-  photoAndLocationSchema,
-  type PhoneVerificationForm,
-  type PersonalDetailsForm,
-  type BasicDetailsForm,
-  type DocumentVerificationForm,
-  type AadhaarOtpForm,
-  type PhotoLocationForm,
-  SignupFormData
-} from "@/lib/signup-schemas"
+import { useSignup } from "@/hooks/useSignup"
 import { Step1PhoneVerification } from "@/components/signup/Step1PhoneVerification"
 import { Step2PersonalDetails } from "@/components/signup/Step2PersonalDetails"
 import { Step3BasicDetails } from "@/components/signup/Step3BasicDetails"
 import { Step4DocumentVerification } from "@/components/signup/Step4DocumentVerification"
 import { Step5AadhaarOtp } from "@/components/signup/Step5AadhaarOtp"
 import { Step6PhotoGPS } from "@/components/signup/Step6PhotoGPS"
+import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
+import {
+  PhoneVerificationData,
+  PersonalDetailsData,
+  BasicDetailsData,
+  DocumentVerificationData,
+  AadhaarOtpData,
+  PhotoAndLocationData
+} from "@/lib/types"
+import { AadhaarOtpForm, BasicDetailsForm, PhotoLocationForm } from "@/lib/signup-schemas"
 
-const STEPS = [
+interface Step {
+  id: number;
+  title: string;
+  description: string;
+}
+
+const STEPS: Step[] = [
   { id: 1, title: "Verifying number", description: "Sign Up & Get Loan Offers in Minutes" },
   { id: 2, title: "Creating account", description: "Get Instant Financial Support You Can Rely On" },
   { id: 3, title: "Basic details", description: "Get Instant Financial Support You Can Rely On" },
@@ -44,139 +38,123 @@ const STEPS = [
 ]
 
 export default function SignupForm() {
-  const [currentStep, setCurrentStep] = useState(1)
-  const [otpSent, setOtpSent] = useState(false)
-  const [otpResendTimer, setOtpResendTimer] = useState(0)
-  const [aadhaarOtpSent, setAadhaarOtpSent] = useState(false)
-  const [aadhaarOtpResendTimer, setAadhaarOtpResendTimer] = useState(0)
-  const [applicationSubmitted, setApplicationSubmitted] = useState(false)
+  const {
+    currentStep,
+    formData,
+    isLoading,
+    error,
+    setCurrentStep,
+    updateFormData,
+    submitStep,
+  } = useSignup()
 
-  // Form data state
-  const [formData, setFormData] = useState<SignupFormData>({
-    phoneVerification: { phoneNumber: "", otp: "" as string | undefined },
-    personalDetails: {
-      firstName: "", middleName: "", lastName: "", dateOfBirth: "", email: "", password: "", gender: "" as "Male" | "Female" | "Prefer not to say"
-    },
-    basicDetails: {
-      loanAmount: 0, purposeOfLoan: "", companyName: "", companyAddress: "",
-      monthlyIncome: 0, jobStability: "" as "Very unstable" | "Somewhat unstable" | "Neutral / moderate" | "Stable" | "Very stable",
-      currentAddress: "", currentAddressType: "" as "Owner(Self or Family)" | "Rented",
-      permanentAddress: "", addressProof: new File([], ""), pinCode: ""
-    },
-    documentVerification: {
-      payslipFile: new File([], ""), bankStatementFile: new File([], ""),
-      panNumber: "", aadhaarNumber: ""
-    },
-    aadhaarOtp: { aadhaarOtp: "" },
-    photoAndLocationSchema: { photoFile: new File([], ""), autoDetectLocation: false, location: "" }
-  })
+  const [otpSent, setOtpSent] = useState<boolean>(false)
+  const [otpResendTimer, setOtpResendTimer] = useState<number>(0)
+  const [aadhaarOtpSent, setAadhaarOtpSent] = useState<boolean>(false)
+  const [aadhaarOtpResendTimer, setAadhaarOtpResendTimer] = useState<number>(0)
+  const [applicationSubmitted, setApplicationSubmitted] = useState<boolean>(false)
 
   const progress = (currentStep / STEPS.length) * 100
 
-  const handleNext = () => {
+  const handleNext = (): void => {
     if (currentStep < STEPS.length) {
       setCurrentStep(currentStep + 1)
     }
   }
 
-  const handlePrevious = () => {
+  const handlePrevious = (): void => {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1)
     }
   }
 
-  const handlePhoneSubmit = (data: PhoneVerificationForm) => {
-    setFormData(prev => ({ ...prev, phoneVerification: data }))
-    setOtpSent(true)
+  const handlePhoneSubmit = async (data: PhoneVerificationData): Promise<void> => {
+    updateFormData('phoneVerification', data)
+    const success = await submitStep(1, data)
+    if (success) {
+      setOtpSent(true)
+      setOtpResendTimer(30)
+      startTimer(setOtpResendTimer)
+    }
+  }
+
+  const handleOtpVerify = async (data: PhoneVerificationData): Promise<void> => {
+    updateFormData('phoneVerification', data)
+    const success = await submitStep(1, data)
+    if (success) {
+      handleNext()
+    }
+  }
+
+  const handlePersonalDetailsSubmit = async (data: PersonalDetailsData): Promise<void> => {
+    updateFormData('personalDetails', data)
+    const success = await submitStep(2, data)
+    if (success) {
+      handleNext()
+    }
+  }
+
+  const router = useRouter();
+
+  const handleGoToDashboard = (): void => {
+    router.push('/profile')
+  }
+
+  const handleBasicDetailsSubmit = async (data: BasicDetailsForm): Promise<void> => {
+    updateFormData('basicDetails', data)
+    const success = await submitStep(3, data)
+    if (success) {
+      handleNext()
+    }
+  }
+
+  const handleDocumentVerificationSubmit = async (data: DocumentVerificationData): Promise<void> => {
+    updateFormData('documentVerification', data)
+    const success = await submitStep(4, data)
+    if (success) {
+      setAadhaarOtpSent(true)
+      setAadhaarOtpResendTimer(30)
+      startTimer(setAadhaarOtpResendTimer)
+      handleNext()
+    }
+  }
+
+  const handleAadhaarOtpSubmit = async (data: AadhaarOtpForm): Promise<void> => {
+    updateFormData('aadhaarOtp', data)
+    const success = await submitStep(5, data)
+    if (success) {
+      handleNext()
+    }
+  }
+
+  const handlePhotoLocationSubmit = async (data: PhotoLocationForm): Promise<void> => {
+    updateFormData('photoAndLocationSchema', data)
+    const success = await submitStep(6, data)
+    if (success) {
+      setApplicationSubmitted(true)
+    }
+  }
+
+  const startTimer = (setter: React.Dispatch<React.SetStateAction<number>>): void => {
+    const timer = setInterval(() => {
+      setter(prev => {
+        if (prev <= 1) {
+          clearInterval(timer)
+          return 0
+        }
+        return prev - 1
+      })
+    }, 1000)
+  }
+
+  const resendOtp = (): void => {
     setOtpResendTimer(30)
-
-    // Start countdown timer
-    const timer = setInterval(() => {
-      setOtpResendTimer(prev => {
-        if (prev <= 1) {
-          clearInterval(timer)
-          return 0
-        }
-        return prev - 1
-      })
-    }, 1000)
+    startTimer(setOtpResendTimer)
   }
 
-  const handleOtpVerify = (data: PhoneVerificationForm) => {
-    setFormData(prev => ({ ...prev, phoneVerification: data }))
-    handleNext()
-  }
-
-  const handlePersonalDetailsSubmit = (data: PersonalDetailsForm) => {
-    setFormData(prev => ({ ...prev, personalDetails: data }))
-    handleNext()
-  }
-
-  const handleGoToDashboard = () => {
-    // Save the current form data and redirect to personal loan page
-    // In a real app, you would save this to localStorage or send to backend
-    localStorage.setItem('signupData', JSON.stringify(formData))
-    window.location.href = '/personal-loan'
-  }
-
-  const handleBasicDetailsSubmit = (data: BasicDetailsForm) => {
-    setFormData(prev => ({ ...prev, basicDetails: data }))
-    handleNext()
-  }
-
-  const handleDocumentVerificationSubmit = (data: DocumentVerificationForm) => {
-    setFormData(prev => ({ ...prev, documentVerification: data }))
-    setAadhaarOtpSent(true)
+  const resendAadhaarOtp = (): void => {
     setAadhaarOtpResendTimer(30)
-
-    // Start countdown timer
-    const timer = setInterval(() => {
-      setAadhaarOtpResendTimer(prev => {
-        if (prev <= 1) {
-          clearInterval(timer)
-          return 0
-        }
-        return prev - 1
-      })
-    }, 1000)
-
-    handleNext()
-  }
-
-  const handleAadhaarOtpSubmit = (data: AadhaarOtpForm) => {
-    setFormData(prev => ({ ...prev, aadhaarOtp: data }))
-    handleNext()
-  }
-
-  const handlePhotoLocationSubmit = (data: PhotoLocationForm) => {
-    setFormData(prev => ({ ...prev, photoAndLocationSchema: data }))
-    setApplicationSubmitted(true)
-  }
-
-  const resendOtp = () => {
-    setOtpResendTimer(30)
-    const timer = setInterval(() => {
-      setOtpResendTimer(prev => {
-        if (prev <= 1) {
-          clearInterval(timer)
-          return 0
-        }
-        return prev - 1
-      })
-    }, 1000)
-  }
-
-  const resendAadhaarOtp = () => {
-    setAadhaarOtpResendTimer(30)
-    const timer = setInterval(() => {
-      setAadhaarOtpResendTimer(prev => {
-        if (prev <= 1) {
-          clearInterval(timer)
-          return 0
-        }
-        return prev - 1
-      })
-    }, 1000)
+    startTimer(setAadhaarOtpResendTimer)
   }
 
   if (applicationSubmitted) {
@@ -283,6 +261,13 @@ export default function SignupForm() {
               </div>
             </div>
 
+            {/* Error Display */}
+            {error && (
+              <div className="bg-red-50 border border-red-200 rounded-md p-4 mb-6">
+                <p className="text-red-600 text-sm">{error}</p>
+              </div>
+            )}
+
             {/* Form Content */}
             <div className="space-y-6">
               {currentStep === 1 && (
@@ -292,7 +277,8 @@ export default function SignupForm() {
                   resendTimer={otpResendTimer}
                   onResend={resendOtp}
                   formData={formData.phoneVerification}
-                  setFormData={(data) => setFormData(prev => ({ ...prev, phoneVerification: data }))}
+                  setFormData={(data) => updateFormData('phoneVerification', data)}
+                  isLoading={isLoading}
                 />
               )}
 
@@ -301,7 +287,7 @@ export default function SignupForm() {
                   onSubmit={handlePersonalDetailsSubmit}
                   onGoToDashboard={handleGoToDashboard}
                   formData={formData.personalDetails}
-                  setFormData={(data) => setFormData(prev => ({ ...prev, personalDetails: data }))}
+                  setFormData={(data) => updateFormData('personalDetails', data)}
                 />
               )}
 
@@ -310,7 +296,7 @@ export default function SignupForm() {
                   onSubmit={handleBasicDetailsSubmit}
                   onBack={handlePrevious}
                   formData={formData.basicDetails}
-                  setFormData={(data) => setFormData(prev => ({ ...prev, basicDetails: data }))}
+                  setFormData={(data) => updateFormData('basicDetails', data)}
                 />
               )}
 
@@ -318,7 +304,7 @@ export default function SignupForm() {
                 <Step4DocumentVerification
                   onSubmit={handleDocumentVerificationSubmit}
                   formData={formData.documentVerification}
-                  setFormData={(data) => setFormData(prev => ({ ...prev, documentVerification: data }))}
+                  setFormData={(data) => updateFormData('documentVerification', data)}
                 />
               )}
 
@@ -330,7 +316,7 @@ export default function SignupForm() {
                   resendTimer={aadhaarOtpResendTimer}
                   onResend={resendAadhaarOtp}
                   formData={formData.aadhaarOtp}
-                  setFormData={(data) => setFormData(prev => ({ ...prev, aadhaarOtp: data }))}
+                  setFormData={(data) => updateFormData('aadhaarOtp', data)}
                 />
               )}
 
@@ -339,7 +325,7 @@ export default function SignupForm() {
                   onSubmit={handlePhotoLocationSubmit}
                   onBack={handlePrevious}
                   formData={formData.photoAndLocationSchema}
-                  setFormData={(data) => setFormData(prev => ({ ...prev, photoAndLocationSchema: data }))}
+                  setFormData={(data) => updateFormData('photoAndLocationSchema', data)}
                 />
               )}
             </div>

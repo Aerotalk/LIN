@@ -27,7 +27,7 @@ export default function PaydayLoanAssam() {
             payday.
           </>
         }
-        heroImg="/cities/Assam.png"
+        heroImg="/cities/assam.png"
       />
       <LoanQuestionCard
         heading="What makes LoanInNeed the best Insta Loan provider in Assam?"

@@ -26,7 +26,7 @@ export const benefitTabsData = [
       </>
     ),
     imageUrl: "/benefits-tab/medical-emergency-loan-doctor-tab-min.png",
-    link: "/apply-now",
+    link: "/signup",
   },
   {
     tabName: "Utility Bill Loan",
@@ -46,7 +46,7 @@ export const benefitTabsData = [
       </>
     ),
     imageUrl: "/benefits-tab/medical-emergency-loan-doctor-tab-min.png",
-    link: "/apply-now",
+    link: "/signup",
   },
   {
     tabName: "House Rent Loan",
@@ -66,7 +66,7 @@ export const benefitTabsData = [
       </>
     ),
     imageUrl: "/benefits-tab/medical-emergency-loan-doctor-tab-min.png",
-    link: "/apply-now",
+    link: "/signup",
   },
   {
     tabName: "Education Purpose",
@@ -86,7 +86,7 @@ export const benefitTabsData = [
       </>
     ),
     imageUrl: "/benefits-tab/medical-emergency-loan-doctor-tab-min.png",
-    link: "/apply-now",
+    link: "/signup",
   },
   {
     tabName: "Daily Expenses Loan",
@@ -106,7 +106,7 @@ export const benefitTabsData = [
       </>
     ),
     imageUrl: "/benefits-tab/medical-emergency-loan-doctor-tab-min.png",
-    link: "/apply-now",
+    link: "/signup",
   },
   {
     tabName: "Debt Payment Loan",
@@ -126,7 +126,7 @@ export const benefitTabsData = [
       </>
     ),
     imageUrl: "/benefits-tab/medical-emergency-loan-doctor-tab-min.png",
-    link: "/apply-now",
+    link: "/signup",
   },
 ];
 

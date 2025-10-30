@@ -32,15 +32,8 @@ export function Step2PersonalDetails({ onSubmit, onGoToDashboard, formData, setF
   const handleSaveData = async (data: PersonalDetailsForm) => {
     setIsSaving(true);
     try {
-      // TODO: Replace with actual API call
-      // const response = await fetch('/api/save-personal-details', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(data)
-      // })
-      
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      // The API call is now handled by the parent component through useSignup hook
+      // This is just for UI state management
       setFormData(data);
       setIsSaved(true);
     } finally {

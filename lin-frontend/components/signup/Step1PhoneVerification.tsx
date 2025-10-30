@@ -15,6 +15,7 @@ interface Step1Props {
   onResend: () => void
   formData: PhoneVerificationForm
   setFormData: (data: PhoneVerificationForm) => void
+  isLoading?: boolean
 }
 
 export function Step1PhoneVerification({ 
@@ -23,7 +24,8 @@ export function Step1PhoneVerification({
   resendTimer, 
   onResend, 
   formData, 
-  setFormData 
+  setFormData,
+  isLoading = false
 }: Step1Props) {
   const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm<PhoneVerificationForm>({
     resolver: zodResolver(otpSent ? otpVerificationSchema : phoneNumberSchema),
@@ -91,8 +93,12 @@ export function Step1PhoneVerification({
               </label>
             </div>
 
-            <Button type="submit" className="w-full bg-red-600 hover:bg-red-700 text-white h-12 text-base font-medium">
-              Get OTP
+            <Button 
+              type="submit" 
+              className="w-full bg-red-600 hover:bg-red-700 text-white h-12 text-base font-medium"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Sending...' : 'Get OTP'}
             </Button>
 
             <div className="text-center">
@@ -148,8 +154,12 @@ export function Step1PhoneVerification({
               )}
             </div>
 
-            <Button type="submit" className="w-full bg-red-600 hover:bg-red-700 text-white h-12 text-base font-medium">
-              Verify OTP
+            <Button 
+              type="submit" 
+              className="w-full bg-red-600 hover:bg-red-700 text-white h-12 text-base font-medium"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Verifying...' : 'Verify OTP'}
             </Button>
           </>
         )}

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Mail, Phone, MessageCircle, Building } from 'lucide-react';
 import FootCTA from '@/components/FootCTA';
 import Image from 'next/image';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -27,19 +28,35 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white w-full md:mt-12 mt-24 max-w-7xl mx-auto py-4 p-4 md:p-12 lg:p-20">
+    <div className="min-h-screen w-full md:mt-12 mt-24">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-50 to-cyan-50 py-16 px-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div>
-            <div className="text-sm text-gray-600 mb-4">
-              <span>Home</span> <span className="mx-2">›</span> <span className="text-red-500">Contact</span>
+      <div className='bg-gradient-to-r from-blue-50 to-cyan-50'>
+        <div className="py-16 px-4 p-4 md:p-12 lg:p-20 max-w-7xl w-full mx-auto">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            <div className="flex flex-col gap-4 w-full">
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage className="text-red-500 font-medium">
+                      Contact Us
+                    </BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+              <h1 className="text-5xl font-bold text-red-500 mb-4">Contact us</h1>
+              <p className="text-gray-600">Have questions? Our team is just a message away.</p>
             </div>
-            <h1 className="text-5xl font-bold text-red-500 mb-4">Contact us</h1>
-            <p className="text-gray-600">Have questions? Our team is just a message away.</p>
-          </div>
-          <div className="hidden lg:block">
-            <Image src="/contact.png" alt="Contact Us" width={300} height={300} />
+            {/* <div className="hidden lg:block"> */}
+            <Image src="/contact.png"
+              alt="Contact Us"
+              width={300}
+              height={300}
+              className="h-full object-contain w-[42%]" />
+            {/* </div> */}
           </div>
         </div>
       </div>

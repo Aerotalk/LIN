@@ -45,7 +45,7 @@ export const benefitTabsData = [
         the financial support you need to make your travel dreams a reality.
       </>
     ),
-    imageUrl: "/benefits-tab/medical-emergency-loan-doctor-tab-min.png",
+    imageUrl: "/utility.png",
     link: "/signup",
   },
   {
@@ -65,7 +65,7 @@ export const benefitTabsData = [
         without worrying about the budget.
       </>
     ),
-    imageUrl: "/benefits-tab/medical-emergency-loan-doctor-tab-min.png",
+    imageUrl: "/rent.png",
     link: "/signup",
   },
   {
@@ -85,7 +85,7 @@ export const benefitTabsData = [
         make it easy to finance your home improvement projects.
       </>
     ),
-    imageUrl: "/benefits-tab/medical-emergency-loan-doctor-tab-min.png",
+    imageUrl: "/education.png",
     link: "/signup",
   },
   {
@@ -105,7 +105,7 @@ export const benefitTabsData = [
         the long run, making it easier to achieve financial freedom.
       </>
     ),
-    imageUrl: "/benefits-tab/medical-emergency-loan-doctor-tab-min.png",
+    imageUrl: "/expense.png",
     link: "/signup",
   },
   {
@@ -125,7 +125,7 @@ export const benefitTabsData = [
         finances.
       </>
     ),
-    imageUrl: "/benefits-tab/medical-emergency-loan-doctor-tab-min.png",
+    imageUrl: "/debt.png",
     link: "/signup",
   },
 ];

@@ -289,8 +289,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/states/payday-loan-in-chhattisgarh">
-                  Insta loan in Chhattisgarh
+                <Link href="/states/payday-loan-in-chattisgarh">
+                  Insta loan in Chattisgarh
                 </Link>
               </li>
               <li>

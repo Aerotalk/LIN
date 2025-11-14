@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MessageCircle, Building } from 'lucide-react';
 import FootCTA from '@/components/FootCTA';
+import Image from 'next/image';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -26,7 +27,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white w-full md:mt-12 mt-24 max-w-7xl mx-auto py-4 p-4 md:p-12 lg:p-20">
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-blue-50 to-cyan-50 py-16 px-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -38,20 +39,7 @@ export default function ContactPage() {
             <p className="text-gray-600">Have questions? Our team is just a message away.</p>
           </div>
           <div className="hidden lg:block">
-            <div className="relative">
-              <div className="w-64 h-64 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-32 h-32 bg-gray-200 rounded-full mx-auto mb-4"></div>
-                  <div className="w-48 h-32 bg-teal-800 rounded-t-full mx-auto relative">
-                    <div className="absolute -top-12 left-1/2 transform -translate-x-1/2">
-                      <div className="w-20 h-20 bg-red-400 rounded-2xl"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="absolute -top-8 -left-8 w-40 h-40 bg-pink-400 rounded-3xl transform rotate-12"></div>
-              <div className="absolute -top-8 -right-8 w-40 h-40 bg-pink-400 rounded-3xl transform -rotate-12"></div>
-            </div>
+            <Image src="/contact.png" alt="Contact Us" width={300} height={300} />
           </div>
         </div>
       </div>

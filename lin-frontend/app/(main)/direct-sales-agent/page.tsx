@@ -49,7 +49,7 @@ export default function DSAPartnerPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen w-full md:mt-12 mt-24">
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-red-50 to-orange-50 pt-16 pb-20 px-4">
         <div className="max-w-7xl mx-auto">

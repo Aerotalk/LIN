@@ -1,6 +1,6 @@
 export { metadata, viewport } from "next-sanity/studio";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 export default function StudioLayout({
     children,

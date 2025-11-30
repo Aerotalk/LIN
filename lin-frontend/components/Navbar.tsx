@@ -157,13 +157,13 @@ export default function Navbar() {
                 <NavigationMenuContent>
                   <ul className="grid w-[200px] gap-3 p-3">
                     <li>
-                      <Link href="/blogs">Blogs</Link>
+                      <Link href="/blog">Blogs</Link>
                     </li>
                     <li>
                       <Link href="/about-us">About us</Link>
                     </li>
                     <li>
-                      <Link href="/news">News</Link>
+                      <Link href="/careers">Careers</Link>
                     </li>
                   </ul>
                 </NavigationMenuContent>
@@ -231,7 +231,7 @@ export default function Navbar() {
                 <Link href="/apply-loan">Personal Loan</Link>
                 <Link href="#">Loan Calculators</Link>
                 <Link href="/loan/mumbai">Cities</Link>
-                <Link href="/blogs">Learn</Link>
+                <Link href="/blog">Learn</Link>
                 <Link href="/contact">Support</Link>
                 <Link href="/login">Login</Link>
                 <Button variant="default" className="w-full">Apply now</Button>

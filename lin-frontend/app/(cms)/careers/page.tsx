@@ -24,7 +24,7 @@ export default async function CareersPage() {
   }
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen md:mt-12 mt-24 max-w-7xl mx-auto py-4 p-4 md:p-12 lg:p-20">
       {/* Hero Section */}
       <section className="bg-gradient-to-b from-primary/10 to-background py-20 px-4">
         <div className="mx-auto max-w-4xl text-center space-y-4">

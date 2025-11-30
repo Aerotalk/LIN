@@ -41,7 +41,7 @@ export default async function BlogPostPage({
 
   if (!post) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-50 to-blue-50 p-10 dark:from-gray-900 dark:to-gray-800">
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-50 to-blue-50 p-10 dark:from-gray-900 dark:to-gray-800 md:mt-12 mt-24 max-w-7xl mx-auto py-4 p-4 md:p-12 lg:p-20">
         <div className="rounded-xl bg-white p-12 text-center shadow-lg dark:bg-gray-800">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
             Post not found
@@ -68,7 +68,7 @@ export default async function BlogPostPage({
   });
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
+    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 md:mt-12 mt-24 max-w-7xl mx-auto py-4 p-4 md:p-12 lg:p-20">
       <article className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
         {/* Back button */}
         <Link

@@ -43,7 +43,7 @@ export default async function CareerPage({
 
   if (!job) {
     return (
-      <div className="mx-auto max-w-3xl px-4 py-20 text-center">
+      <div className="mx-auto max-w-3xl px-4 py-20 text-center md:mt-12 mt-24 max-w-7xl mx-auto py-4 p-4 md:p-12 lg:p-20">
         <h1 className="text-2xl font-bold">Job not found</h1>
         <p className="mt-2 text-muted-foreground">
           This position may have been filled or is no longer available.
@@ -53,7 +53,7 @@ export default async function CareerPage({
   }
 
   return (
-    <main className="mx-auto max-w-4xl px-4 py-10 space-y-8">
+    <main className="mx-auto max-w-4xl px-4 py-10 space-y-8 md:mt-12 mt-24 max-w-7xl mx-auto py-4 p-4 md:p-12 lg:p-20">
       {/* Header Section */}
       <header className="space-y-4">
         <div className="flex items-start justify-between">

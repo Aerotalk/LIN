@@ -41,7 +41,7 @@ export default async function BlogPage() {
             <BreadcrumbSeparator />
               <BreadcrumbItem>
                 <BreadcrumbPage className="text-primary font-medium">
-                  Personal Loan
+                  Blogs
                 </BreadcrumbPage>
               </BreadcrumbItem>
           </BreadcrumbList>

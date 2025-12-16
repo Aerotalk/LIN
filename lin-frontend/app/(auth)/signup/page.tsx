@@ -297,6 +297,7 @@ export default function SignupForm() {
                   onBack={handlePrevious}
                   formData={formData.basicDetails}
                   setFormData={(data) => updateFormData('basicDetails', data)}
+                  employmentType={formData.personalDetails.employmentType}
                 />
               )}
 

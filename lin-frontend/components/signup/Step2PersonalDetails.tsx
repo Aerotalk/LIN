@@ -7,7 +7,10 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { personalDetailsSchema, type PersonalDetailsForm } from "@/lib/signup-schemas"
-import { Eye, EyeOff, Loader2 } from "lucide-react"
+import { Loader2, Lock } from "lucide-react"
+import { FileUpload } from "../ui/file-upload"
+import { apiClient } from "@/lib/api"
+import { cn } from "@/lib/utils"
 
 interface Step2Props {
   onSubmit: (data: PersonalDetailsForm) => void;
@@ -17,126 +20,244 @@ interface Step2Props {
 }
 
 export function Step2PersonalDetails({ onSubmit, onGoToDashboard, formData, setFormData }: Step2Props) {
+  // States
+  const [isVerifyingPan, setIsVerifyingPan] = useState(false);
+  const [isPanVerified, setIsPanVerified] = useState(!!formData.firstName && !!formData.panNumber);
   const [isSaved, setIsSaved] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
 
-  const { register, handleSubmit, setValue, watch, formState } = useForm<PersonalDetailsForm>({
+  // Form Setup
+  const { register, handleSubmit, setValue, watch, formState: { errors }, trigger } = useForm<PersonalDetailsForm>({
     resolver: zodResolver(personalDetailsSchema),
     defaultValues: formData,
     mode: "onChange",
   });
 
-  const { errors, isValid } = formState;
+  const employmentType = watch("employmentType");
+  const gender = watch("gender");
 
-  const handleSaveData = async (data: PersonalDetailsForm) => {
-    setIsSaving(true);
+  // Handlers
+  const handlePanVerify = async () => {
+    const panNumber = watch("panNumber");
+    if (!panNumber || panNumber.length !== 10) {
+      trigger("panNumber");
+      return;
+    }
+
+    setIsVerifyingPan(true);
     try {
-      // The API call is now handled by the parent component through useSignup hook
-      // This is just for UI state management
-      setFormData(data);
-      setIsSaved(true);
+      const response = await apiClient.verifyPan(panNumber);
+      if (response.success && response.data) {
+        const data = response.data;
+        // Auto-fill and lock
+        setValue("firstName", data.firstName);
+        setValue("middleName", data.middleName || "");
+        setValue("lastName", data.lastName);
+        setValue("dateOfBirth", data.dateOfBirth);
+        setValue("gender", data.gender as any);
+
+        setIsPanVerified(true);
+      } else {
+        // Handle error toast here ideally
+      }
+    } catch (error) {
+      console.error(error);
     } finally {
-      setIsSaving(false);
+      setIsVerifyingPan(false);
     }
   };
 
-  const handleGenderChange = (value: "Male" | "Female" | "Prefer not to say") => {
-    setValue("gender", value);
-    setFormData({ ...formData, gender: value });
+  const handleEmploymentTypeChange = (value: "Salaried" | "Self employed") => {
+    setValue("employmentType", value);
   };
 
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setValue("dateOfBirth", value);
-    setFormData({ ...formData, dateOfBirth: value });
+  const onValidSubmit = async (data: PersonalDetailsForm) => {
+    setFormData(data);
+
+    try {
+      await apiClient.registerUser({
+        name: `${data.firstName} ${data.lastName}`,
+        dob: data.dateOfBirth,
+        gender: data.gender,
+        email: "user@example.com", // Dummy email since field is removed
+        password: "Password@123"   // Dummy password
+      });
+      setIsSaved(true);
+    } catch (e) {
+      console.error("Registration failed", e);
+    }
   };
 
-  const onValidSubmit = (data: PersonalDetailsForm) => {
-    if (isSaved) onSubmit(data);
-    else handleSaveData(data);
+  const handleFileChange = (file: File | null) => {
+    if (file) setValue("panImage", file);
   };
-  const firstName = watch("firstName");
-  const lastName = watch("lastName");
-  const dateOfBirth = watch("dateOfBirth");
-  const gender = watch("gender");
-  const email = watch("email");
-  const password = watch("password");
-  
-  const isFormValid = firstName && lastName && dateOfBirth && gender && email && password
 
+  // View: Success State (Sign up3.2)
+  if (isSaved) {
+    return (
+      <div className="space-y-8 animate-in fade-in duration-500">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="w-full">
+            <label className="block text-sm font-medium text-gray-700 mb-2">First name as per PAN</label>
+            <div className="relative">
+              <Input value={watch("firstName")} disabled className="bg-gray-50 pr-10" />
+              <Lock className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2" />
+            </div>
+          </div>
+          <div className="w-full">
+            <label className="block text-sm font-medium text-gray-700 mb-2">Middle name</label>
+            <Input value={watch("middleName")} disabled className="bg-gray-50" />
+          </div>
+          <div className="w-full">
+            <label className="block text-sm font-medium text-gray-700 mb-2">Last name as per PAN</label>
+            <div className="relative">
+              <Input value={watch("lastName")} disabled className="bg-gray-50 pr-10" />
+              <Lock className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2" />
+            </div>
+          </div>
+          <div className="w-full">
+            <label className="block text-sm font-medium text-gray-700 mb-2">Date of birth as per PAN</label>
+            <div className="relative">
+              <Input value={watch("dateOfBirth")} disabled className="bg-gray-50 pr-10" />
+              <Lock className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2" />
+            </div>
+          </div>
+          <div className="w-full">
+            <label className="block text-sm font-medium text-gray-700 mb-2">Gender</label>
+            <div className="relative">
+              <Input value={watch("gender")} disabled className="bg-gray-50 pr-10" />
+              <Lock className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2" />
+            </div>
+          </div>
+          <div className="w-full">
+            <label className="block text-sm font-medium text-gray-700 mb-2">PAN number</label>
+            <div className="relative">
+              <Input value={watch("panNumber")} disabled className="bg-gray-50 pr-10" />
+              <Lock className="w-4 h-4 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2" />
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-4 pt-4">
+          <Button
+            onClick={() => onSubmit(watch())} // Proceed to Step 3
+            className="bg-red-600 hover:bg-red-700 text-white min-w-[140px]"
+          >
+            Apply loan <span className="ml-2">&gt;</span>
+          </Button>
+          <button
+            onClick={onGoToDashboard}
+            className="text-gray-600 hover:text-gray-900 text-sm font-medium underline-offset-4 hover:underline"
+          >
+            Go to dashboard
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  // View: Form State (Sign up3.1)
   return (
-    <form onSubmit={handleSubmit(onValidSubmit)} className="space-y-6">
-      <div className="space-y-6">
-        <div className="flex justify-between gap-4">
-          <div className="w-full">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              First name *
-            </label>
-            <Input
-              {...register("firstName")}
-              placeholder="Enter your first name"
-              className="w-full h-12 text-base"
-              disabled={isSaved}
-            />
-            {errors.firstName && (
-              <p className="text-red-500 text-sm mt-1">{errors.firstName.message}</p>
-            )}
-          </div>
-
-          <div className="w-full">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Middle name
-            </label>
-            <Input
-              {...register("middleName")}
-              placeholder="Enter your middle name"
-              className="w-full h-12 text-base"
-              defaultValue=""
-              disabled={isSaved}
-            />
-          </div>
-        </div>
-
-        <div className="flex justify-between gap-4">
-          <div className="w-full">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Last name *
-            </label>
-            <Input
-              {...register("lastName")}
-              placeholder="Enter your last name"
-              className="w-full h-12 text-base"
-              disabled={isSaved}
-            />
-            {errors.lastName && (
-              <p className="text-red-500 text-sm mt-1">{errors.lastName.message}</p>
-            )}
-          </div>
-
-          <div className="w-full">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Date of birth *
-            </label>
-            <Input
-              type="date"
-              {...register("dateOfBirth")}
-              onChange={handleDateChange}
-              className="w-full h-12 text-base"
-              disabled={isSaved}
-            />
-            {errors.dateOfBirth && (
-              <p className="text-red-500 text-sm mt-1">{errors.dateOfBirth.message}</p>
-            )}
-          </div>
-        </div>
-
-        <div>
+    <form onSubmit={handleSubmit(onValidSubmit)} className="space-y-8">
+      {/* PAN Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Gender *
+            PAN number <span className="text-red-500">*</span>
           </label>
-          <Select value={gender} onValueChange={handleGenderChange} disabled={isSaved}>
-            <SelectTrigger className="w-full h-12 text-base">
+          <Input
+            {...register("panNumber")}
+            placeholder="Enter your PAN number"
+            className="w-full h-12 text-base uppercase"
+            maxLength={10}
+            disabled={isPanVerified}
+          />
+          {errors.panNumber && (
+            <p className="text-red-500 text-sm mt-1">{errors.panNumber.message}</p>
+          )}
+        </div>
+
+        <div className="w-full">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            PAN image <span className="text-red-500">*</span>
+          </label>
+          <FileUpload
+            accept="image/*"
+            placeholder="Click to upload or take photo"
+            onFileChange={handleFileChange}
+            disabled={isPanVerified}
+          />
+          {errors.panImage && (
+            <p className="text-red-500 text-sm mt-1">{errors.panImage.message as string}</p>
+          )}
+        </div>
+      </div>
+
+      {!isPanVerified && (
+        <div>
+          <Button
+            type="button"
+            onClick={handlePanVerify}
+            disabled={isVerifyingPan}
+            className="bg-red-600 hover:bg-red-700 text-white px-6"
+          >
+            {isVerifyingPan ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
+            Verify PAN
+          </Button>
+        </div>
+      )}
+
+      {/* Employment Type Switcher - Always Step 2 now */}
+      <div className="flex w-full border-b border-gray-200">
+        <button
+          type="button"
+          onClick={() => handleEmploymentTypeChange("Salaried")}
+          className={cn(
+            "pb-3 px-8 text-sm font-medium transition-colors relative",
+            employmentType === "Salaried"
+              ? "text-red-600 border-b-2 border-red-600"
+              : "text-gray-500 hover:text-gray-700"
+          )}
+        >
+          Salaried
+        </button>
+        <button
+          type="button"
+          onClick={() => handleEmploymentTypeChange("Self employed")}
+          className={cn(
+            "pb-3 px-8 text-sm font-medium transition-colors relative",
+            employmentType === "Self employed"
+              ? "text-red-600 border-b-2 border-red-600"
+              : "text-gray-500 hover:text-gray-700"
+          )}
+        >
+          Self employed
+        </button>
+      </div>
+
+      {/* Personal Details (Disabled until PAN verified usually, or just shown) */}
+      <div className={cn("grid grid-cols-1 md:grid-cols-2 gap-6", !isPanVerified && "opacity-50 pointer-events-none")}>
+        <div className="w-full">
+          <label className="block text-sm font-medium text-gray-700 mb-2">First name <span className="text-red-500">*</span></label>
+          <Input {...register("firstName")} disabled={true} className="bg-gray-50 h-12" placeholder="Enter your first name" />
+        </div>
+        <div className="w-full">
+          <label className="block text-sm font-medium text-gray-700 mb-2">Middle name</label>
+          <Input {...register("middleName")} disabled={true} className="bg-gray-50 h-12" placeholder="Enter your first name" />
+        </div>
+        <div className="w-full">
+          <label className="block text-sm font-medium text-gray-700 mb-2">Last name <span className="text-red-500">*</span></label>
+          <Input {...register("lastName")} disabled={true} className="bg-gray-50 h-12" placeholder="Enter your last name" />
+        </div>
+        <div className="w-full">
+          <label className="block text-sm font-medium text-gray-700 mb-2">Date of birth <span className="text-red-500">*</span></label>
+          <div className="relative">
+            <Input type="date" {...register("dateOfBirth")} disabled={true} className="bg-gray-50 h-12" />
+          </div>
+        </div>
+        <div className="w-full">
+          <label className="block text-sm font-medium text-gray-700 mb-2">Gender <span className="text-red-500">*</span></label>
+          <Select value={gender} disabled={true}>
+            <SelectTrigger className="w-full h-12 bg-gray-50">
               <SelectValue placeholder="Select your gender" />
             </SelectTrigger>
             <SelectContent>
@@ -145,91 +266,16 @@ export function Step2PersonalDetails({ onSubmit, onGoToDashboard, formData, setF
               <SelectItem value="Prefer not to say">Prefer not to say</SelectItem>
             </SelectContent>
           </Select>
-          {errors.gender && (
-            <p className="text-red-500 text-sm mt-1">{errors.gender.message}</p>
-          )}
         </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Email *
-          </label>
-          <Input
-            {...register("email")}
-            type="email"
-            placeholder="Enter your email"
-            className="w-full h-12 text-base"
-            disabled={isSaved}
-          />
-          {errors.email && (
-            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
-          )}
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Password *
-          </label>
-          <div className="relative">
-            <Input
-              {...register("password")}
-              type={showPassword ? "text" : "password"}
-              placeholder="Create a password"
-              className="w-full h-12 text-base pr-10"
-              disabled={isSaved}
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-              disabled={isSaved}
-            >
-              {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-            </button>
-          </div>
-          {errors.password && (
-            <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
-          )}
-          <p className="text-xs text-gray-500 mt-1">
-            Must be at least 8 characters with uppercase, lowercase, and number
-          </p>
-        </div>
-
-        {!isSaved ? (
-          <Button
-            type="submit"
-            className="w-full bg-red-600 hover:bg-red-700 text-white h-12 text-base font-medium"
-            disabled={!isFormValid || isSaving}
-          >
-            {isSaving ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Saving...
-              </>
-            ) : (
-              'Save Now'
-            )}
-          </Button>
-        ) : (
-          <div className="flex space-x-4">
-            <Button
-              type="submit"
-              className="flex-1 bg-red-600 hover:bg-red-700 text-white h-12 text-base font-medium"
-            >
-              Apply for loan →
-            </Button>
-
-            <Button
-              type="button"
-              onClick={onGoToDashboard}
-              variant="outline"
-              className="flex-1 h-12 text-base font-medium border-gray-300 hover:bg-gray-50"
-            >
-              Go to dashboard
-            </Button>
-          </div>
-        )}
       </div>
+
+      {isPanVerified && (
+        <div className="pt-4">
+          <Button type="submit" className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium px-8 h-12 w-full md:w-auto">
+            Save now
+          </Button>
+        </div>
+      )}
     </form>
   )
 }

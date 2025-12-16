@@ -17,20 +17,30 @@ export interface PhoneVerificationData {
 }
 
 export interface PersonalDetailsData {
-  firstName: string; lastName: string; dateOfBirth: string; email: string; password: string; gender: "Male" | "Female" | "Prefer not to say"; middleName?: string | undefined;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+
+  gender: "Male" | "Female" | "Prefer not to say";
+  middleName?: string | undefined;
+  panNumber: string;
+  panImage?: File;
+  employmentType: "Salaried" | "Self employed";
 }
 
 export interface BasicDetailsData {
-  panNumber: string;
-  employmentType: 'salaried' | 'self-employed' | 'business' | 'unemployed';
-  monthlyIncome: string;
-  loanAmount: string;
-  loanPurpose: string;
-  residenceType: 'owned' | 'rented' | 'parental';
-  address: string;
-  city: string;
-  state: string;
-  pincode: string;
+  companyName?: string;
+  professionName?: string;
+  monthlyIncome: number;
+  loanAmount: number;
+  purposeOfLoan: string;
+  currentAddressType: 'Owner(Self or Family)' | 'Rented';
+  currentAddress: string;
+  permanentAddress: string;
+  pinCode: string;
+  jobStability: "Very unstable" | "Somewhat unstable" | "Neutral / moderate" | "Stable" | "Very stable";
+  addressProof?: File | null;
+  companyAddress: string;
 }
 
 export interface DocumentVerificationData {

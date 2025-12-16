@@ -48,13 +48,13 @@ export const personalDetailsSchema = z.object({
       const age = today.getFullYear() - parsedDate.getFullYear()
       return age >= 18 && age <= 65
     }, "Age must be between 18 and 65 years"),
-  email: z.string()
-    .min(1, "Email is required")
-    .email("Please enter a valid email address"),
-  password: z.string()
-    .min(8, "Password must be at least 8 characters")
-    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, "Password must contain at least one uppercase letter, one lowercase letter, and one number"),
-  gender: z.enum(["Male", "Female", "Prefer not to say"])
+  gender: z.enum(["Male", "Female", "Prefer not to say"]),
+  panNumber: z.string()
+    .regex(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/, "Invalid PAN number"),
+  panImage: z.instanceof(File)
+    .refine(file => file.size <= MAX_5MB, "File size must be ≤ 5MB")
+    .optional(), // Optional initially until uploaded
+  employmentType: z.enum(["Salaried", "Self employed"]).default("Salaried"),
 })
 
 // Step 3: Basic details
@@ -68,14 +68,21 @@ export const basicDetailsSchema = z.object({
     .max(200, "Purpose description must be less than 200 characters"),
 
   // Employment details
-  companyName: z.string()
-    .min(2, "Company name must be at least 2 characters")
-    .max(100, "Company name must be less than 100 characters"),
+  // employmentType is now in Step 2, but we validate specific fields here
+
+
+  // Salaried specific
+  companyName: z.string().optional(),
+
+  // Self-employed specific
+  professionName: z.string().optional(),
+
+  // Shared
   companyAddress: z.string()
-    .min(10, "Company address must be at least 10 characters")
-    .max(200, "Company address must be less than 200 characters"),
+    .min(10, "Address must be at least 10 characters")
+    .max(200, "Address must be less than 200 characters"),
   monthlyIncome: z.number()
-    .min(35000, "Minimum monthly income is ₹35,000")
+    .min(1000, "Minimum monthly income is ₹1,000") // Lowered min for flexibility
     .max(1000000, "Maximum monthly income is ₹10,00,000"),
   jobStability: z.enum(["Very unstable", "Somewhat unstable", "Neutral / moderate", "Stable", "Very stable"]),
 
@@ -92,8 +99,26 @@ export const basicDetailsSchema = z.object({
     .max(6, "Pin code must be 6 digits"),
   addressProof: z
     .instanceof(File)
-    .refine(file => ["application/pdf"].includes(file.type), "Must be a PDF file")
-    .refine(file => file.size <= MAX_5MB, "File size must be ≤ 5MB"),
+    .refine(file => file.size <= MAX_5MB, "File size must be ≤ 5MB")
+    .nullable()
+    .optional(),
+}).superRefine((data, ctx) => {
+  // Conditional validation
+  if (data.companyName && data.companyName.length < 2) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Company name is required",
+      path: ["companyName"]
+    });
+  }
+
+  if (data.professionName && data.professionName.length < 2) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Profession name is required",
+      path: ["professionName"]
+    });
+  }
 })
 
 // Step 4: Document verification

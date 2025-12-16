@@ -30,15 +30,19 @@ export function useLogin(): UseLoginReturn {
     try {
       setError(null);
       setPhoneNumber(data.phoneNumber);
-      
+
       // Call login API with phone and DOB
       await apiClient.loginUser(data.phoneNumber, data.dateOfBirth);
-      
+
       setStep(2);
       setOtpResendTimer(30);
       return true;
     } catch (err: any) {
-      setError(err.message || 'Login failed. Please check your credentials.');
+      if (err.message?.toLowerCase().includes('not found') || err.message?.includes('404')) {
+        setError('User does not exist');
+      } else {
+        setError(err.message || 'Login failed. Please check your credentials.');
+      }
       return false;
     }
   }, []);
@@ -47,10 +51,10 @@ export function useLogin(): UseLoginReturn {
     try {
       setError(null);
       setIsVerifying(true);
-      
+
       // Verify OTP using the same endpoint as signup
       const response = await apiClient.verifyLoginOtp(phoneNumber, data.otp);
-      
+
       if (response.token) {
         setStep(3);
         return true;
@@ -59,7 +63,13 @@ export function useLogin(): UseLoginReturn {
         return false;
       }
     } catch (err: any) {
-      setError(err.message || 'OTP verification failed. Please try again.');
+      if (err.message?.toLowerCase().includes('wrong') ||
+        err.message?.toLowerCase().includes('invalid') ||
+        err.message?.includes('400')) {
+        setError('OTP is wrong, please re-enter OTP');
+      } else {
+        setError(err.message || 'OTP verification failed. Please try again.');
+      }
       return false;
     } finally {
       setIsVerifying(false);
@@ -69,10 +79,10 @@ export function useLogin(): UseLoginReturn {
   const resendOtp = useCallback(async (): Promise<boolean> => {
     try {
       setError(null);
-      
+
       // Resend OTP using the same login endpoint
       await apiClient.loginUser(phoneNumber, ''); // DOB not needed for resend
-      
+
       setOtpResendTimer(30);
       return true;
     } catch (err: any) {

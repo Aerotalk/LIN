@@ -27,7 +27,7 @@ export function Step2PersonalDetails({ onSubmit, onGoToDashboard, formData, setF
 
   // Form Setup
   const { register, handleSubmit, setValue, watch, formState: { errors }, trigger } = useForm<PersonalDetailsForm>({
-    resolver: zodResolver(personalDetailsSchema),
+    resolver: zodResolver(personalDetailsSchema) as any,
     defaultValues: formData,
     mode: "onChange",
   });

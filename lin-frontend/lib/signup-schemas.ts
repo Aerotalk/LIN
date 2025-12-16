@@ -54,7 +54,7 @@ export const personalDetailsSchema = z.object({
   panImage: z.instanceof(File)
     .refine(file => file.size <= MAX_5MB, "File size must be ≤ 5MB")
     .optional(), // Optional initially until uploaded
-  employmentType: z.enum(["Salaried", "Self employed"]).default("Salaried"),
+  employmentType: z.enum(["Salaried", "Self employed"]),
 })
 
 // Step 3: Basic details

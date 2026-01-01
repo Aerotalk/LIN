@@ -97,7 +97,7 @@ export default function SignupForm() {
   const router = useRouter();
 
   const handleGoToDashboard = (): void => {
-    router.push('/profile')
+    router.push('/dashboard')
   }
 
   const handleBasicDetailsSubmit = async (data: BasicDetailsForm): Promise<void> => {
@@ -202,7 +202,7 @@ export default function SignupForm() {
 
               {/* Action Button */}
               <Button
-                onClick={() => window.location.href = '/'}
+                onClick={() => router.push('/dashboard')}
                 className="w-full bg-red-600 hover:bg-red-700 text-white h-12 text-base font-medium"
               >
                 View dashboard

@@ -20,7 +20,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
+import { Menu, User } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 const cities: { title: string; href: string; description: string }[] = [
   {
@@ -79,6 +80,10 @@ function ListItem({
 }
 
 export default function Navbar() {
+  const pathname = usePathname();
+  const isLoggedIn = pathname.startsWith("/dashboard"); // Simplified check for demonstration
+
+  const userInitials = "RD";
   return (
     <nav className="w-full mx-auto py-4 px-6 md:px-12 lg:px-24 fixed top-0 left-0 right-0 z-50 bg-red-50 shadow-sm">
       <div className="flex justify-between items-center">
@@ -186,14 +191,22 @@ export default function Navbar() {
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  asChild
-                  className={navigationMenuTriggerStyle()}
-                >
-                  <Link href="/login">Login</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
+              {isLoggedIn ? (
+                <NavigationMenuItem>
+                  <Link href="/dashboard" className="flex items-center justify-center w-10 h-10 bg-red-500 rounded-full text-white font-bold text-sm shadow-sm transition-transform hover:scale-105">
+                    {userInitials}
+                  </Link>
+                </NavigationMenuItem>
+              ) : (
+                <NavigationMenuItem>
+                  <NavigationMenuLink
+                    asChild
+                    className={navigationMenuTriggerStyle()}
+                  >
+                    <Link href="/login">Login</Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              )}
 
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
@@ -233,7 +246,16 @@ export default function Navbar() {
                 <Link href="/loan/mumbai">Cities</Link>
                 <Link href="/blog">Learn</Link>
                 <Link href="/contact">Support</Link>
-                <Link href="/login">Login</Link>
+                {isLoggedIn ? (
+                  <Link href="/dashboard" className="flex items-center space-x-2">
+                    <div className="flex items-center justify-center w-10 h-10 bg-red-500 rounded-full text-white font-bold text-sm">
+                      {userInitials}
+                    </div>
+                    <span className="font-medium text-red-500">Dashboard</span>
+                  </Link>
+                ) : (
+                  <Link href="/login">Login</Link>
+                )}
                 <Button variant="default" className="w-full">Apply now</Button>
               </div>
             </SheetContent>

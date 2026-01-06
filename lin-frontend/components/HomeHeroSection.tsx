@@ -26,11 +26,11 @@ const HomeHeroSection = () => {
           </Button>
           <div className="flex flex-row gap-3">
             <div className="flex text-gray-500">
-              <LucideCircleCheck className="mr-1 mt-0.5 w-5 h-5" />
+              <LucideCircleCheck className="mr-1 mt-0.5 w-5 h-5 text-green-600" />
               <span>Fast loan processing</span>
             </div>
             <div className="flex text-gray-500">
-              <LucideCircleCheck className="mr-1 mt-0.5 w-5 h-5" />
+              <LucideCircleCheck className="mr-1 mt-0.5 w-5 h-5 text-green-600" />
               <span>Cash in bank directly</span>
             </div>
           </div>

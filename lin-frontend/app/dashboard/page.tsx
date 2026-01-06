@@ -326,7 +326,13 @@ export default function DashboardPage() {
                             {sidebarItems.map((item) => (
                                 <button
                                     key={item.name}
-                                    onClick={() => setActiveTab(item.name)}
+                                    onClick={() => {
+                                        if (item.name === "Apply new loan") {
+                                            router.push("/apply-now");
+                                        } else {
+                                            setActiveTab(item.name);
+                                        }
+                                    }}
                                     className={`w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-medium ${activeTab === item.name
                                         ? "bg-[#EF4444] text-white shadow-lg shadow-red-200"
                                         : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"

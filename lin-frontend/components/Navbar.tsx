@@ -256,7 +256,9 @@ export default function Navbar() {
                 ) : (
                   <Link href="/login">Login</Link>
                 )}
-                <Button variant="default" className="w-full">Apply now</Button>
+                <Link href="/apply-now" className="w-full">
+                  <Button variant="default" className="w-full">Apply now</Button>
+                </Link>
               </div>
             </SheetContent>
           </Sheet>

@@ -139,12 +139,13 @@ export function Step2PersonalDetails({ onSubmit, onGoToDashboard, formData, setF
 
         <div className="flex items-center gap-4 pt-4">
           <Button
-            onClick={() => onSubmit(watch())} // Proceed to Step 3
+            onClick={() => onSubmit(watch())}
             className="bg-red-600 hover:bg-red-700 text-white min-w-[140px]"
           >
             Apply loan <span className="ml-2">&gt;</span>
           </Button>
           <button
+            type="button"
             onClick={onGoToDashboard}
             className="text-gray-600 hover:text-gray-900 text-sm font-medium underline-offset-4 hover:underline"
           >

@@ -16,7 +16,9 @@ import {
     ArrowRight,
     Calendar,
     CreditCard,
-    ArrowUpRight
+    ArrowUpRight,
+    Mail,
+    MessageCircle
 } from "lucide-react";
 
 export default function DashboardPage() {
@@ -316,6 +318,49 @@ export default function DashboardPage() {
         </div>
     );
 
+    const renderSupport = () => (
+        <div className="space-y-12">
+            <h2 className="text-[28px] font-bold text-[#EF4444]">Connect us</h2>
+
+            <div className="flex flex-col md:flex-row items-start gap-12 md:gap-24">
+                <div className="flex items-center gap-5">
+                    <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-red-50 flex-shrink-0 bg-gray-50">
+                        <img
+                            src="/support.png"
+                            alt="Support"
+                            className="w-full h-full object-cover"
+                        />
+                    </div>
+                    <div className="space-y-0.5">
+                        <p className="text-[17px] font-bold text-gray-900">Call us: +91 98309 18171</p>
+                        <p className="text-[13px] text-gray-500 font-medium">Mon- Fri | 9:00AM to 10:00PM</p>
+                    </div>
+                </div>
+
+                <div className="flex items-center gap-5">
+                    <div className="w-14 h-14 bg-[#1D4E89] rounded-2xl flex items-center justify-center text-white shadow-lg flex-shrink-0">
+                        <Mail size={24} />
+                    </div>
+                    <div>
+                        <p className="text-[17px] font-bold text-gray-900">Email: support@loaninneed.in</p>
+                    </div>
+                </div>
+            </div>
+
+            <div className="space-y-6 pt-4">
+                <div className="flex items-center gap-3">
+                    <div className="bg-[#25D366] p-1.5 rounded-full text-white">
+                        <MessageCircle size={18} fill="currentColor" />
+                    </div>
+                    <p className="text-[15px] font-bold text-gray-900">WhatsApp us</p>
+                </div>
+                <button className="bg-[#25D366] text-white px-10 py-3.5 rounded-2xl font-bold hover:bg-green-600 transition-all shadow-lg shadow-green-100 text-[15px]">
+                    Click here
+                </button>
+            </div>
+        </div>
+    );
+
     return (
         <div className="min-h-screen bg-white pt-40 pb-24 px-4 md:px-12 lg:px-24">
             <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16">
@@ -362,7 +407,8 @@ export default function DashboardPage() {
                         activeTab === "Track loan" ? renderTrackLoanContent() :
                             activeTab === "Repay loan" ? renderRepayLoanContent() :
                                 activeTab === "Loan history" ? renderLoanHistoryContent() :
-                                    <div className="text-center py-20 text-gray-400">Content for {activeTab} coming soon...</div>}
+                                    activeTab === "Support" ? renderSupport() :
+                                        <div className="text-center py-20 text-gray-400">Content for {activeTab} coming soon...</div>}
                 </main>
             </div>
         </div>

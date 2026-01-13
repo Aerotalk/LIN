@@ -13,9 +13,13 @@ import { ArrowLeft, Loader2, CheckCircle2 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
+import { useAffiliate } from "@/hooks/useAffiliate"
+
 
 export default function LoginPage() {
   const router = useRouter()
+  const { getLinkWithRef } = useAffiliate()
+
   const {
     step,
     phoneNumber,
@@ -77,8 +81,9 @@ export default function LoginPage() {
     if (success) {
       // Redirect after showing success
       setTimeout(() => {
-        router.push("/dashboard")
+        router.push(getLinkWithRef("/dashboard"))
       }, 2000)
+
     }
   }
 
@@ -111,10 +116,11 @@ export default function LoginPage() {
           <div className="max-w-md mx-auto">
             {/* Logo */}
             <div className="mb-12">
-              <Link href="/">
+              <Link href={getLinkWithRef("/")}>
                 <Image src="/lin-logo.png" alt="Loan In Need" width={120} height={40} />
               </Link>
             </div>
+
 
             {/* Heading */}
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
@@ -231,11 +237,12 @@ export default function LoginPage() {
                   <div className="text-center">
                     <p className="text-sm text-gray-600">
                       Didn&apos;t have an account?{" "}
-                      <Link href="/signup" className="text-red-600 hover:underline font-medium">
+                      <Link href={getLinkWithRef("/signup")} className="text-red-600 hover:underline font-medium">
                         Create now
                       </Link>
                     </p>
                   </div>
+
                 </form>
               </div>
             )}

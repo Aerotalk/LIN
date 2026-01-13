@@ -2,6 +2,8 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
+import { useAffiliate } from "@/hooks/useAffiliate";
+
 import {
     LayoutDashboard,
     Search,
@@ -23,7 +25,9 @@ import {
 
 export default function DashboardPage() {
     const router = useRouter();
+    const { getLinkWithRef } = useAffiliate();
     const [activeTab, setActiveTab] = React.useState("Dashboard");
+
     const [editingFields, setEditingFields] = React.useState<Record<string, boolean>>({});
 
     const sidebarItems = [
@@ -373,11 +377,12 @@ export default function DashboardPage() {
                                     key={item.name}
                                     onClick={() => {
                                         if (item.name === "Apply new loan") {
-                                            router.push("/apply-now");
+                                            router.push(getLinkWithRef("/apply-now"));
                                         } else {
                                             setActiveTab(item.name);
                                         }
                                     }}
+
                                     className={`w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-medium ${activeTab === item.name
                                         ? "bg-[#EF4444] text-white shadow-lg shadow-red-200"
                                         : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
@@ -392,8 +397,9 @@ export default function DashboardPage() {
                         <div className="pt-2 border-t border-gray-50">
                             <button
                                 className="w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold text-gray-500 hover:bg-red-50 hover:text-red-600 group"
-                                onClick={() => router.push("/")}
+                                onClick={() => router.push(getLinkWithRef("/"))}
                             >
+
                                 <LogOut size={20} className="group-hover:translate-x-1 transition-transform" />
                                 <span className="text-[15px]">Log out</span>
                             </button>

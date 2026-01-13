@@ -1,6 +1,8 @@
 "use client";
 
 import React from "react";
+import { useAffiliate } from "@/hooks/useAffiliate";
+
 import {
     LayoutDashboard,
     IndianRupee,
@@ -19,7 +21,9 @@ import {
 } from "lucide-react";
 
 export default function AffiliateDashboardPage() {
+    const { affiliateRef } = useAffiliate();
     const [activeTab, setActiveTab] = React.useState("Dashboard");
+
     const [editingFields, setEditingFields] = React.useState<Record<string, boolean>>({});
     const [selectedDate, setSelectedDate] = React.useState({ month: "October", year: "2025", isLifetime: false });
     const [tempDate, setTempDate] = React.useState({ month: "October", year: "2025", isLifetime: false });
@@ -194,11 +198,21 @@ export default function AffiliateDashboardPage() {
                 <div className="bg-white p-8 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-50 space-y-4">
                     <p className="text-[15px] font-medium text-gray-500">My referral link</p>
                     <div className="flex items-center justify-between bg-red-50/30 p-4 rounded-2xl border border-red-50/50">
-                        <span className="text-[14px] text-gray-600 truncate mr-4">https:loaninneed.in/..</span>
-                        <button className="text-gray-400 hover:text-red-500 transition-colors">
+                        <span className="text-[14px] text-gray-600 truncate mr-4">
+                            {typeof window !== 'undefined' ? `${window.location.origin}/signup?ref=${affiliateRef || 'YOUR_CODE'}` : 'loading...'}
+                        </span>
+                        <button
+                            className="text-gray-400 hover:text-red-500 transition-colors"
+                            onClick={() => {
+                                if (typeof window !== 'undefined') {
+                                    navigator.clipboard.writeText(`${window.location.origin}/signup?ref=${affiliateRef || 'YOUR_CODE'}`);
+                                }
+                            }}
+                        >
                             <Copy size={18} />
                         </button>
                     </div>
+
                 </div>
                 <div className="bg-white p-8 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-50 space-y-4">
                     <p className="text-[15px] font-medium text-gray-500">Referral link impression</p>

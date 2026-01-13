@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
+import { useAffiliate } from "@/hooks/useAffiliate"
+
 import {
     DocumentVerificationData,
 } from "@/lib/types"
@@ -29,7 +31,9 @@ const STEPS: Step[] = [
 ]
 
 export default function ApplyNowPage() {
+    const { getLinkWithRef } = useAffiliate();
     const {
+
         currentStep,
         formData,
         isLoading,
@@ -126,10 +130,11 @@ export default function ApplyNowPage() {
                     <div className="bg-gradient-to-br from-purple-50 to-pink-50 flex flex-col justify-center p-8 lg:p-12 rounded-l-3xl">
                         <div className="max-w-md mx-auto">
                             <div className="mb-8">
-                                <Link href="/" className="flex items-center">
+                                <Link href={getLinkWithRef("/")} className="flex items-center">
                                     <Image src="/lin-logo.png" alt="Logo" width={120} height={40} />
                                 </Link>
                             </div>
+
                             <h2 className="text-3xl font-bold text-gray-800 mb-6 leading-tight">
                                 No paperwork. No waiting. Just quick approvals and easy access to instant funds, anytime, anywhere.
                             </h2>
@@ -148,9 +153,10 @@ export default function ApplyNowPage() {
                             <h3 className="text-2xl font-bold text-gray-800 mb-4">Loan application submitted</h3>
                             <p className="text-gray-600 mb-8">Our representative will contact you soon</p>
                             <Button
-                                onClick={() => router.push('/dashboard')}
+                                onClick={() => router.push(getLinkWithRef('/dashboard'))}
                                 className="w-full bg-red-600 hover:bg-red-700 text-white h-12 text-base font-medium"
                             >
+
                                 View dashboard
                             </Button>
                         </div>
@@ -167,10 +173,11 @@ export default function ApplyNowPage() {
                 <div className="bg-gradient-to-br from-purple-50 to-pink-50 flex flex-col justify-center p-8 lg:p-12 rounded-l-3xl">
                     <div className="max-w-md mx-auto">
                         <div className="mb-8">
-                            <Link href="/" className="flex items-center">
+                            <Link href={getLinkWithRef("/")} className="flex items-center">
                                 <Image src="/lin-logo.png" alt="Logo" width={120} height={40} />
                             </Link>
                         </div>
+
                         <h2 className="text-3xl font-semibold text-gray-800 mb-6 leading-tight">
                             {STEPS[internalStep - 1].description}
                         </h2>

@@ -1,10 +1,16 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { useAffiliate } from "@/hooks/useAffiliate";
+
 
 export default function Footer() {
+  const { getLinkWithRef } = useAffiliate();
   return (
+
     <footer className="bg-[#FEF5F5] py-10 px-6 md:px-12 lg:px-20 mt-32">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-10">
         {/* Left side */}

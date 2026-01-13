@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
+import { useAffiliate } from "@/hooks/useAffiliate"
 import {
   PhoneVerificationData,
   PersonalDetailsData,
@@ -25,6 +26,7 @@ const STEPS: Step[] = [
 ]
 
 export default function SignupForm() {
+  const { getLinkWithRef } = useAffiliate();
   const {
     currentStep,
     formData,
@@ -76,13 +78,15 @@ export default function SignupForm() {
     updateFormData('personalDetails', data)
     const success = await submitStep(2, data)
     if (success) {
-      router.push('/apply-now')
+      router.push(getLinkWithRef('/apply-now'))
     }
   }
 
+
   const handleGoToDashboard = (): void => {
-    router.push('/dashboard')
+    router.push(getLinkWithRef('/dashboard'))
   }
+
 
   const startTimer = (setter: React.Dispatch<React.SetStateAction<number>>): void => {
     const timer = setInterval(() => {
@@ -109,10 +113,11 @@ export default function SignupForm() {
           <div className="max-w-md mx-auto">
             {/* Logo */}
             <div className="mb-8">
-              <Link href="/" className="flex items-center">
+              <Link href={getLinkWithRef("/")} className="flex items-center">
                 <Image src="/lin-logo.png" alt="Logo" width={120} height={40} />
               </Link>
             </div>
+
 
             {/* Main Heading */}
             <h2 className="text-3xl font-semibold text-gray-800 mb-6 leading-tight">

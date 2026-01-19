@@ -243,7 +243,7 @@ export function Step2PersonalDetails({ onSubmit, onGoToDashboard, formData, setF
         </div>
         <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-2">Middle name</label>
-          <Input {...register("middleName")} disabled={true} className="bg-gray-50 h-12" placeholder="Enter your first name" />
+          <Input {...register("middleName")} disabled={true} className="bg-gray-50 h-12" placeholder="Enter your middle name" />
         </div>
         <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-2">Last name <span className="text-red-500">*</span></label>
@@ -270,13 +270,20 @@ export function Step2PersonalDetails({ onSubmit, onGoToDashboard, formData, setF
         </div>
       </div>
 
-      {isPanVerified && (
-        <div className="pt-4">
-          <Button type="submit" className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium px-8 h-12 w-full md:w-auto">
-            Save now
-          </Button>
-        </div>
-      )}
+      <div className="pt-4">
+        <Button
+          type="submit"
+          disabled={!isPanVerified}
+          className={cn(
+            "font-medium px-8 h-12 w-full md:w-auto transition-all duration-300",
+            isPanVerified
+              ? "bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-200"
+              : "bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200"
+          )}
+        >
+          Save now
+        </Button>
+      </div>
     </form>
   )
 }

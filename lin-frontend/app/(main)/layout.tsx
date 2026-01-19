@@ -3,6 +3,7 @@ import "../globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { outfit } from "@/lib/fonts";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Get low rate personal loans within minutes | LoanINNeed",
@@ -26,6 +27,7 @@ export default function MainLayout({
       <body
         className={`${outfit.className} antialiased`}
       >
+        <Toaster position="top-center" richColors />
         <Navbar />
         <main>{children}</main>
         <Footer />

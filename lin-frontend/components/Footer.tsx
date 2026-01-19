@@ -129,6 +129,9 @@ export default function Footer() {
               <li>
                 <Link href="/direct-sales-agent">Direct Sales Agent</Link>
               </li>
+              <li>
+                <Link href="/business-consultant">Business Consultant</Link>
+              </li>
             </ul>
           </div>
 
@@ -200,13 +203,10 @@ export default function Footer() {
                 <Link href="/about-us">About Us</Link>
               </li>
               <li>
-                <Link href="/careers">Career</Link>
+                <Link href="/careers">Careers</Link>
               </li>
               <li>
                 <Link href="/blog">Blog</Link>
-              </li>
-              <li>
-                <Link href="/careers">Careers</Link>
               </li>
               <li>
                 <Link href="/contact-us">Contact us</Link>

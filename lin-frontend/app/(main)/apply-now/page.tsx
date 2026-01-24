@@ -17,6 +17,8 @@ import {
 } from "@/lib/types"
 import { AadhaarOtpForm, BasicDetailsForm, PhotoLocationForm } from "@/lib/signup-schemas"
 
+export const dynamic = "force-dynamic";
+
 interface Step {
     id: number;
     title: string;

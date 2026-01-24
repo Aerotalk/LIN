@@ -5,6 +5,8 @@ import FAQSection from '@/components/FAQSection';
 import { medicalLoanFAQ } from '@/lib/data';
 import AboutFootCTA from '@/components/about/AboutFootCTA';
 
+export const dynamic = "force-dynamic";
+
 const steps = [
     {
         title: "Sign up & get your unique link",

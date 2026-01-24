@@ -5,6 +5,8 @@ import CardGrids from "@/components/CardGrids";
 import FAQSection from "@/components/FAQSection";
 import { aboutFAQdata, missionVision } from "@/lib/data";
 
+export const dynamic = "force-dynamic";
+
 export default function About() {
   return (
     <>

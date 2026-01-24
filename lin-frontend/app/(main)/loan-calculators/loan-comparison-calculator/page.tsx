@@ -5,6 +5,8 @@ import LoanComparisonCalc from "@/components/loan-comparison/LoanComparisonCalc"
 import { personalLoanFAQdata } from "@/lib/data";
 import React from "react";
 
+export const dynamic = "force-dynamic";
+
 export default function LoanComparisonCalculator() {
   return (
     <>

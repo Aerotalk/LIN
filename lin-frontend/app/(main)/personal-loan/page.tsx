@@ -11,6 +11,8 @@ import {
   personalLoanFAQdata,
 } from "@/lib/data";
 
+export const dynamic = "force-dynamic";
+
 export default function PersonalLoan() {
   return (
     <>

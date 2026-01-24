@@ -13,6 +13,8 @@ import CitiesHero from "@/components/cities/CitiesHero";
 import CitiesUseCases from "@/components/cities/CitiesUseCases";
 import LoanCalculator from "@/components/LoanCalculator";
 
+export const dynamic = "force-dynamic";
+
 export default function PaydayLoanBengaluru() {
   return (
     <>

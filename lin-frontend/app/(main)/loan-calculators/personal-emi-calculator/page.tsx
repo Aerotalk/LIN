@@ -6,6 +6,8 @@ import LoanCalculator from "@/components/LoanCalculator";
 import { personalLoanFAQdata } from "@/lib/data";
 import React from "react";
 
+export const dynamic = "force-dynamic";
+
 const PersonalEMICalculator = () => {
   return (
     <>

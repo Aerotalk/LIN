@@ -6,6 +6,8 @@ import LoanCompareHero from "@/components/loan-comparison/LoanCompareHero";
 import { personalLoanFAQdata } from "@/lib/data";
 import React from "react";
 
+export const dynamic = "force-dynamic";
+
 const EligibilityLoanCalculator = () => {
   return (
     <>

@@ -9,6 +9,8 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { Suspense } from 'react';
 import { Loader2 } from 'lucide-react';
 
+export const dynamic = "force-dynamic";
+
 function DSAPartnerContent() {
   const { getLinkWithRef } = useAffiliate();
   const [isModalOpen, setIsModalOpen] = useState(false);

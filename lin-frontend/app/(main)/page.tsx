@@ -9,6 +9,8 @@ import StatsHistory from "@/components/StatsHistory";
 import TestimonialSection from "@/components/TestimonialSection";
 import { cardBenefits, homeFAQdata } from "@/lib/data";
 
+export const dynamic = "force-dynamic";
+
 export default function Home() {
   return (
     <>

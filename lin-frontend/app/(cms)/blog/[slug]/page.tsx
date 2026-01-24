@@ -6,6 +6,8 @@ import Link from "next/link";
 import { urlFor } from "@/sanity/lib/image";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 
+export const dynamic = "force-dynamic";
+
 interface BlogPost {
   title: string;
   content: any;

@@ -23,6 +23,7 @@ import {
 import { Suspense } from "react";
 import { Loader2 } from "lucide-react";
 
+export const dynamic = "force-dynamic";
 
 function BCDashboardContent() {
     const { affiliateRef } = useAffiliate();

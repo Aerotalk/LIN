@@ -14,6 +14,8 @@ import {
   PersonalDetailsData,
 } from "@/lib/types"
 
+export const dynamic = "force-dynamic";
+
 interface Step {
   id: number;
   title: string;

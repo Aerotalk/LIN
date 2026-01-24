@@ -26,6 +26,8 @@ import Image from "next/image"
 import { useAffiliate } from "@/hooks/useAffiliate"
 import { toast } from "sonner"
 
+export const dynamic = "force-dynamic";
+
 const MAX_2MB = 2 * 1024 * 1024;
 
 // --- Admin Verification Schema ---

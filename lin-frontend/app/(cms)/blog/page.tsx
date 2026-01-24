@@ -7,6 +7,8 @@ import FootCTA from "@/components/FootCTA";
 import Image from "next/image";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 
+export const dynamic = "force-dynamic";
+
 interface BlogPostSummary {
   _id: string;
   title: string;

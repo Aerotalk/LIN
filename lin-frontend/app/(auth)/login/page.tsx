@@ -18,6 +18,7 @@ import { useAffiliate } from "@/hooks/useAffiliate"
 
 import { Suspense } from "react"
 
+export const dynamic = "force-dynamic";
 
 function LoginForm() {
   const router = useRouter()

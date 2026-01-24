@@ -4,6 +4,8 @@ import { MapPin, Briefcase, ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 interface CareerSummary {
   _id: string;
   title: string;

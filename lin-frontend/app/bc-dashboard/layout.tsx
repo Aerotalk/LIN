@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
 import "../globals.css";
+import { outfit } from "@/lib/fonts";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { outfit } from "@/lib/fonts";
 
 export const metadata: Metadata = {
-    title: "Careers & Blog | LoanINNeed",
-    description: "Explore career opportunities and read our latest updates.",
+    title: "Business Consultant Dashboard | LoanINNeed",
+    description: "Manage your Business Consultant earnings and performance.",
 };
 
 import { Suspense } from "react";
 
-export default function CmsLayout({
+export default function BCDashboardLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;

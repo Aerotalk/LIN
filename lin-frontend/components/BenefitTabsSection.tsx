@@ -1,12 +1,19 @@
+"use client";
+
 import React from "react";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { benefitTabsData } from "@/lib/data";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import Image from "next/image";
+import { useAffiliate } from "@/hooks/useAffiliate";
+
 
 const BenefitTabsSection = () => {
+  const { getLinkWithRef } = useAffiliate();
   return (
+
     <section className="w-full max-w-7xl mx-auto py-4 p-6 md:p-12 lg:p-20 my-12">
       <div className="flex flex-col justify-center items-center-safe space-y-6 w-full">
         <div className="flex flex-col justify-center items-center-safe space-y-2 mb-12">
@@ -38,7 +45,8 @@ const BenefitTabsSection = () => {
                   <div className="flex flex-col space-y-6 lg:w-1/2">
                     <h3 className="text-2xl font-semibold">{tab.title}</h3>
                     <p className="text-muted-foreground">{tab.description}</p>
-                    <Link href={tab.link}>
+                    <Link href={getLinkWithRef(tab.link)}>
+
                       <Button className="text-base w-fit">Apply now</Button>
                     </Link>
                   </div>

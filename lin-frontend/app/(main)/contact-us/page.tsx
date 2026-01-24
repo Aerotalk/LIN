@@ -114,7 +114,7 @@ export default function ContactPage() {
           {/* Contact Form */}
           <div className="bg-white rounded-2xl shadow-lg p-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Let&apos;s talk</h2>
-            <p className="text-gray-500 mb-6">Lorem ipsum</p>
+
 
             <div className="space-y-4">
               <div>

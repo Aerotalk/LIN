@@ -39,7 +39,7 @@ export function Step4DocumentVerification({ onSubmit, formData, setFormData }: S
         <div className="space-y-4">
           <h3 className="text-lg font-semibold text-primary">Salary details</h3>
 
-          <div className="flex justify-between gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="w-full">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Last 3 months pay slip <span className="text-primary">*</span>
@@ -67,7 +67,8 @@ export function Step4DocumentVerification({ onSubmit, formData, setFormData }: S
                 <p className="text-red-500 text-sm mt-1">{errors.bankStatementFile.message}</p>
               )}
             </div>
-          </div></div>
+          </div>
+        </div>
 
         {/* Documents */}
         <div className="space-y-4">

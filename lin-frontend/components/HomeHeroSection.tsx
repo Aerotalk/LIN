@@ -1,11 +1,19 @@
+"use client";
+
 import Image from "next/image";
+
 import React from "react";
 import { Button } from "./ui/button";
 import { LucideCircleCheck } from "lucide-react";
+import Link from "next/link";
+import { useAffiliate } from "@/hooks/useAffiliate";
+
 
 const HomeHeroSection = () => {
+  const { getLinkWithRef } = useAffiliate();
   return (
     <section className="font-sans items-center justify-items-center gap-16 flex flex-col md:flex-row w-full md:my-12 my-24">
+
       <div className="flex relative z-1 items-center justify-center p-8 md:p-16 lg:p-24 flex-col md:flex-row gap-8 w-full max-w-[95rem] mx-auto">
         <div className="flex flex-col gap-4 w-full md:w-1/2">
           <div className="space-y-2">
@@ -21,16 +29,19 @@ const HomeHeroSection = () => {
             personal loans. Simple online process, flexible tenures, and money
             in your account within hours.
           </p>
-          <Button className="w-56 p-6 text-base my-3">
-            Check loan eligibility now
-          </Button>
+          <Link href={getLinkWithRef("/apply-now")}>
+            <Button className="w-56 p-6 text-base my-3">
+              Check loan eligibility now
+            </Button>
+          </Link>
+
           <div className="flex flex-row gap-3">
             <div className="flex text-gray-500">
-              <LucideCircleCheck className="mr-1 mt-0.5 w-5 h-5" />
+              <LucideCircleCheck className="mr-1 mt-0.5 w-5 h-5 text-green-600" />
               <span>Fast loan processing</span>
             </div>
             <div className="flex text-gray-500">
-              <LucideCircleCheck className="mr-1 mt-0.5 w-5 h-5" />
+              <LucideCircleCheck className="mr-1 mt-0.5 w-5 h-5 text-green-600" />
               <span>Cash in bank directly</span>
             </div>
           </div>

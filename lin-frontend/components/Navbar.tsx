@@ -20,7 +20,10 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
+import { Menu, User } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useAffiliate } from "@/hooks/useAffiliate";
+
 
 const cities: { title: string; href: string; description: string }[] = [
   {
@@ -66,10 +69,11 @@ function ListItem({
   href,
   ...props
 }: React.ComponentPropsWithoutRef<"li"> & { href: string }) {
+  const { getLinkWithRef } = useAffiliate();
   return (
     <li {...props}>
       <NavigationMenuLink asChild>
-        <Link href={href} className="block p-2 rounded-md hover:bg-gray-100">
+        <Link href={getLinkWithRef(href)} className="block p-2 rounded-md hover:bg-gray-100">
           <div className="text-sm font-medium">{title}</div>
           <p className="text-xs text-muted-foreground">{children}</p>
         </Link>
@@ -78,12 +82,18 @@ function ListItem({
   );
 }
 
+
 export default function Navbar() {
+  const pathname = usePathname();
+  const { getLinkWithRef } = useAffiliate();
+  const isLoggedIn = pathname.startsWith("/dashboard"); // Simplified check for demonstration
+
+  const userInitials = "RD";
   return (
     <nav className="w-full mx-auto py-4 px-6 md:px-12 lg:px-24 fixed top-0 left-0 right-0 z-50 bg-red-50 shadow-sm">
       <div className="flex justify-between items-center">
         {/* Logo */}
-        <Link href="/" className="flex items-center">
+        <Link href={getLinkWithRef("/")} className="flex items-center">
           <Image src="/lin-logo.png" alt="Logo" width={120} height={40} />
         </Link>
 
@@ -94,7 +104,7 @@ export default function Navbar() {
               <NavigationMenuItem>
                 <NavigationMenuTrigger>
                   <NavigationMenuLink asChild>
-                    <Link href="/personal-loan">Personal loan</Link>
+                    <Link href={getLinkWithRef("/personal-loan")}>Personal loan</Link>
                   </NavigationMenuLink>
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
@@ -115,22 +125,22 @@ export default function Navbar() {
                   <ul className="grid w-[300px] gap-4 p-3">
                     <li>
                       <NavigationMenuLink asChild>
-                        <Link href="/loan-calculators/personal-emi-calculator">
+                        <Link href={getLinkWithRef("/loan-calculators/personal-emi-calculator")}>
                           Personal EMI Calculator
                         </Link>
                       </NavigationMenuLink>
                       <NavigationMenuLink asChild>
-                        <Link href="/loan-calculators/eligibility-loan-calculator">
+                        <Link href={getLinkWithRef("/loan-calculators/eligibility-loan-calculator")}>
                           Eligibility Loan Calculator
                         </Link>
                       </NavigationMenuLink>
                       {/* <NavigationMenuLink asChild>
-                        <Link href="/loan-calculators/cibil-score-checker">
+                        <Link href={getLinkWithRef("/loan-calculators/cibil-score-checker")}>
                           Cibil Score Checker
                         </Link>
                       </NavigationMenuLink> */}
                       <NavigationMenuLink asChild>
-                        <Link href="/loan-calculators/loan-comparison-calculator">
+                        <Link href={getLinkWithRef("/loan-calculators/loan-comparison-calculator")}>
                           Loan Comparison Calculator
                         </Link>
                       </NavigationMenuLink>
@@ -157,13 +167,13 @@ export default function Navbar() {
                 <NavigationMenuContent>
                   <ul className="grid w-[200px] gap-3 p-3">
                     <li>
-                      <Link href="/blog">Blogs</Link>
+                      <Link href={getLinkWithRef("/blog")}>Blogs</Link>
                     </li>
                     <li>
-                      <Link href="/about-us">About us</Link>
+                      <Link href={getLinkWithRef("/about-us")}>About us</Link>
                     </li>
                     <li>
-                      <Link href="/careers">Careers</Link>
+                      <Link href={getLinkWithRef("/careers")}>Careers</Link>
                     </li>
                   </ul>
                 </NavigationMenuContent>
@@ -174,30 +184,38 @@ export default function Navbar() {
                 <NavigationMenuContent>
                   <ul className="grid w-[200px] gap-3 p-3">
                     <li>
-                      <Link href="/contact-us">Contact us</Link>
+                      <Link href={getLinkWithRef("/contact-us")}>Contact us</Link>
                     </li>
                     <li>
-                      <Link href="/enquire-now">Enquire now</Link>
+                      <Link href={getLinkWithRef("/enquire-now")}>Enquire now</Link>
                     </li>
                     <li>
-                      <Link href="/track-loan">Track loan</Link>
+                      <Link href={getLinkWithRef("/track-loan")}>Track loan</Link>
                     </li>
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  asChild
-                  className={navigationMenuTriggerStyle()}
-                >
-                  <Link href="/login">Login</Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
+              {isLoggedIn ? (
+                <NavigationMenuItem>
+                  <Link href={getLinkWithRef("/dashboard")} className="flex items-center justify-center w-10 h-10 bg-red-500 rounded-full text-white font-bold text-sm shadow-sm transition-transform hover:scale-105">
+                    {userInitials}
+                  </Link>
+                </NavigationMenuItem>
+              ) : (
+                <NavigationMenuItem>
+                  <NavigationMenuLink
+                    asChild
+                    className={navigationMenuTriggerStyle()}
+                  >
+                    <Link href={getLinkWithRef("/login")}>Login</Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              )}
 
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <Link href="/apply-now">
+                  <Link href={getLinkWithRef("/apply-now")}>
                     <Button size="default" variant="default" className="text-base">
                       Apply now
                     </Button>
@@ -207,6 +225,7 @@ export default function Navbar() {
             </NavigationMenuList>
           </NavigationMenu>
         </div>
+
 
         {/* Mobile Hamburger */}
         <div className="lg:hidden">
@@ -228,14 +247,26 @@ export default function Navbar() {
                 </SheetTitle>
               </SheetHeader>
               <div className="mt-6 flex flex-col space-y-4 px-4">
-                <Link href="/apply-loan">Personal Loan</Link>
-                <Link href="#">Loan Calculators</Link>
-                <Link href="/loan/mumbai">Cities</Link>
-                <Link href="/blog">Learn</Link>
-                <Link href="/contact">Support</Link>
-                <Link href="/login">Login</Link>
-                <Button variant="default" className="w-full">Apply now</Button>
+                <Link href={getLinkWithRef("/apply-loan")}>Personal Loan</Link>
+                <Link href={getLinkWithRef("#")}>Loan Calculators</Link>
+                <Link href={getLinkWithRef("/loan/mumbai")}>Cities</Link>
+                <Link href={getLinkWithRef("/blog")}>Learn</Link>
+                <Link href={getLinkWithRef("/contact")}>Support</Link>
+                {isLoggedIn ? (
+                  <Link href={getLinkWithRef("/dashboard")} className="flex items-center space-x-2">
+                    <div className="flex items-center justify-center w-10 h-10 bg-red-500 rounded-full text-white font-bold text-sm">
+                      {userInitials}
+                    </div>
+                    <span className="font-medium text-red-500">Dashboard</span>
+                  </Link>
+                ) : (
+                  <Link href={getLinkWithRef("/login")}>Login</Link>
+                )}
+                <Link href={getLinkWithRef("/apply-now")} className="w-full">
+                  <Button variant="default" className="w-full">Apply now</Button>
+                </Link>
               </div>
+
             </SheetContent>
           </Sheet>
         </div>

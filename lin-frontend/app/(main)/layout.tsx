@@ -3,6 +3,7 @@ import "../globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { outfit } from "@/lib/fonts";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Get low rate personal loans within minutes | LoanINNeed",
@@ -22,13 +23,15 @@ export default function MainLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${outfit.className} antialiased`}
       >
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+        <Suspense fallback={null}>
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </Suspense>
       </body>
     </html>
   );

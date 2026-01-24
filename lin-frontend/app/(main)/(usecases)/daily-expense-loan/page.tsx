@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import FAQSection from "@/components/FAQSection";
 import FootCTA from "@/components/FootCTA";
 import HowItWorks from "@/components/HowItWorks";
@@ -13,9 +14,12 @@ import {
   medicalLoanUseCaseData,
 } from "@/lib/data";
 
+// Opt out of static generation to avoid useSearchParams prerendering issues
+export const dynamic = "force-dynamic";
+
 export default function DailyExpenseLoan() {
   return (
-    <>
+    <Suspense fallback={<div>Loading...</div>}>
       <UseCaseHero
         loanType="Everyday Expenses"
         loanDesc={
@@ -64,6 +68,6 @@ export default function DailyExpenseLoan() {
       />
       <FootCTA />
       <FAQSection faqData={educationLoanFAQ} />
-    </>
+    </Suspense>
   );
 }

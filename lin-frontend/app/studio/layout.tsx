@@ -1,7 +1,5 @@
 export { metadata, viewport } from "next-sanity/studio";
-
 export const runtime = "nodejs";
-
 import { Suspense } from "react";
 
 export default function StudioLayout({
@@ -10,12 +8,8 @@ export default function StudioLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en">
-            <body>
-                <Suspense fallback={<div>Loading Studio...</div>}>
-                    {children}
-                </Suspense>
-            </body>
-        </html>
+        <Suspense fallback={<div>Loading Studio...</div>}>
+            {children}
+        </Suspense>
     );
 }

@@ -13,6 +13,8 @@ import {
   medicalLoanUseCaseData,
 } from "@/lib/data";
 
+export const dynamic = "force-dynamic";
+
 export default function MedicalEmergencyLoan() {
   return (
     <>

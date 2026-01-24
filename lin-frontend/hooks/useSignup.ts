@@ -16,13 +16,16 @@ interface UseSignupReturn {
 const initialFormData: SignupFormData = {
   phoneVerification: { phoneNumber: "", otp: "" as string | undefined },
   personalDetails: {
-    firstName: "", middleName: "", lastName: "", dateOfBirth: "", email: "", password: "", gender: "" as "Male" | "Female" | "Prefer not to say"
+    firstName: "", middleName: "", lastName: "", dateOfBirth: "", gender: "" as "Male" | "Female" | "Prefer not to say",
+    panNumber: "", panImage: undefined, employmentType: "Salaried"
   },
   basicDetails: {
-    loanAmount: 0, purposeOfLoan: "", companyName: "", companyAddress: "",
-    monthlyIncome: 0, jobStability: "" as "Very unstable" | "Somewhat unstable" | "Neutral / moderate" | "Stable" | "Very stable",
+    loanAmount: 0, purposeOfLoan: "",
+    companyName: "", professionName: "",
+    companyAddress: "", monthlyIncome: 0,
+    jobStability: "" as "Very unstable" | "Somewhat unstable" | "Neutral / moderate" | "Stable" | "Very stable",
     currentAddress: "", currentAddressType: "" as "Owner(Self or Family)" | "Rented",
-    permanentAddress: "", addressProof: new File([], ""), pinCode: ""
+    permanentAddress: "", addressProof: undefined, pinCode: ""
   },
   documentVerification: {
     payslipFile: new File([], ""), bankStatementFile: new File([], ""),
@@ -69,8 +72,8 @@ export function useSignup(): UseSignupReturn {
             name,
             dob: data.dateOfBirth,
             gender: data.gender,
-            email: data.email,
-            password: data.password,
+            email: "user@example.com", // Dummy email
+            password: "Password@123",  // Dummy password
           });
           return true;
 
@@ -98,7 +101,7 @@ export function useSignup(): UseSignupReturn {
           documentFormData.append('selfie', data.photoFile);
           documentFormData.append('panNumber', data.panNumber);
           documentFormData.append('aadhaarNumber', data.aadhaarNumber);
-          
+
           // Add location data if available
           if (navigator.geolocation) {
             try {
@@ -109,7 +112,7 @@ export function useSignup(): UseSignupReturn {
                   maximumAge: 0
                 });
               });
-              
+
               documentFormData.append('latitude', position.coords.latitude.toString());
               documentFormData.append('longitude', position.coords.longitude.toString());
               documentFormData.append('accuracy', position.coords.accuracy?.toString() || '');
@@ -123,9 +126,9 @@ export function useSignup(): UseSignupReturn {
             documentFormData.append('latitude', '0');
             documentFormData.append('longitude', '0');
           }
-          
+
           documentFormData.append('consent', 'true');
-          
+
           await apiClient.submitDocuments(documentFormData);
           return true;
 
@@ -158,7 +161,11 @@ export function useSignup(): UseSignupReturn {
           return false;
       }
     } catch (err: any) {
-      setError(err.message || 'An error occurred');
+      if (err.message?.toLowerCase().includes('exist') || err.message?.toLowerCase().includes('conflict')) {
+        setError('User is already present, please login');
+      } else {
+        setError(err.message || 'An error occurred');
+      }
       return false;
     } finally {
       setIsLoading(false);

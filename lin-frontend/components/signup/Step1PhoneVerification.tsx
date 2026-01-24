@@ -1,6 +1,9 @@
 "use client"
 
 import React from "react"
+import Link from "next/link"
+import { useAffiliate } from "@/hooks/useAffiliate"
+
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
@@ -18,16 +21,18 @@ interface Step1Props {
   isLoading?: boolean
 }
 
-export function Step1PhoneVerification({ 
-  onSubmit, 
-  otpSent, 
-  resendTimer, 
-  onResend, 
-  formData, 
+export function Step1PhoneVerification({
+  onSubmit,
+  otpSent,
+  resendTimer,
+  onResend,
+  formData,
   setFormData,
   isLoading = false
 }: Step1Props) {
+  const { getLinkWithRef } = useAffiliate();
   const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm<PhoneVerificationForm>({
+
     resolver: zodResolver(otpSent ? otpVerificationSchema : phoneNumberSchema),
     defaultValues: formData
   })
@@ -93,8 +98,8 @@ export function Step1PhoneVerification({
               </label>
             </div>
 
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               className="w-full bg-red-600 hover:bg-red-700 text-white h-12 text-base font-medium"
               disabled={isLoading}
             >
@@ -102,10 +107,11 @@ export function Step1PhoneVerification({
             </Button>
 
             <div className="text-center">
-              <a href="/login" className="text-red-600 hover:underline text-sm font-medium">
+              <Link href={getLinkWithRef("/login")} className="text-red-600 hover:underline text-sm font-medium">
                 Already have an account? Login
-              </a>
+              </Link>
             </div>
+
           </>
         ) : (
           <>
@@ -154,8 +160,8 @@ export function Step1PhoneVerification({
               )}
             </div>
 
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               className="w-full bg-red-600 hover:bg-red-700 text-white h-12 text-base font-medium"
               disabled={isLoading}
             >

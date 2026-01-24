@@ -14,17 +14,22 @@ export const metadata: Metadata = {
   ],
 };
 
+import { Suspense } from "react";
+
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
-    return (
-      <html lang="en">
+  return (
+    <html lang="en">
       <body
         className={`${outfit.className} antialiased`}
       >
-      <main className="flex min-h-screen items-center justify-center bg-gray-50">
-        {children}
-      </main>
+        <main className="flex min-h-screen items-center justify-center bg-gray-50">
+          <Suspense fallback={
+            <div className="w-10 h-10 border-4 border-red-600 border-t-transparent rounded-full animate-spin" />
+          }>
+            {children}
+          </Suspense>
+        </main>
       </body>
-      </html>
-    );
-  }
-  
+    </html>
+  );
+}

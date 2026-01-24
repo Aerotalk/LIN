@@ -8,13 +8,21 @@ import { Input } from "@/components/ui/input"
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp"
 import { loginStep1Schema, loginOtpSchema, type LoginStep1Form, type LoginOtpForm } from "@/lib/login-schemas"
 import { useLogin } from "@/hooks/useLogin"
-import { ArrowLeft, Loader2 } from "lucide-react"
+import { DUMMY_USERS } from "@/lib/api"
+import { ArrowLeft, Loader2, CheckCircle2 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
+import { useAffiliate } from "@/hooks/useAffiliate"
 
-export default function LoginPage() {
+
+import { Suspense } from "react"
+
+
+function LoginForm() {
   const router = useRouter()
+  const { getLinkWithRef } = useAffiliate()
+
   const {
     step,
     phoneNumber,
@@ -76,14 +84,15 @@ export default function LoginPage() {
     if (success) {
       // Redirect after showing success
       setTimeout(() => {
-        router.push("/dashboard")
+        router.push(getLinkWithRef("/dashboard"))
       }, 2000)
+
     }
   }
 
   const handleResendOtp = async () => {
     if (otpResendTimer > 0) return // Prevent resend if timer is still running
-    
+
     const success = await resendOtp()
     if (success) {
       setOtpValue("")
@@ -110,10 +119,11 @@ export default function LoginPage() {
           <div className="max-w-md mx-auto">
             {/* Logo */}
             <div className="mb-12">
-              <Link href="/">
+              <Link href={getLinkWithRef("/")}>
                 <Image src="/lin-logo.png" alt="Loan In Need" width={120} height={40} />
               </Link>
             </div>
+
 
             {/* Heading */}
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
@@ -128,14 +138,16 @@ export default function LoginPage() {
 
             {/* Coin Illustration */}
             <div className="flex justify-start">
-              <Image 
-                src="/login-money.png" 
-                alt="Coins illustration" 
-                width={200} 
+              <Image
+                src="/login-money.png"
+                alt="Coins illustration"
+                width={200}
                 height={200}
                 className="object-contain"
               />
             </div>
+
+            {/* Test Credentials removed as per request */}
           </div>
         </div>
 
@@ -218,8 +230,8 @@ export default function LoginPage() {
                     </label>
                   </div>
 
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     className="w-full bg-red-600 hover:bg-red-700 text-white h-12"
                   >
                     Get OTP
@@ -228,11 +240,12 @@ export default function LoginPage() {
                   <div className="text-center">
                     <p className="text-sm text-gray-600">
                       Didn&apos;t have an account?{" "}
-                      <Link href="/signup" className="text-red-600 hover:underline font-medium">
+                      <Link href={getLinkWithRef("/signup")} className="text-red-600 hover:underline font-medium">
                         Create now
                       </Link>
                     </p>
                   </div>
+
                 </form>
               </div>
             )}
@@ -305,8 +318,8 @@ export default function LoginPage() {
                     )}
                   </div>
 
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     className="w-full bg-red-600 hover:bg-red-700 text-white h-12"
                     disabled={isVerifying}
                   >
@@ -328,13 +341,13 @@ export default function LoginPage() {
               <div className="space-y-6 text-center">
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                    <span className="text-red-600">Verification</span> successful
+                    <span className="text-green-600">Verification</span> successful
                   </h2>
-                  <p className="text-gray-600 text-sm">You are redirecting to dashboard</p>
+                  <p className="text-gray-600 text-sm">You are being redirected to the dashboard...</p>
                 </div>
 
                 <div className="flex justify-center py-8">
-                  <Loader2 className="w-12 h-12 text-red-600 animate-spin" />
+                  <CheckCircle2 className="w-16 h-16 text-green-600 animate-in zoom-in duration-500 ease-out fill-green-50" />
                 </div>
               </div>
             )}
@@ -344,3 +357,16 @@ export default function LoginPage() {
     </div>
   )
 }
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-10 h-10 text-red-600 animate-spin" />
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
+  )
+}
+

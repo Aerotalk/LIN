@@ -1,10 +1,17 @@
 "use client"
-
-import React from 'react';
+import React, { useState } from 'react';
 import { ChevronDown, CheckCircle, FileText, Building, CreditCard, User, Users, TrendingUp, Award, Target, Zap } from 'lucide-react';
 import FAQSection from '@/components/FAQSection';
+import { DSAApplicationModal } from '@/components/dsa/DSAApplicationModal';
+import { useAffiliate } from '@/hooks/useAffiliate';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 
-export default function DSAPartnerPage() {
+import { Suspense } from 'react';
+import { Loader2 } from 'lucide-react';
+
+function DSAPartnerContent() {
+  const { getLinkWithRef } = useAffiliate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const dsaFAQData = [
     {
       question: "How do risk with Loan as an a Loan Need DSA Partner?",
@@ -55,11 +62,19 @@ export default function DSAPartnerPage() {
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <div className="text-sm text-gray-600 mb-3 flex items-center gap-2">
-                <span>Home</span>
-                <ChevronDown className="w-3 h-3 -rotate-90" />
-                <span className="text-red-500">DSA Partnership</span>
-              </div>
+              <Breadcrumb className="mb-4">
+                <BreadcrumbList>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href={getLinkWithRef("/")}>Home</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage className="text-red-500 font-medium">
+                      DSA Partnership
+                    </BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
               <h1 className="text-5xl font-bold text-gray-900 mb-6 leading-tight">
                 Start Your Loan Business<br />
                 <span className="text-red-500">with India&apos;s Leading Digital</span><br />
@@ -71,46 +86,28 @@ export default function DSAPartnerPage() {
               <p className="text-gray-600 text-lg mb-8 leading-relaxed">
                 Want to start a career in the Loan Lending Industry? MSME lending credit, retail-credit lending, affordable home loans on Aadhaar? Do you want a strategic direct-credit provider with modern fintech facilities to assist? Here at LoaniNeed, an FTA for credit companies, we help you.
               </p>
-              <button className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-colors shadow-lg">
-                Become a Partner
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="bg-red-500 hover:bg-red-600 text-white px-10 py-5 rounded-xl font-bold text-lg transition-all hover:scale-105 active:scale-95 shadow-xl"
+              >
+                Become a Direct Sales Agent
               </button>
             </div>
-            <div className="bg-white rounded-2xl shadow-2xl p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">
-                If you are looking to apply for DSA or Loan Agent partnership
-              </h3>
-              <form className="space-y-4">
-                <input
-                  type="text"
-                  placeholder="Name"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-                />
-                <input
-                  type="email"
-                  placeholder="Email"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-                />
-                <input
-                  type="tel"
-                  placeholder="Phone"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-                />
-                <input
-                  type="text"
-                  placeholder="City"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-                />
-                <button
-                  type="submit"
-                  className="w-full bg-red-500 hover:bg-red-600 text-white py-4 rounded-lg font-semibold text-lg transition-colors"
-                >
-                  Submit
-                </button>
-              </form>
+
+            {/* Right side placeholder - as requested, empty for now */}
+            <div className="hidden md:flex items-center justify-center">
+              <div className="w-full h-80 bg-red-100/30 rounded-3xl border-2 border-dashed border-red-200 flex items-center justify-center text-red-300">
+                Image Coming Soon
+              </div>
             </div>
           </div>
         </div>
       </section>
+
+      <DSAApplicationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
 
       {/* What is a Loan DSA Agent Section */}
       <section className="py-20 px-4">
@@ -120,7 +117,7 @@ export default function DSAPartnerPage() {
           </h2>
           <div className="text-gray-700 space-y-6 leading-relaxed text-lg">
             <p>
-              A <strong>Loan DSA Agent</strong> (DSA) works as a main Direct Selling Agent/Channel (DSA/DSC) and platforms connecting banks to retail-creditory. As a Loan DSA agent, you&apos;ll connect millions of customers in India who may need loan assistance or lending credit access to trusted resources.
+              <strong>Loan DSA Agent</strong> (DSA) works as a main Direct Selling Agent/Channel (DSA/DSC) and platforms connecting banks to retail-creditory. As a Loan DSA agent, you&apos;ll connect millions of customers in India who may need loan assistance or lending credit access to trusted resources.
             </p>
             <ul className="space-y-4 ml-6">
               <li className="flex items-start gap-3">
@@ -156,7 +153,7 @@ export default function DSAPartnerPage() {
           <h2 className="text-4xl font-bold text-center mb-16">
             Why should I join <span className="text-red-500">LoaniNeeds as a DSA Partner?</span>
           </h2>
-          
+
           <div className="grid md:grid-cols-3 gap-8">
             {/* Card 1 */}
             <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow">
@@ -311,7 +308,7 @@ export default function DSAPartnerPage() {
           <h2 className="text-4xl font-bold text-center mb-16">
             What are the documents required for <span className="text-red-500">DSA Registration?</span>
           </h2>
-          
+
           {/* Individual Partners */}
           <div className="mb-16">
             <h3 className="text-2xl font-bold text-gray-900 mb-8">For Individual Partners</h3>
@@ -443,5 +440,17 @@ export default function DSAPartnerPage() {
         faqData={dsaFAQData}
       />
     </div>
+  );
+}
+
+export default function DSAPartnerPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-10 h-10 text-red-600 animate-spin" />
+      </div>
+    }>
+      <DSAPartnerContent />
+    </Suspense>
   );
 }

@@ -7,10 +7,14 @@ import useEMIcalc from "@/hooks/useEMIcalc";
 import { Separator } from "./ui/separator";
 import { Input } from "./ui/input";
 import { useRouter } from "next/navigation";
+import { useAffiliate } from "@/hooks/useAffiliate";
+
 
 export default function LoanCalculator({ loanType }: { loanType?: string }) {
   const router = useRouter();
+  const { getLinkWithRef } = useAffiliate();
   const { calculateEMI } = useEMIcalc();
+
 
   const [principal, setPrincipal] = useState(5000); // Default principal amount
   const [annualInterestRate, setAnnualInterestRate] = useState(12); // Default interest rate
@@ -33,8 +37,9 @@ export default function LoanCalculator({ loanType }: { loanType?: string }) {
   }, [principal, annualInterestRate, tenureMonths, calculateEMI]);
 
   const handleApplyLoan = () => {
-    router.push("/apply-now");
+    router.push(getLinkWithRef("/apply-now"));
   };
+
 
   return (
     <section className="w-full max-w-7xl mx-auto py-4 p-6 md:p-12 lg:p-20">

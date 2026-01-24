@@ -10,12 +10,6 @@ export default function StudioLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en">
-            <body>
-                <Suspense fallback={<div>Loading Studio...</div>}>
-                    {children}
-                </Suspense>
-            </body>
-        </html>
+        <Suspense fallback={<div>Loading Studio...</div>}>{children}</Suspense>
     );
 }

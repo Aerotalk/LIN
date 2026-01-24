@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import "./globals.css";
+import { outfit } from "@/lib/fonts";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Get low rate personal loans within minutes | LoanINNeed",
@@ -12,18 +15,18 @@ export const metadata: Metadata = {
   ],
 };
 
-import { Suspense } from "react";
-
-export default function AuthLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-gray-50">
-      <Suspense
-        fallback={
-          <div className="w-10 h-10 border-4 border-red-600 border-t-transparent rounded-full animate-spin" />
-        }
-      >
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${outfit.className} antialiased`}>
+        <Toaster position="top-center" richColors />
         {children}
-      </Suspense>
-    </main>
+      </body>
+    </html>
   );
 }
+

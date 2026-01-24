@@ -313,82 +313,52 @@ export default function DSADashboardPage() {
     const renderProfile = () => (
         <div className="space-y-16">
             <section className="max-w-5xl">
-                <h2 className="text-[28px] font-bold text-[#EF4444] mb-8">Business Details</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+                <h2 className="text-[28px] font-bold text-[#EF4444] mb-8">Profile Details</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 mb-8">
                     {[
-                        { label: "Company name", value: "Google" },
-                        { label: "Organization type", value: "LLP" },
-                        { label: "Company PAN", value: "GVIPD5678P" },
-                        { label: "GST Details", value: "19JWCPGVIPD5678P" },
-                        { label: "Partner type", value: "Direct Sales Agent" },
-                    ].map((field, idx) => (
-                        <div key={idx} className="space-y-2.5">
+                        { id: "fullName", label: "Full Name", value: "Ratul Das", editable: true },
+                        { id: "email", label: "Email Address", value: "ratul@gmail.com", editable: true },
+                        { id: "phoneNumber", label: "Phone Number", value: "+91 98309 18171", editable: true },
+                        { id: "firmName", label: "Firm Name (if applicable)", value: "Das Enterprises", editable: true },
+                        { id: "address", label: "Address", value: "123, Park Street", editable: true },
+                        { id: "city", label: "City", value: "Kolkata", editable: true },
+                        { id: "state", label: "State", value: "West Bengal", editable: true },
+                        { id: "pincode", label: "PIN Code", value: "700016", editable: true },
+                        { id: "panNumber", label: "PAN Number", value: "GVIPD5678P", editable: false },
+                        { id: "gstLicense", label: "GST/Trade License", value: "19JWCPGVIPD5678P", editable: false },
+                    ].map((field) => (
+                        <div key={field.id} className="space-y-2.5">
                             <label className="text-[15px] font-medium text-[#111827] block px-1">{field.label}</label>
                             <div className="relative group">
                                 <input
-                                    type="text"
-                                    value={field.value}
-                                    readOnly
-                                    className="w-full bg-[#F3F4F6] border-none rounded-2xl px-6 py-4 text-gray-500 font-medium outline-none pr-12 cursor-default"
+                                    ref={el => { inputRefs.current[field.id] = el; }}
+                                    type={field.id === "email" ? "email" : field.id === "phoneNumber" ? "tel" : "text"}
+                                    defaultValue={field.value}
+                                    readOnly={!editingFields[field.id] || !field.editable}
+                                    onBlur={() => field.editable && handleBlur(field.id)}
+                                    className={`w-full border rounded-2xl px-6 py-4 font-medium outline-none pr-12 transition-all shadow-sm ${!field.editable
+                                            ? "bg-[#F3F4F6] border-none text-gray-500 cursor-default"
+                                            : editingFields[field.id]
+                                                ? "bg-white border-red-200 ring-2 ring-red-50 text-gray-900"
+                                                : "bg-[#F9FAFB] border-gray-50 text-gray-700 cursor-default"
+                                        } ${["panNumber", "gstLicense"].includes(field.id) ? "uppercase" : ""}`}
                                 />
-                                <div className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400">
-                                    <Lock size={18} />
+                                <div className="absolute right-5 top-1/2 -translate-y-1/2 flex items-center">
+                                    {field.editable ? (
+                                        <button
+                                            onMouseDown={(e) => e.preventDefault()}
+                                            onClick={() => toggleEdit(field.id)}
+                                            className="text-gray-400 hover:text-red-500 transition-colors cursor-pointer p-1"
+                                        >
+                                            {editingFields[field.id] ? <Check size={18} className="text-green-500" /> : <PencilLine size={18} />}
+                                        </button>
+                                    ) : (
+                                        <Lock size={18} className="text-gray-400" />
+                                    )}
                                 </div>
                             </div>
                         </div>
                     ))}
-                </div>
-            </section>
-
-            <section className="max-w-5xl">
-                <h2 className="text-[28px] font-bold text-[#EF4444] mb-8">Login Details</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 mb-8">
-                    <div className="space-y-2.5">
-                        <label className="text-[15px] font-medium text-[#111827] block px-1">Email id</label>
-                        <div className="relative group">
-                            <input
-                                ref={el => { inputRefs.current["email"] = el; }}
-                                type="email"
-                                defaultValue="ratul@gmail.com"
-                                readOnly={!editingFields["email"]}
-                                onBlur={() => handleBlur("email")}
-                                className={`w-full border rounded-2xl px-6 py-4 font-medium outline-none pr-12 transition-all shadow-sm ${editingFields["email"]
-                                    ? "bg-white border-red-200 ring-2 ring-red-50 text-gray-900"
-                                    : "bg-[#F9FAFB] border-gray-50 text-gray-700 cursor-default"
-                                    }`}
-                            />
-                            <button
-                                onMouseDown={(e) => e.preventDefault()}
-                                onClick={() => toggleEdit("email")}
-                                className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-500 transition-colors cursor-pointer p-1"
-                            >
-                                {editingFields["email"] ? <Check size={18} className="text-green-500" /> : <PencilLine size={18} />}
-                            </button>
-                        </div>
-                    </div>
-                    <div className="space-y-2.5">
-                        <label className="text-[15px] font-medium text-[#111827] block px-1">Mobile number</label>
-                        <div className="relative group">
-                            <input
-                                ref={el => { inputRefs.current["mobile"] = el; }}
-                                type="tel"
-                                defaultValue="+91 98309 18171"
-                                readOnly={!editingFields["mobile"]}
-                                onBlur={() => handleBlur("mobile")}
-                                className={`w-full border rounded-2xl px-6 py-4 font-medium outline-none pr-12 transition-all shadow-sm ${editingFields["mobile"]
-                                    ? "bg-white border-red-200 ring-2 ring-red-50 text-gray-900"
-                                    : "bg-[#F9FAFB] border-gray-50 text-gray-700 cursor-default"
-                                    }`}
-                            />
-                            <button
-                                onMouseDown={(e) => e.preventDefault()}
-                                onClick={() => toggleEdit("mobile")}
-                                className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-500 transition-colors cursor-pointer p-1"
-                            >
-                                {editingFields["mobile"] ? <Check size={18} className="text-green-500" /> : <PencilLine size={18} />}
-                            </button>
-                        </div>
-                    </div>
                 </div>
                 <button className="bg-[#EF4444] text-white px-8 py-3.5 rounded-xl font-bold hover:bg-red-600 transition-all shadow-lg shadow-red-100 text-[15px]">
                     Update now

@@ -1,17 +1,20 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export const useAffiliate = () => {
-    const searchParams = useSearchParams();
-    const refFromUrl = searchParams.get("ref");
+    const [refFromUrl, setRefFromUrl] = useState<string | null>(null);
 
     useEffect(() => {
-        if (refFromUrl) {
-            sessionStorage.setItem("affiliate_ref", refFromUrl);
+        // Avoid Next.js `useSearchParams()` to prevent prerender/Suspense build errors.
+        // This runs only on the client after hydration.
+        const ref = new URLSearchParams(window.location.search).get("ref");
+        setRefFromUrl(ref);
+
+        if (ref) {
+            sessionStorage.setItem("affiliate_ref", ref);
         }
-    }, [refFromUrl]);
+    }, []);
 
     const getRef = useCallback(() => {
         return refFromUrl || (typeof window !== "undefined" ? sessionStorage.getItem("affiliate_ref") : null);

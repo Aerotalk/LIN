@@ -16,7 +16,10 @@ import { useRouter } from "next/navigation"
 import { useAffiliate } from "@/hooks/useAffiliate"
 
 
-export default function LoginPage() {
+import { Suspense } from "react"
+
+
+function LoginForm() {
   const router = useRouter()
   const { getLinkWithRef } = useAffiliate()
 
@@ -354,3 +357,16 @@ export default function LoginPage() {
     </div>
   )
 }
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-10 h-10 text-red-600 animate-spin" />
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
+  )
+}
+

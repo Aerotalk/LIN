@@ -7,7 +7,10 @@ import { BCApplicationModal } from '@/components/bc/BCApplicationModal';
 import { useAffiliate } from '@/hooks/useAffiliate';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 
-export default function BusinessConsultantPage() {
+import { Suspense } from 'react';
+import { Loader2 } from 'lucide-react';
+
+function BusinessConsultantContent() {
     const { getLinkWithRef } = useAffiliate();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const bcFAQData = [
@@ -337,5 +340,17 @@ export default function BusinessConsultantPage() {
                 faqData={bcFAQData}
             />
         </div>
+    );
+}
+
+export default function BusinessConsultantPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center">
+                <Loader2 className="w-10 h-10 text-red-600 animate-spin" />
+            </div>
+        }>
+            <BusinessConsultantContent />
+        </Suspense>
     );
 }

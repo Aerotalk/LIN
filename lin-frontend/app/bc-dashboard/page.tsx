@@ -20,7 +20,11 @@ import {
     Globe
 } from "lucide-react";
 
-export default function BCDashboardPage() {
+import { Suspense } from "react";
+import { Loader2 } from "lucide-react";
+
+
+function BCDashboardContent() {
     const { affiliateRef } = useAffiliate();
     const [activeTab, setActiveTab] = React.useState("Dashboard");
 
@@ -337,10 +341,10 @@ export default function BCDashboardPage() {
                                     readOnly={!editingFields[field.id] || !field.editable}
                                     onBlur={() => field.editable && handleBlur(field.id)}
                                     className={`w-full border rounded-2xl px-6 py-4 font-medium outline-none pr-12 transition-all shadow-sm ${!field.editable
-                                            ? "bg-[#F3F4F6] border-none text-gray-500 cursor-default"
-                                            : editingFields[field.id]
-                                                ? "bg-white border-red-200 ring-2 ring-red-50 text-gray-900"
-                                                : "bg-[#F9FAFB] border-gray-50 text-gray-700 cursor-default"
+                                        ? "bg-[#F3F4F6] border-none text-gray-500 cursor-default"
+                                        : editingFields[field.id]
+                                            ? "bg-white border-red-200 ring-2 ring-red-50 text-gray-900"
+                                            : "bg-[#F9FAFB] border-gray-50 text-gray-700 cursor-default"
                                         } ${["panNumber", "gstLicense"].includes(field.id) ? "uppercase" : ""}`}
                                 />
                                 <div className="absolute right-5 top-1/2 -translate-y-1/2 flex items-center">
@@ -446,5 +450,17 @@ export default function BCDashboardPage() {
                 </main>
             </div>
         </div>
+    );
+}
+
+export default function BCDashboardPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center">
+                <Loader2 className="w-10 h-10 text-red-600 animate-spin" />
+            </div>
+        }>
+            <BCDashboardContent />
+        </Suspense>
     );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useAffiliate } from "@/hooks/useAffiliate";
 
@@ -20,10 +20,12 @@ import {
     CreditCard,
     ArrowUpRight,
     Mail,
-    MessageCircle
+    MessageCircle,
+    Loader2
 } from "lucide-react";
 
-export default function DashboardPage() {
+
+function DashboardContent() {
     const router = useRouter();
     const { getLinkWithRef } = useAffiliate();
     const [activeTab, setActiveTab] = React.useState("Dashboard");
@@ -418,5 +420,17 @@ export default function DashboardPage() {
                 </main>
             </div>
         </div>
+    );
+}
+
+export default function DashboardPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center">
+                <Loader2 className="w-10 h-10 text-red-600 animate-spin" />
+            </div>
+        }>
+            <DashboardContent />
+        </Suspense>
     );
 }

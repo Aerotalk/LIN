@@ -30,7 +30,10 @@ const STEPS: Step[] = [
     { id: 4, title: "Photo & Location", description: "Get Instant Financial Support You Can Rely On" },
 ]
 
-export default function ApplyNowPage() {
+import { Suspense } from "react"
+import { Loader2 } from "lucide-react"
+
+function ApplyNowContent() {
     const { getLinkWithRef } = useAffiliate();
     const {
 
@@ -257,5 +260,17 @@ export default function ApplyNowPage() {
                 </div>
             </div>
         </div>
+    )
+}
+
+export default function ApplyNowPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center">
+                <Loader2 className="w-10 h-10 text-red-600 animate-spin" />
+            </div>
+        }>
+            <ApplyNowContent />
+        </Suspense>
     )
 }

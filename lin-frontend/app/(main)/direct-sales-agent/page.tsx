@@ -6,7 +6,10 @@ import { DSAApplicationModal } from '@/components/dsa/DSAApplicationModal';
 import { useAffiliate } from '@/hooks/useAffiliate';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 
-export default function DSAPartnerPage() {
+import { Suspense } from 'react';
+import { Loader2 } from 'lucide-react';
+
+function DSAPartnerContent() {
   const { getLinkWithRef } = useAffiliate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dsaFAQData = [
@@ -114,7 +117,7 @@ export default function DSAPartnerPage() {
           </h2>
           <div className="text-gray-700 space-y-6 leading-relaxed text-lg">
             <p>
-              A <strong>Loan DSA Agent</strong> (DSA) works as a main Direct Selling Agent/Channel (DSA/DSC) and platforms connecting banks to retail-creditory. As a Loan DSA agent, you&apos;ll connect millions of customers in India who may need loan assistance or lending credit access to trusted resources.
+              <strong>Loan DSA Agent</strong> (DSA) works as a main Direct Selling Agent/Channel (DSA/DSC) and platforms connecting banks to retail-creditory. As a Loan DSA agent, you&apos;ll connect millions of customers in India who may need loan assistance or lending credit access to trusted resources.
             </p>
             <ul className="space-y-4 ml-6">
               <li className="flex items-start gap-3">
@@ -437,5 +440,17 @@ export default function DSAPartnerPage() {
         faqData={dsaFAQData}
       />
     </div>
+  );
+}
+
+export default function DSAPartnerPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="w-10 h-10 text-red-600 animate-spin" />
+      </div>
+    }>
+      <DSAPartnerContent />
+    </Suspense>
   );
 }

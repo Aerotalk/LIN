@@ -20,7 +20,11 @@ import {
     Globe
 } from "lucide-react";
 
-export default function AffiliateDashboardPage() {
+import { Suspense } from "react";
+import { Loader2 } from "lucide-react";
+
+
+function AffiliateDashboardContent() {
     const { affiliateRef } = useAffiliate();
     const [activeTab, setActiveTab] = React.useState("Dashboard");
 
@@ -440,5 +444,17 @@ export default function AffiliateDashboardPage() {
                 </main>
             </div>
         </div>
+    );
+}
+
+export default function AffiliateDashboardPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center">
+                <Loader2 className="w-10 h-10 text-red-600 animate-spin" />
+            </div>
+        }>
+            <AffiliateDashboardContent />
+        </Suspense>
     );
 }

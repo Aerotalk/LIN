@@ -36,8 +36,6 @@ class ApiClient {
     const url = `${this.baseURL}${endpoint}`;
     const method = options.method || 'GET';
 
-    console.log(`[API Request] Entering: ${method} ${url}`);
-
     // Normalize headers to a plain object for easy modification
     const normalizedHeaders: Record<string, string> = {};
 
@@ -66,47 +64,55 @@ class ApiClient {
       normalizedHeaders['Content-Type'] = 'application/json';
     }
 
-    const config: RequestInit = {
-      ...options,
-      headers: normalizedHeaders,
-    };
+    console.log(`🚀 [API Request] ${method} ${url}`);
+    console.log(`📋 [API Headers]`, { ...normalizedHeaders, Authorization: normalizedHeaders.Authorization ? 'Bearer ****' : undefined });
 
     // Log payload if it exists
     if (options.body) {
       if (options.body instanceof FormData) {
         const formDataObj: Record<string, any> = {};
         options.body.forEach((value, key) => {
-          formDataObj[key] = value instanceof File ? `File: ${value.name}` : value;
+          formDataObj[key] = value instanceof File ? `File: ${value.name} (${value.size} bytes)` : value;
         });
-        console.log(`[API Request] Payload (FormData):`, formDataObj);
+        console.log(`📦 [API Payload] (FormData):`, formDataObj);
       } else {
         try {
-          console.log(`[API Request] Payload:`, JSON.parse(options.body as string));
+          console.log(`📦 [API Payload]:`, JSON.parse(options.body as string));
         } catch {
-          console.log(`[API Request] Payload:`, options.body);
+          console.log(`📦 [API Payload]:`, options.body);
         }
       }
     }
 
-    try {
-      const response = await fetch(url, config);
+    const config: RequestInit = {
+      ...options,
+      headers: normalizedHeaders,
+    };
 
-      console.log(`[API Response] Received: ${response.status} ${response.statusText} for ${method} ${endpoint}`);
+    try {
+      const startTime = Date.now();
+      const response = await fetch(url, config);
+      const duration = Date.now() - startTime;
+
+      console.log(`✅ [API Response] ${response.status} ${response.statusText} (${duration}ms) for ${method} ${endpoint}`);
 
       // Check if response is ok before parsing JSON
       if (!response.ok) {
-        // Try to parse error message from JSON response
         let errorMessage = `HTTP error! status: ${response.status}`;
         let errorData: any = null;
         try {
-          errorData = await response.json();
-          errorMessage = errorData.message || errorData.error || errorMessage;
+          const contentType = response.headers.get('content-type');
+          if (contentType && contentType.includes('application/json')) {
+            errorData = await response.json();
+            errorMessage = errorData.message || errorData.error || errorMessage;
+          } else {
+            errorMessage = await response.text() || errorMessage;
+          }
         } catch {
-          // If response is not JSON, use status text
           errorMessage = response.statusText || errorMessage;
         }
 
-        console.error(`[API Error] Status ${response.status}: ${errorMessage}`, errorData || '');
+        console.error(`❌ [API Error] Status ${response.status} at ${endpoint}:`, errorMessage, errorData || '');
         throw new Error(errorMessage);
       }
 
@@ -116,34 +122,30 @@ class ApiClient {
         const contentType = response.headers.get('content-type');
         if (contentType && contentType.includes('application/json')) {
           data = await response.json();
-          console.log(`[API Response] Data:`, data);
+          console.log(`📥 [API Data]`, data);
         } else {
-          // If response is not JSON, create a basic response object
           const text = await response.text();
           data = {
             message: text || 'Request completed successfully',
             success: true
           } as ApiResponse<T>;
-          console.log(`[API Response] Text:`, text);
+          console.log(`📥 [API Response Text]`, text);
         }
       } catch (parseError) {
-        // If JSON parsing fails, create a basic response
-        console.error(`[API Parse Error] Failed to parse response from ${endpoint}:`, parseError);
+        console.error(`❌ [API Parse Error] Failed to parse response from ${endpoint}:`, parseError);
         data = {
           message: 'Response received but could not be parsed',
           success: false
         } as ApiResponse<T>;
       }
 
-      console.log(`[API Request] Exiting: ${method} ${endpoint}`);
       return data;
     } catch (error: any) {
-      console.error(`[API Request Failed] ${method} ${endpoint}:`, error);
-      // If it's already an Error with message, re-throw it
       if (error instanceof Error) {
+        console.error(`🚨 [API Request Failed] ${method} ${endpoint}:`, error.message);
         throw error;
       }
-      // Otherwise create a new error
+      console.error(`🚨 [API Request Failed] ${method} ${endpoint}:`, error);
       throw new Error(error.message || 'Network error occurred. Please check your connection.');
     }
   }

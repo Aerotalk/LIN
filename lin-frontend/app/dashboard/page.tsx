@@ -30,6 +30,7 @@ function DashboardContent() {
     const router = useRouter();
     const { getLinkWithRef } = useAffiliate();
     const [activeTab, setActiveTab] = React.useState("Dashboard");
+    const [isLoading, setIsLoading] = React.useState(true); // Loading state
 
     const [editingFields, setEditingFields] = React.useState<Record<string, boolean>>({});
 
@@ -42,30 +43,81 @@ function DashboardContent() {
         { name: "Support", icon: <Headphones size={20} /> },
     ];
 
-    const personalDetails = [
-        { label: "First name as per PAN", value: "Ratul", locked: true },
-        { label: "Last name", value: "Das", locked: true },
-        { label: "Date of birth as per PAN", value: "06-03-2002", locked: true },
-        { label: "Mobile number", value: "+91 98309 18171", locked: true },
-        { label: "Gender", value: "Male", locked: true },
-        { label: "PAN", value: "GVIPDS678P", locked: true },
-    ];
+    // Initial empty states
+    const [personalDetails, setPersonalDetails] = React.useState([
+        { label: "First name as per PAN", value: "Loading...", locked: true },
+        { label: "Last name", value: "Loading...", locked: true },
+        { label: "Date of birth as per PAN", value: "Loading...", locked: true },
+        { label: "Mobile number", value: "Loading...", locked: true },
+        { label: "Gender", value: "Loading...", locked: true },
+        { label: "PAN", value: "Loading...", locked: true },
+    ]);
 
-    const initialEmploymentDetails = [
-        { id: "emp_1", label: "Company name", value: "Paytm Payments bank" },
-        { id: "emp_2", label: "Company address", value: "New Delhi" },
-        { id: "emp_3", label: "Monthly income", value: "₹67,800" },
-        { id: "emp_4", label: "Stability in current job", value: "Stable" },
-    ];
+    const [employmentData, setEmploymentData] = React.useState([
+        { id: "emp_1", label: "Company name", value: "Not added" },
+        { id: "emp_2", label: "Company address", value: "Not added" },
+        { id: "emp_3", label: "Monthly income", value: "Not added" },
+        { id: "emp_4", label: "Stability in current job", value: "Not added" },
+    ]);
 
-    const initialAddressDetails = [
-        { id: "addr_1", label: "Current address with landmark", value: "Koramangla , Bengaluru" },
-        { id: "addr_2", label: "Current address type", value: "Rent" },
-        { id: "addr_3", label: "Permanent address", value: "Jadavpur , Kolkata" },
-    ];
+    const [addressData, setAddressData] = React.useState([
+        { id: "addr_1", label: "Current address with landmark", value: "Not added" },
+        { id: "addr_2", label: "Current address type", value: "Not added" },
+        { id: "addr_3", label: "Permanent address", value: "Not added" },
+    ]);
 
-    const [employmentData, setEmploymentData] = React.useState(initialEmploymentDetails);
-    const [addressData, setAddressData] = React.useState(initialAddressDetails);
+    // Fetch data on mount
+    React.useEffect(() => {
+        async function fetchData() {
+            try {
+                // Import apiClient dynamically or assume it's imported at top (Added import below)
+                const { apiClient } = await import("@/lib/api");
+                const response = await apiClient.getCompleteProfile();
+
+                if (response && response.profile) {
+                    const p = response.profile as any;
+
+                    // Split name into first and last (simple logic)
+                    const fullName = p.name || "";
+                    const nameParts = fullName.split(" ");
+                    const firstName = nameParts[0] || "-";
+                    const lastName = nameParts.slice(1).join(" ") || "-";
+                    const dob = p.dob ? new Date(p.dob).toLocaleDateString("en-GB") : "-";
+
+                    setPersonalDetails([
+                        { label: "First name as per PAN", value: firstName, locked: true },
+                        { label: "Last name", value: lastName, locked: true },
+                        { label: "Date of birth as per PAN", value: dob, locked: true },
+                        { label: "Mobile number", value: p.phone || "-", locked: true },
+                        { label: "Gender", value: p.gender || "-", locked: true },
+                        { label: "PAN", value: p.panVerification?.panNumber || "Not Verified", locked: true },
+                    ]);
+
+                    if (p.employment) {
+                        setEmploymentData([
+                            { id: "emp_1", label: "Company name", value: p.employment.employerName || "-" },
+                            { id: "emp_2", label: "Company address", value: p.employment.companyAddress || "-" },
+                            { id: "emp_3", label: "Monthly income", value: p.employment.monthlyIncome ? `₹${p.employment.monthlyIncome}` : "-" },
+                            { id: "emp_4", label: "Stability in current job", value: p.employment.stability || "-" },
+                        ]);
+                    }
+
+                    if (p.address) {
+                        setAddressData([
+                            { id: "addr_1", label: "Current address with landmark", value: p.address.currentAddress || "-" },
+                            { id: "addr_2", label: "Current address type", value: p.address.currentAddressType || "-" },
+                            { id: "addr_3", label: "Permanent address", value: p.address.permanentAddress || "-" },
+                        ]);
+                    }
+                }
+            } catch (error) {
+                console.error("Failed to fetch dashboard data:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+        fetchData();
+    }, []);
 
     const loanHistory = [
         { id: "h1", number: "5442898006777", amount: "₹52,000", date: "02 May, 2025", status: "Repaid", type: "Personal Loan" },

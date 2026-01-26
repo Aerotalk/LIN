@@ -38,22 +38,27 @@ export function Step2PersonalDetails({ onSubmit, onGoToDashboard, formData, setF
   // Handlers
   const handlePanVerify = async () => {
     const panNumber = watch("panNumber");
+    const panImage = watch("panImage");
+
     if (!panNumber || panNumber.length !== 10) {
       trigger("panNumber");
       return;
     }
 
+    if (!panImage) {
+      trigger("panImage"); // Trigger validation for image
+      return;
+    }
+
     setIsVerifyingPan(true);
     try {
-      const response = await apiClient.verifyPan(panNumber);
+      // Pass both PAN number and image
+      const response = await apiClient.verifyPan(panNumber, panImage);
+
       if (response.success && response.data) {
-        const data = response.data;
-        // Auto-fill and lock
-        setValue("firstName", data.firstName);
-        setValue("middleName", data.middleName || "");
-        setValue("lastName", data.lastName);
-        setValue("dateOfBirth", data.dateOfBirth);
-        setValue("gender", data.gender as any);
+        // We do NOT autofill anymore, just mark as verified
+        // const data = response.data;
+        // The user must fill firstName, lastName etc. manually.
 
         setIsPanVerified(true);
       } else {
@@ -239,26 +244,32 @@ export function Step2PersonalDetails({ onSubmit, onGoToDashboard, formData, setF
       <div className={cn("grid grid-cols-1 md:grid-cols-2 gap-6", !isPanVerified && "opacity-50 pointer-events-none")}>
         <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-2">First name <span className="text-red-500">*</span></label>
-          <Input {...register("firstName")} disabled={true} className="bg-gray-50 h-12" placeholder="Enter your first name" />
+          <Input {...register("firstName")} className="bg-white h-12" placeholder="Enter your first name" />
         </div>
         <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-2">Middle name</label>
-          <Input {...register("middleName")} disabled={true} className="bg-gray-50 h-12" placeholder="Enter your middle name" />
+          <Input {...register("middleName")} className="bg-white h-12" placeholder="Enter your middle name" />
         </div>
         <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-2">Last name <span className="text-red-500">*</span></label>
-          <Input {...register("lastName")} disabled={true} className="bg-gray-50 h-12" placeholder="Enter your last name" />
+          <Input {...register("lastName")} className="bg-white h-12" placeholder="Enter your last name" />
         </div>
         <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-2">Date of birth <span className="text-red-500">*</span></label>
           <div className="relative">
-            <Input type="date" {...register("dateOfBirth")} disabled={true} className="bg-gray-50 h-12" />
+            <Input type="date" {...register("dateOfBirth")} className="bg-white h-12" />
           </div>
         </div>
         <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-2">Gender <span className="text-red-500">*</span></label>
-          <Select value={gender} disabled={true}>
-            <SelectTrigger className="w-full h-12 bg-gray-50">
+          <Select
+            value={gender}
+            onValueChange={(val) => {
+              setValue("gender", val as any);
+              setFormData({ ...formData, gender: val as any });
+            }}
+          >
+            <SelectTrigger className="w-full h-12 bg-white">
               <SelectValue placeholder="Select your gender" />
             </SelectTrigger>
             <SelectContent>

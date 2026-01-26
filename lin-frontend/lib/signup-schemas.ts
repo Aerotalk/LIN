@@ -50,7 +50,7 @@ export const personalDetailsSchema = z.object({
     }, "Age must be between 18 and 65 years"),
   gender: z.enum(["Male", "Female", "Prefer not to say"]),
   panNumber: z.string()
-    .regex(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/, "Invalid PAN number"),
+    .length(10, "PAN number must be exactly 10 characters"),
   panImage: z.instanceof(File)
     .refine(file => file.size <= MAX_5MB, "File size must be ≤ 5MB")
     .optional(), // Optional initially until uploaded

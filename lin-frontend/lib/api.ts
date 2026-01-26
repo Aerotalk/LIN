@@ -33,15 +33,18 @@ class ApiClient {
     options: RequestInit = {}
   ): Promise<ApiResponse<T>> {
     const url = `${this.baseURL}${endpoint}`;
+    const method = options.method || 'GET';
+
+    console.log(`[API Request] Entering: ${method} ${url}`);
 
     // Normalize headers to a plain object for easy modification
     const normalizedHeaders: Record<string, string> = {};
-    
+
     // Add token if available
     if (this.token) {
       normalizedHeaders['Authorization'] = `Bearer ${this.token}`;
     }
-    
+
     // Merge existing headers
     if (options.headers) {
       if (options.headers instanceof Headers) {
@@ -67,20 +70,42 @@ class ApiClient {
       headers: normalizedHeaders,
     };
 
+    // Log payload if it exists
+    if (options.body) {
+      if (options.body instanceof FormData) {
+        const formDataObj: Record<string, any> = {};
+        options.body.forEach((value, key) => {
+          formDataObj[key] = value instanceof File ? `File: ${value.name}` : value;
+        });
+        console.log(`[API Request] Payload (FormData):`, formDataObj);
+      } else {
+        try {
+          console.log(`[API Request] Payload:`, JSON.parse(options.body as string));
+        } catch {
+          console.log(`[API Request] Payload:`, options.body);
+        }
+      }
+    }
+
     try {
       const response = await fetch(url, config);
-      
+
+      console.log(`[API Response] Received: ${response.status} ${response.statusText} for ${method} ${endpoint}`);
+
       // Check if response is ok before parsing JSON
       if (!response.ok) {
         // Try to parse error message from JSON response
         let errorMessage = `HTTP error! status: ${response.status}`;
+        let errorData: any = null;
         try {
-          const errorData = await response.json();
+          errorData = await response.json();
           errorMessage = errorData.message || errorData.error || errorMessage;
         } catch {
           // If response is not JSON, use status text
           errorMessage = response.statusText || errorMessage;
         }
+
+        console.error(`[API Error] Status ${response.status}: ${errorMessage}`, errorData || '');
         throw new Error(errorMessage);
       }
 
@@ -90,6 +115,7 @@ class ApiClient {
         const contentType = response.headers.get('content-type');
         if (contentType && contentType.includes('application/json')) {
           data = await response.json();
+          console.log(`[API Response] Data:`, data);
         } else {
           // If response is not JSON, create a basic response object
           const text = await response.text();
@@ -97,18 +123,21 @@ class ApiClient {
             message: text || 'Request completed successfully',
             success: true
           } as ApiResponse<T>;
+          console.log(`[API Response] Text:`, text);
         }
       } catch (parseError) {
         // If JSON parsing fails, create a basic response
+        console.error(`[API Parse Error] Failed to parse response from ${endpoint}:`, parseError);
         data = {
           message: 'Response received but could not be parsed',
           success: false
         } as ApiResponse<T>;
       }
 
+      console.log(`[API Request] Exiting: ${method} ${endpoint}`);
       return data;
     } catch (error: any) {
-      console.error('API request failed:', error);
+      console.error(`[API Request Failed] ${method} ${endpoint}:`, error);
       // If it's already an Error with message, re-throw it
       if (error instanceof Error) {
         throw error;
@@ -129,9 +158,9 @@ class ApiClient {
   async verifyPhoneOtp(phone: string, code: string): Promise<ApiResponse> {
     const response = await this.request<ApiResponse>('/api/auth/phone/verify-otp', {
       method: 'POST',
-      body: JSON.stringify({ 
-        phone: phone.startsWith('+91') ? phone : `+91${phone}`, 
-        code 
+      body: JSON.stringify({
+        phone: phone.startsWith('+91') ? phone : `+91${phone}`,
+        code
       }),
     });
 
@@ -160,9 +189,9 @@ class ApiClient {
   async verifyLoginOtp(phone: string, code: string): Promise<ApiResponse> {
     const response = await this.request<ApiResponse>('/api/auth/phone/verify-otp', {
       method: 'POST',
-      body: JSON.stringify({ 
-        phone: phone.startsWith('+91') ? phone : `+91${phone}`, 
-        code 
+      body: JSON.stringify({
+        phone: phone.startsWith('+91') ? phone : `+91${phone}`,
+        code
       }),
     });
 
@@ -239,7 +268,7 @@ class ApiClient {
   async uploadDocument(type: string, file: File): Promise<ApiResponse> {
     const formData = new FormData();
     formData.append('file', file);
-    
+
     return this.request<ApiResponse>(`/api/document/upload/${type}`, {
       method: 'POST',
       body: formData,
@@ -256,7 +285,7 @@ class ApiClient {
   async uploadSelfie(selfieFile: File): Promise<ApiResponse> {
     const formData = new FormData();
     formData.append('selfie', selfieFile);
-    
+
     return this.request<ApiResponse>('/api/selfie/upload', {
       method: 'POST',
       body: formData,

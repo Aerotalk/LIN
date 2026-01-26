@@ -24,7 +24,8 @@ class ApiClient {
   private token: string | null = null;
 
   constructor(baseURL: string) {
-    this.baseURL = baseURL;
+    // Remove trailing slash to prevent double slashes in URLs
+    this.baseURL = baseURL.replace(/\/+$/, '');
     this.token = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null;
   }
 

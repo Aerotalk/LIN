@@ -3,20 +3,15 @@ import { config } from './config';
 
 const API_BASE_URL = config.apiUrl;
 
-export const DUMMY_USERS = [
-  { phone: '9876543210', dob: '1990-01-01', displayDob: '01/01/1990', otp: '123456' },
-  { phone: '9988776655', dob: '1995-05-15', displayDob: '15/05/1995', otp: '123456' },
-  { phone: '9123456789', dob: '1988-10-20', displayDob: '20/10/1988', otp: '123456' },
-  { phone: '9555555555', dob: '2000-10-10', displayDob: '10/10/2000', otp: '123456' },
-  { phone: '9898989898', dob: '1992-12-25', displayDob: '25/12/1992', otp: '123456' }
-];
-
 interface ApiResponse<T = unknown> {
   success?: boolean;
   message: string;
   data?: T;
   user?: T;
   token?: string;
+  profile?: T;
+  location?: T;
+  applicationId?: string;
 }
 
 interface ApiError {
@@ -37,19 +32,21 @@ class ApiClient {
     endpoint: string,
     options: RequestInit = {}
   ): Promise<ApiResponse<T>> {
-    const url = `${this.baseURL}`;
+    const url = `${this.baseURL}${endpoint}`;
+
+    const headers: HeadersInit = {
+      ...(this.token && { Authorization: `Bearer ${this.token}` }),
+      ...options.headers,
+    };
+
+    // Don't set Content-Type for FormData - browser will set it with boundary
+    if (!(options.body instanceof FormData)) {
+      headers['Content-Type'] = 'application/json';
+    }
 
     const config: RequestInit = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(this.token && { Authorization: `Bearer ${this.token}` }),
-        ...options.headers,
-      },
-      body: JSON.stringify({
-        path: endpoint,
-        body: options.body ? JSON.parse(options.body as string) : undefined,
-      }),
+      ...options,
+      headers,
     };
 
     try {
@@ -61,48 +58,30 @@ class ApiClient {
       }
 
       return data;
-    } catch (error) {
+    } catch (error: any) {
       console.error('API request failed:', error);
-      throw error;
+      if (error.message) {
+        throw error;
+      }
+      throw new Error(error.message || 'Network error occurred');
     }
   }
 
   // Auth endpoints
   async requestPhoneOtp(phone: string): Promise<ApiResponse> {
-    // Check if user already exists (simulated check against dummy users)
-    const dummy = DUMMY_USERS.find(u => u.phone === phone);
-    if (dummy) {
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate delay
-      throw new Error('User already exists, please login');
-    }
-
-    // Mock request for new test user
-    if (phone === '9000000001') {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      return {
-        success: true,
-        message: 'OTP sent successfully'
-      };
-    }
-
-    return this.request('/api/auth/phone/request-otp', {
-      body: JSON.stringify({ phone: `+91${phone}` }),
+    return this.request<ApiResponse>('/api/auth/phone/request-otp', {
+      method: 'POST',
+      body: JSON.stringify({ phone: phone.startsWith('+91') ? phone : `+91${phone}` }),
     });
   }
 
   async verifyPhoneOtp(phone: string, code: string): Promise<ApiResponse> {
-    // Mock verify for test user
-    if (phone === '9000000001' && code === '123456') {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      return {
-        success: true,
-        message: 'Phone verified successfully',
-        token: 'mock_signup_token_123'
-      };
-    }
-
-    const response = await this.request('/api/auth/phone/verify-otp', {
-      body: JSON.stringify({ phone: `+91${phone}`, code }),
+    const response = await this.request<ApiResponse>('/api/auth/phone/verify-otp', {
+      method: 'POST',
+      body: JSON.stringify({ 
+        phone: phone.startsWith('+91') ? phone : `+91${phone}`, 
+        code 
+      }),
     });
 
     // Store token for future requests
@@ -118,52 +97,22 @@ class ApiClient {
 
   // Login endpoints
   async loginUser(phone: string, dateOfBirth: string): Promise<ApiResponse> {
-    // Check for dummy user
-    const dummy = DUMMY_USERS.find(u => u.phone === phone && u.dob === dateOfBirth);
-    if (dummy) {
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate delay
-      return {
-        success: true,
-        message: 'OTP sent successfully',
-        data: { otpSent: true }
-      };
-    }
-
-    try {
-      return await this.request('/api/users/login', {
-        body: JSON.stringify({
-          phone: `+91${phone}`,
-          dob: dateOfBirth
-        }),
-      });
-    } catch (e) {
-      // For testing purposes, if API call fails (network error), we assume user doesn't exist
-      // This helps when testing without a backend running
-      throw new Error('User does not exist');
-    }
+    return this.request<ApiResponse>('/api/users/login', {
+      method: 'POST',
+      body: JSON.stringify({
+        phone: phone.startsWith('+91') ? phone : `+91${phone}`,
+        dob: dateOfBirth
+      }),
+    });
   }
 
   async verifyLoginOtp(phone: string, code: string): Promise<ApiResponse> {
-    // Check for dummy user
-    const dummy = DUMMY_USERS.find(u => u.phone === phone);
-    if (dummy) {
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate delay
-      if (code === dummy.otp) {
-        const token = `dummy_token_${phone}_${Date.now()}`;
-        this.setToken(token);
-        return {
-          success: true,
-          message: 'Login successful',
-          token: token,
-          user: { name: 'Test User', phone: dummy.phone } as any
-        };
-      } else {
-        throw new Error('OTP is wrong, please re-enter OTP');
-      }
-    }
-
-    const response = await this.request('/api/auth/phone/verify-otp', {
-      body: JSON.stringify({ phone: `+91${phone}`, code }),
+    const response = await this.request<ApiResponse>('/api/auth/phone/verify-otp', {
+      method: 'POST',
+      body: JSON.stringify({ 
+        phone: phone.startsWith('+91') ? phone : `+91${phone}`, 
+        code 
+      }),
     });
 
     // Store token for future requests
@@ -184,21 +133,24 @@ class ApiClient {
     email: string;
     password: string;
   }): Promise<ApiResponse> {
-    // Mock registration for test
-    if (userData.email) {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      return {
-        success: true,
-        message: 'User registered successfully',
-        data: { id: 'mock_user_id' }
-      };
-    }
-
-    return this.request('/api/users/register', {
+    return this.request<ApiResponse>('/api/users/register', {
+      method: 'POST',
       body: JSON.stringify(userData),
     });
   }
 
+  // Profile endpoints
+  async getProfile(): Promise<ApiResponse> {
+    return this.request<ApiResponse>('/api/users/me', {
+      method: 'GET',
+    });
+  }
+
+  async getCompleteProfile(): Promise<ApiResponse> {
+    return this.request<ApiResponse>('/api/users/profile/complete', {
+      method: 'GET',
+    });
+  }
 
   // KYC endpoints
   async submitKYC(kycData: {
@@ -219,55 +171,50 @@ class ApiClient {
     interestRate?: number;
     termMonths?: number;
   }): Promise<ApiResponse> {
-    // Mock KYC submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    return {
-      success: true,
-      message: 'KYC details submitted successfully'
-    };
+    return this.request<ApiResponse>('/api/kyc', {
+      method: 'POST',
+      body: JSON.stringify(kycData),
+    });
   }
 
   // Document verification endpoints
   async submitDocuments(formData: FormData): Promise<ApiResponse> {
-    const url = '/api/upload-documents';
-
-    const config: RequestInit = {
+    return this.request<ApiResponse>('/api/document/submit', {
       method: 'POST',
-      headers: {
-        ...(this.token && { Authorization: `Bearer ${this.token}` }),
-      },
       body: formData,
-    };
-
-    // Mock document upload
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    return {
-      success: true,
-      message: 'Documents uploaded successfully'
-    };
-  }
-
-
-
-  // Aadhaar verification endpoints
-  async requestAadhaarOtp(aadhaarNumber: string): Promise<ApiResponse> {
-    return this.request('/api/auth/aadhaar/request-otp', {
-      body: JSON.stringify({ aadhaarNumber }),
     });
   }
 
-  async verifyAadhaarOtp(aadhaarNumber: string, otp: string): Promise<ApiResponse> {
-    // Mock Aadhaar OTP verify
-    if (otp === '123456') {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      return {
-        success: true,
-        message: 'Aadhaar verified successfully'
-      };
-    }
+  async uploadDocument(type: string, file: File): Promise<ApiResponse> {
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    return this.request<ApiResponse>(`/api/document/upload/${type}`, {
+      method: 'POST',
+      body: formData,
+    });
+  }
 
-    return this.request('/api/auth/aadhaar/verify-otp', {
-      body: JSON.stringify({ aadhaarNumber, otp }),
+  async getDocumentStatus(): Promise<ApiResponse> {
+    return this.request<ApiResponse>('/api/document/status', {
+      method: 'GET',
+    });
+  }
+
+  // Selfie endpoints
+  async uploadSelfie(selfieFile: File): Promise<ApiResponse> {
+    const formData = new FormData();
+    formData.append('selfie', selfieFile);
+    
+    return this.request<ApiResponse>('/api/selfie/upload', {
+      method: 'POST',
+      body: formData,
+    });
+  }
+
+  async getSelfieStatus(): Promise<ApiResponse> {
+    return this.request<ApiResponse>('/api/selfie/status', {
+      method: 'GET',
     });
   }
 
@@ -283,34 +230,52 @@ class ApiClient {
     postalCode?: string;
     placeName?: string;
   }): Promise<ApiResponse> {
-    // Mock location submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    return {
-      success: true,
-      message: 'Location saved successfully'
-    };
+    return this.request<ApiResponse>('/api/users/location', {
+      method: 'POST',
+      body: JSON.stringify(locationData),
+    });
   }
 
-  // PAN Verification
-  async verifyPan(panNumber: string): Promise<ApiResponse<any>> {
-    // Mock check for dummy PAN
-    if (panNumber === 'ABCDE1234F') {
-      await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate delay
-      return {
-        success: true,
-        message: 'PAN verified successfully',
-        data: {
-          firstName: 'Rahul',
-          middleName: '',
-          lastName: 'Sharma',
-          dateOfBirth: '1990-01-01',
-          gender: 'Male',
-          panNumber: panNumber
-        }
-      };
-    }
+  async getLocation(): Promise<ApiResponse> {
+    return this.request<ApiResponse>('/api/users/location', {
+      method: 'GET',
+    });
+  }
 
-    return this.request('/api/verification/pan', {
+  // Loan endpoints
+  async applyForLoan(loanData: {
+    loanAmount: number;
+    purposeOfLoan: string;
+    loanType?: string;
+  }): Promise<ApiResponse> {
+    return this.request<ApiResponse>('/api/loans/apply', {
+      method: 'POST',
+      body: JSON.stringify(loanData),
+    });
+  }
+
+  // Aadhaar verification endpoints (if implemented in backend)
+  async requestAadhaarOtp(aadhaarNumber: string): Promise<ApiResponse> {
+    // Note: This endpoint may not exist in backend yet
+    return this.request<ApiResponse>('/api/auth/aadhaar/request-otp', {
+      method: 'POST',
+      body: JSON.stringify({ aadhaarNumber }),
+    });
+  }
+
+  async verifyAadhaarOtp(aadhaarNumber: string, otp: string): Promise<ApiResponse> {
+    // Note: This endpoint may not exist in backend yet
+    return this.request<ApiResponse>('/api/auth/aadhaar/verify-otp', {
+      method: 'POST',
+      body: JSON.stringify({ aadhaarNumber, otp }),
+    });
+  }
+
+  // PAN Verification (if implemented in backend)
+  async verifyPan(panNumber: string): Promise<ApiResponse<any>> {
+    // Note: This endpoint may not exist in backend yet
+    return this.request<ApiResponse>('/api/verification/pan', {
+      method: 'POST',
       body: JSON.stringify({ panNumber }),
     });
   }

@@ -94,40 +94,20 @@ export function useSignup(): UseSignupReturn {
           return true;
 
         case 4:
-          // Submit documents
+          // Submit documents (salary slips and bank statements)
+          // Note: Selfie is submitted separately in step 6
           const documentFormData = new FormData();
-          documentFormData.append('salarySlips', data.payslipFile);
-          documentFormData.append('bankStatements', data.bankStatementFile);
-          documentFormData.append('selfie', data.photoFile);
-          documentFormData.append('panNumber', data.panNumber);
-          documentFormData.append('aadhaarNumber', data.aadhaarNumber);
-
-          // Add location data if available
-          if (navigator.geolocation) {
-            try {
-              const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-                navigator.geolocation.getCurrentPosition(resolve, reject, {
-                  enableHighAccuracy: true,
-                  timeout: 10000,
-                  maximumAge: 0
-                });
-              });
-
-              documentFormData.append('latitude', position.coords.latitude.toString());
-              documentFormData.append('longitude', position.coords.longitude.toString());
-              documentFormData.append('accuracy', position.coords.accuracy?.toString() || '');
-            } catch (error) {
-              console.warn('Could not get location:', error);
-              // Use default location or let backend handle missing location
-              documentFormData.append('latitude', '0');
-              documentFormData.append('longitude', '0');
-            }
-          } else {
-            documentFormData.append('latitude', '0');
-            documentFormData.append('longitude', '0');
+          
+          // Backend expects arrays, so append files correctly
+          if (data.payslipFile && data.payslipFile instanceof File) {
+            documentFormData.append('salarySlips', data.payslipFile);
           }
-
-          documentFormData.append('consent', 'true');
+          if (data.bankStatementFile && data.bankStatementFile instanceof File) {
+            documentFormData.append('bankStatements', data.bankStatementFile);
+          }
+          
+          // Note: PAN and Aadhaar numbers are not sent in document submission
+          // They should be handled separately if needed
 
           await apiClient.submitDocuments(documentFormData);
           return true;
@@ -138,22 +118,24 @@ export function useSignup(): UseSignupReturn {
           return true;
 
         case 6:
-          // Submit location data
-          if (data.autoDetectLocation && navigator.geolocation) {
-            const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-              navigator.geolocation.getCurrentPosition(resolve, reject, {
-                enableHighAccuracy: true,
-                timeout: 10000,
-                maximumAge: 0
-              });
-            });
+          // Submit selfie and location data
+          // First, upload selfie if available
+          if (data.photoFile && data.photoFile instanceof File) {
+            await apiClient.uploadSelfie(data.photoFile);
+          }
 
-            await apiClient.submitLocation({
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-              accuracy: position.coords.accuracy,
-              placeName: data.location,
-            });
+          // Then submit location data if auto-detected
+          if (data.autoDetectLocation && data.location) {
+            // Parse location from string format "latitude, longitude"
+            const [latitude, longitude] = data.location.split(',').map(coord => parseFloat(coord.trim()));
+            
+            if (!isNaN(latitude) && !isNaN(longitude)) {
+              await apiClient.submitLocation({
+                latitude,
+                longitude,
+                placeName: data.location,
+              });
+            }
           }
           return true;
 

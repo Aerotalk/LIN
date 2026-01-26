@@ -17,9 +17,10 @@ interface Step2Props {
   onGoToDashboard: () => void;
   formData: PersonalDetailsForm;
   setFormData: (data: PersonalDetailsForm) => void;
+  phoneNumber: string;
 }
 
-export function Step2PersonalDetails({ onSubmit, onGoToDashboard, formData, setFormData }: Step2Props) {
+export function Step2PersonalDetails({ onSubmit, onGoToDashboard, formData, setFormData, phoneNumber }: Step2Props) {
   // States
   const [isVerifyingPan, setIsVerifyingPan] = useState(false);
   const [isPanVerified, setIsPanVerified] = useState(!!formData.firstName && !!formData.panNumber);
@@ -79,11 +80,15 @@ export function Step2PersonalDetails({ onSubmit, onGoToDashboard, formData, setF
     setFormData(data);
 
     try {
+      // Clean phone number to ensure it only has digits
+      const cleanerPhone = phoneNumber.replace(/\D/g, '');
+      const uniqueEmail = `user${cleanerPhone}@loaninneed.com`;
+
       await apiClient.registerUser({
         name: `${data.firstName} ${data.lastName}`,
         dob: data.dateOfBirth,
         gender: data.gender,
-        email: "user@example.com", // Dummy email since field is removed
+        email: uniqueEmail,
         password: "Password@123"   // Dummy password
       });
       setIsSaved(true);

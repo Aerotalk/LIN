@@ -185,6 +185,7 @@ function SignupContent() {
                   onGoToDashboard={handleGoToDashboard}
                   formData={formData.personalDetails}
                   setFormData={(data) => updateFormData('personalDetails', data)}
+                  phoneNumber={formData.phoneVerification.phoneNumber}
                 />
               )}
             </div>

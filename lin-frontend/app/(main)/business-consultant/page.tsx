@@ -9,6 +9,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 
 import { Suspense } from 'react';
 import { Loader2 } from 'lucide-react';
+import Image from 'next/image';
 
 export const dynamic = "force-dynamic";
 
@@ -96,8 +97,14 @@ function BusinessConsultantContent() {
                         </div>
 
                         <div className="hidden md:flex items-center justify-center">
-                            <div className="w-full h-80 bg-red-100/30 rounded-3xl border-2 border-dashed border-red-200 flex items-center justify-center text-red-300">
-                                Image Coming Soon
+                            <div className="relative w-full h-80 md:h-[450px]">
+                                <Image
+                                    src="/bc-hero.png"
+                                    alt="LoanInNeed Business Consultant Hero"
+                                    fill
+                                    className="object-contain"
+                                    priority
+                                />
                             </div>
                         </div>
                     </div>

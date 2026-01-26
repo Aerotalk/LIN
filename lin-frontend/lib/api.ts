@@ -201,6 +201,27 @@ class ApiClient {
     });
   }
 
+  async loginAdmin(email: string, password: string): Promise<ApiResponse> {
+    const response = await this.request<ApiResponse>('/api/users/admin-login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+    });
+
+    // Store token if needed (though usually admin panel manages its own state)
+    // But since this is for partner registration flow, we might need it for headers
+    if (response.token) {
+      this.token = response.token; // Reuse user token slot or separate?
+      // Actually for this flow, we might just return the response and let the component handle it.
+      // But the middleware expects Bearer token.
+      // If we want to use registerPartner (which uses authenticate + superAdmin), we MUST set this token.
+      this.token = response.token;
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('authToken', response.token);
+      }
+    }
+    return response;
+  }
+
   async verifyLoginOtp(phone: string, code: string): Promise<ApiResponse> {
     const response = await this.request<ApiResponse>('/api/auth/phone/verify-otp', {
       method: 'POST',
@@ -269,6 +290,32 @@ class ApiClient {
     return this.request<ApiResponse>('/api/kyc', {
       method: 'POST',
       body: JSON.stringify(kycData),
+    });
+  }
+
+  async updateEmployment(data: {
+    companyName: string;
+    companyAddress: string;
+    monthlyIncome: number;
+    stability: string;
+  }): Promise<ApiResponse> {
+    return this.request<ApiResponse>('/api/kyc/employment', {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async updateAddress(data: {
+    currentAddress: string;
+    currentAddressType: string;
+    permanentAddress: string;
+    city?: string;
+    state?: string;
+    postalCode?: string;
+  }): Promise<ApiResponse> {
+    return this.request<ApiResponse>('/api/kyc/address', {
+      method: 'PUT',
+      body: JSON.stringify(data),
     });
   }
 

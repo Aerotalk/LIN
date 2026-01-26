@@ -161,6 +161,51 @@ function DashboardContent() {
         }
     };
 
+    const handleUpdateEmployment = async () => {
+        setIsLoading(true);
+        try {
+            const { apiClient } = await import("@/lib/api");
+
+            // Map array back to object
+            const data = {
+                companyName: employmentData.find(i => i.id === "emp_1")?.value || "",
+                companyAddress: employmentData.find(i => i.id === "emp_2")?.value || "",
+                monthlyIncome: parseFloat((employmentData.find(i => i.id === "emp_3")?.value || "0").replace(/[^0-9.]/g, "")),
+                stability: employmentData.find(i => i.id === "emp_4")?.value || "",
+            };
+
+            await apiClient.updateEmployment(data);
+            alert("Employment details updated successfully!");
+        } catch (error) {
+            console.error("Failed to update employment:", error);
+            alert("Failed to update details. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleUpdateAddress = async () => {
+        setIsLoading(true);
+        try {
+            const { apiClient } = await import("@/lib/api");
+
+            // Map array back to object
+            const data = {
+                currentAddress: addressData.find(i => i.id === "addr_1")?.value || "",
+                currentAddressType: addressData.find(i => i.id === "addr_2")?.value || "",
+                permanentAddress: addressData.find(i => i.id === "addr_3")?.value || "",
+            };
+
+            await apiClient.updateAddress(data);
+            alert("Address details updated successfully!");
+        } catch (error) {
+            console.error("Failed to update address:", error);
+            alert("Failed to update details. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const renderDashboardContent = () => (
         <div className="space-y-16">
             {/* Personal Details Section */}
@@ -221,7 +266,9 @@ function DashboardContent() {
                         </div>
                     ))}
                 </div>
-                <button className="bg-[#EF4444] text-white px-8 py-3.5 rounded-xl font-bold hover:bg-red-600 transition-all shadow-lg shadow-red-100 text-[15px]">
+                <button
+                    onClick={handleUpdateEmployment}
+                    className="bg-[#EF4444] text-white px-8 py-3.5 rounded-xl font-bold hover:bg-red-600 transition-all shadow-lg shadow-red-100 text-[15px]">
                     Update now
                 </button>
             </section>
@@ -259,7 +306,9 @@ function DashboardContent() {
                         </div>
                     ))}
                 </div>
-                <button className="bg-[#EF4444] text-white px-8 py-3.5 rounded-xl font-bold hover:bg-red-600 transition-all shadow-lg shadow-red-100 text-[15px]">
+                <button
+                    onClick={handleUpdateAddress}
+                    className="bg-[#EF4444] text-white px-8 py-3.5 rounded-xl font-bold hover:bg-red-600 transition-all shadow-lg shadow-red-100 text-[15px]">
                     Update now
                 </button>
             </section>

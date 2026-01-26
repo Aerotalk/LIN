@@ -24,7 +24,8 @@ class ApiClient {
   private token: string | null = null;
 
   constructor(baseURL: string) {
-    this.baseURL = baseURL;
+    // Remove trailing slash to prevent double slashes in URLs
+    this.baseURL = baseURL.replace(/\/+$/, '');
     this.token = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null;
   }
 
@@ -51,7 +52,7 @@ class ApiClient {
 
     try {
       const response = await fetch(url, config);
-      
+
       // Check if response is ok before parsing JSON
       if (!response.ok) {
         // Try to parse error message from JSON response
@@ -111,9 +112,9 @@ class ApiClient {
   async verifyPhoneOtp(phone: string, code: string): Promise<ApiResponse> {
     const response = await this.request<ApiResponse>('/api/auth/phone/verify-otp', {
       method: 'POST',
-      body: JSON.stringify({ 
-        phone: phone.startsWith('+91') ? phone : `+91${phone}`, 
-        code 
+      body: JSON.stringify({
+        phone: phone.startsWith('+91') ? phone : `+91${phone}`,
+        code
       }),
     });
 
@@ -142,9 +143,9 @@ class ApiClient {
   async verifyLoginOtp(phone: string, code: string): Promise<ApiResponse> {
     const response = await this.request<ApiResponse>('/api/auth/phone/verify-otp', {
       method: 'POST',
-      body: JSON.stringify({ 
-        phone: phone.startsWith('+91') ? phone : `+91${phone}`, 
-        code 
+      body: JSON.stringify({
+        phone: phone.startsWith('+91') ? phone : `+91${phone}`,
+        code
       }),
     });
 
@@ -221,7 +222,7 @@ class ApiClient {
   async uploadDocument(type: string, file: File): Promise<ApiResponse> {
     const formData = new FormData();
     formData.append('file', file);
-    
+
     return this.request<ApiResponse>(`/api/document/upload/${type}`, {
       method: 'POST',
       body: formData,
@@ -238,7 +239,7 @@ class ApiClient {
   async uploadSelfie(selfieFile: File): Promise<ApiResponse> {
     const formData = new FormData();
     formData.append('selfie', selfieFile);
-    
+
     return this.request<ApiResponse>('/api/selfie/upload', {
       method: 'POST',
       body: formData,

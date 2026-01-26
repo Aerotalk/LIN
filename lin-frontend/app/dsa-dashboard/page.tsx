@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
-import { useAffiliate } from "@/hooks/useAffiliate";
+import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { apiClient } from "@/lib/api";
 
 import {
     LayoutDashboard,
@@ -26,8 +27,12 @@ import { Loader2 } from "lucide-react";
 export const dynamic = "force-dynamic";
 
 function DSADashboardContent() {
-    const { affiliateRef } = useAffiliate();
+    const router = useRouter();
     const [activeTab, setActiveTab] = React.useState("Dashboard");
+    const [loading, setLoading] = React.useState(true);
+    const [dashboardData, setDashboardData] = React.useState<any>(null);
+    const [referralLink, setReferralLink] = React.useState('');
+    const [profileData, setProfileData] = React.useState<any>(null);
 
     const [editingFields, setEditingFields] = React.useState<Record<string, boolean>>({});
     const [selectedDate, setSelectedDate] = React.useState({ month: "October", year: "2025", isLifetime: false });
@@ -35,6 +40,45 @@ function DSADashboardContent() {
     const [isDateMenuOpen, setIsDateMenuOpen] = React.useState(false);
 
     const inputRefs = React.useRef<Record<string, HTMLInputElement | null>>({});
+
+    // Fetch dashboard data on mount
+    useEffect(() => {
+        const fetchDashboardData = async () => {
+            try {
+                // Check authentication
+                const partnerToken = localStorage.getItem('partnerAuthToken');
+                if (!partnerToken) {
+                    router.push('/partners/login');
+                    return;
+                }
+
+                // Fetch dashboard stats
+                const dashboardResponse = await apiClient.getPartnerDashboard();
+                setDashboardData(dashboardResponse);
+
+                // Fetch referral link
+                const linkResponse = await apiClient.getPartnerReferralLink();
+                setReferralLink(linkResponse.link || '');
+
+                // Fetch profile data
+                const profileResponse = await apiClient.getPartnerProfile();
+                setProfileData(profileResponse);
+
+            } catch (error: any) {
+                console.error('Failed to fetch dashboard data:', error);
+                // If unauthorized, redirect to login
+                if (error.message?.includes('401') || error.message?.includes('Unauthorized')) {
+                    localStorage.removeItem('partnerAuthToken');
+                    localStorage.removeItem('partnerData');
+                    router.push('/partners/login');
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchDashboardData();
+    }, [router]);
 
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const years = ["2023", "2024", "2025"];
@@ -75,10 +119,26 @@ function DSADashboardContent() {
         { name: "Support", icon: <Headphones size={20} /> },
     ];
 
+    // Use real data from backend or fallback to loading state
     const stats = [
-        { label: "Total referrals", value: "368", icon: <Calendar size={20} className="text-blue-500" />, bgColor: "bg-blue-50" },
-        { label: "Approved referrals", value: "251", icon: <Calendar size={20} className="text-orange-500" />, bgColor: "bg-orange-50" },
-        { label: "Earnings", value: "₹1750", icon: <IndianRupee size={20} className="text-green-500" />, bgColor: "bg-green-50" },
+        {
+            label: "Total referrals",
+            value: loading ? "..." : (dashboardData?.stats?.totalUsers?.toString() || "0"),
+            icon: <Calendar size={20} className="text-blue-500" />,
+            bgColor: "bg-blue-50"
+        },
+        {
+            label: "Approved referrals",
+            value: loading ? "..." : (dashboardData?.stats?.totalApplications?.toString() || "0"),
+            icon: <Calendar size={20} className="text-orange-500" />,
+            bgColor: "bg-orange-50"
+        },
+        {
+            label: "Earnings",
+            value: loading ? "..." : "₹0",  // TODO: Add earnings calculation in backend
+            icon: <IndianRupee size={20} className="text-green-500" />,
+            bgColor: "bg-green-50"
+        },
     ];
 
     const earnings = [
@@ -204,13 +264,13 @@ function DSADashboardContent() {
                     <p className="text-[15px] font-medium text-gray-500">My agent referral link</p>
                     <div className="flex items-center justify-between bg-red-50/30 p-4 rounded-2xl border border-red-50/50">
                         <span className="text-[14px] text-gray-600 truncate mr-4">
-                            {typeof window !== 'undefined' ? `${window.location.origin}/signup?ref=${affiliateRef || 'YOUR_CODE'}` : 'loading...'}
+                            {loading ? 'Loading...' : (referralLink || 'No link available')}
                         </span>
                         <button
                             className="text-gray-400 hover:text-red-500 transition-colors"
                             onClick={() => {
-                                if (typeof window !== 'undefined') {
-                                    navigator.clipboard.writeText(`${window.location.origin}/signup?ref=${affiliateRef || 'YOUR_CODE'}`);
+                                if (referralLink && typeof window !== 'undefined') {
+                                    navigator.clipboard.writeText(referralLink);
                                 }
                             }}
                         >

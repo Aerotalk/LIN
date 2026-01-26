@@ -12,6 +12,14 @@ interface ApiResponse<T = unknown> {
   profile?: T;
   location?: T;
   applicationId?: string;
+  // Partner-specific fields
+  partnerType?: 'DSA' | 'BC' | 'AFFILIATE' | 'API_PARTNER';
+  link?: string;
+  stats?: {
+    totalUsers?: number;
+    totalApplications?: number;
+  };
+  partner?: any;
 }
 
 interface ApiError {
@@ -21,28 +29,32 @@ interface ApiError {
 
 class ApiClient {
   private baseURL: string;
-  private token: string | null = null;
+  private token: string | null = null;  // User token
+  private partnerToken: string | null = null;  // Partner token
 
   constructor(baseURL: string) {
     // Remove trailing slash to prevent double slashes in URLs
     this.baseURL = baseURL.replace(/\/+$/, '');
     this.token = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null;
+    this.partnerToken = typeof window !== 'undefined' ? localStorage.getItem('partnerAuthToken') : null;
   }
 
   private async request<T>(
     endpoint: string,
-    options: RequestInit = {}
+    options: RequestInit = {},
+    usePartnerToken = false  // NEW: Flag to use partner token instead of user token
   ): Promise<ApiResponse<T>> {
     const url = `${this.baseURL}${endpoint}`;
 
     // Normalize headers to a plain object for easy modification
     const normalizedHeaders: Record<string, string> = {};
-    
-    // Add token if available
-    if (this.token) {
-      normalizedHeaders['Authorization'] = `Bearer ${this.token}`;
+
+    // Add token if available (use partner token if specified)
+    const tokenToUse = usePartnerToken ? this.partnerToken : this.token;
+    if (tokenToUse) {
+      normalizedHeaders['Authorization'] = `Bearer ${tokenToUse}`;
     }
-    
+
     // Merge existing headers
     if (options.headers) {
       if (options.headers instanceof Headers) {
@@ -324,11 +336,16 @@ class ApiClient {
   }
 
   // PAN Verification (if implemented in backend)
-  async verifyPan(panNumber: string): Promise<ApiResponse<any>> {
-    // Note: This endpoint may not exist in backend yet
-    return this.request<ApiResponse>('/api/verification/pan', {
+  // PAN Verification (Bypass implemented)
+  async verifyPan(panNumber: string, panImage: File): Promise<ApiResponse<any>> {
+    const formData = new FormData();
+    formData.append('panNumber', panNumber);
+    formData.append('panImage', panImage);
+
+    // Using the KYC route where we implemented the bypass
+    return this.request<ApiResponse>('/api/kyc/verify-pan', {
       method: 'POST',
-      body: JSON.stringify({ panNumber }),
+      body: formData,
     });
   }
 
@@ -349,6 +366,108 @@ class ApiClient {
 
   getToken(): string | null {
     return this.token;
+  }
+
+  // ===== PARTNER API METHODS =====
+
+  // Partner Authentication
+  async loginPartner(email: string, password: string): Promise<ApiResponse> {
+    const response = await this.request<ApiResponse>('/api/partners/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+    });
+
+    // Store partner token for future requests
+    if (response.token) {
+      this.partnerToken = response.token;
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('partnerAuthToken', response.token);
+        localStorage.setItem('partnerData', JSON.stringify(response));
+      }
+    }
+
+    return response;
+  }
+
+  async registerPartner(partnerData: {
+    name: string;
+    email: string;
+    phone: string;
+    password: string;
+    partnerType: 'DSA' | 'BC' | 'AFFILIATE' | 'API_PARTNER';
+    gstNumber?: string;
+    panNumber?: string;
+    address?: string;
+    city?: string;
+    state?: string;
+    pincode?: string;
+  }): Promise<ApiResponse> {
+    return this.request<ApiResponse>('/api/partners/register', {
+      method: 'POST',
+      body: JSON.stringify(partnerData),
+    });
+  }
+
+  // Partner Profile & Dashboard
+  async getPartnerProfile(): Promise<ApiResponse> {
+    return this.request<ApiResponse>('/api/partners/profile', {
+      method: 'GET',
+    }, true);  // Use partner token
+  }
+
+  async updatePartnerProfile(data: {
+    name?: string;
+    phone?: string;
+    gstNumber?: string;
+    panNumber?: string;
+    address?: string;
+    city?: string;
+    state?: string;
+    pincode?: string;
+  }): Promise<ApiResponse> {
+    return this.request<ApiResponse>('/api/partners/profile', {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    }, true);
+  }
+
+  async changePartnerPassword(oldPassword: string, newPassword: string): Promise<ApiResponse> {
+    return this.request<ApiResponse>('/api/partners/password', {
+      method: 'PUT',
+      body: JSON.stringify({ oldPassword, newPassword }),
+    }, true);
+  }
+
+  async getPartnerDashboard(): Promise<ApiResponse> {
+    return this.request<ApiResponse>('/api/partners/dashboard', {
+      method: 'GET',
+    }, true);
+  }
+
+  async getPartnerReferralLink(): Promise<ApiResponse> {
+    return this.request<ApiResponse>('/api/partners/link', {
+      method: 'GET',
+    }, true);
+  }
+
+  // Partner Utility Methods
+  setPartnerToken(token: string) {
+    this.partnerToken = token;
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('partnerAuthToken', token);
+    }
+  }
+
+  clearPartnerToken() {
+    this.partnerToken = null;
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('partnerAuthToken');
+      localStorage.removeItem('partnerData');
+    }
+  }
+
+  getPartnerToken(): string | null {
+    return this.partnerToken;
   }
 }
 

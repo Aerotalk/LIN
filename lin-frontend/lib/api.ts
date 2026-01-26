@@ -51,19 +51,52 @@ class ApiClient {
 
     try {
       const response = await fetch(url, config);
-      const data = await response.json();
-
+      
+      // Check if response is ok before parsing JSON
       if (!response.ok) {
-        throw new Error(data.message || `HTTP error! status: ${response.status}`);
+        // Try to parse error message from JSON response
+        let errorMessage = `HTTP error! status: ${response.status}`;
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorData.error || errorMessage;
+        } catch {
+          // If response is not JSON, use status text
+          errorMessage = response.statusText || errorMessage;
+        }
+        throw new Error(errorMessage);
+      }
+
+      // Parse JSON response
+      let data: ApiResponse<T>;
+      try {
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          data = await response.json();
+        } else {
+          // If response is not JSON, create a basic response object
+          const text = await response.text();
+          data = {
+            message: text || 'Request completed successfully',
+            success: true
+          } as ApiResponse<T>;
+        }
+      } catch (parseError) {
+        // If JSON parsing fails, create a basic response
+        data = {
+          message: 'Response received but could not be parsed',
+          success: false
+        } as ApiResponse<T>;
       }
 
       return data;
     } catch (error: any) {
       console.error('API request failed:', error);
-      if (error.message) {
+      // If it's already an Error with message, re-throw it
+      if (error instanceof Error) {
         throw error;
       }
-      throw new Error(error.message || 'Network error occurred');
+      // Otherwise create a new error
+      throw new Error(error.message || 'Network error occurred. Please check your connection.');
     }
   }
 

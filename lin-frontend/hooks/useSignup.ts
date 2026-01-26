@@ -13,6 +13,12 @@ interface UseSignupReturn {
   resetForm: () => void;
 }
 
+// Helper to create empty file placeholder
+const createEmptyFile = (name: string, type: string): File => {
+  const blob = new Blob([], { type });
+  return new File([blob], name, { type });
+};
+
 const initialFormData: SignupFormData = {
   phoneVerification: { phoneNumber: "", otp: "" as string | undefined },
   personalDetails: {
@@ -28,11 +34,17 @@ const initialFormData: SignupFormData = {
     permanentAddress: "", addressProof: undefined, pinCode: ""
   },
   documentVerification: {
-    payslipFile: new File([], ""), bankStatementFile: new File([], ""),
-    panNumber: "", aadhaarNumber: ""
+    payslipFile: createEmptyFile("payslip.pdf", "application/pdf"), 
+    bankStatementFile: createEmptyFile("bankstatement.pdf", "application/pdf"),
+    panNumber: "", 
+    aadhaarNumber: ""
   },
   aadhaarOtp: { aadhaarOtp: "" },
-  photoAndLocationSchema: { photoFile: new File([], ""), autoDetectLocation: false, location: "" }
+  photoAndLocationSchema: { 
+    photoFile: createEmptyFile("photo.jpg", "image/jpeg"), 
+    autoDetectLocation: false, 
+    location: "" 
+  }
 };
 
 export function useSignup(): UseSignupReturn {
@@ -99,12 +111,16 @@ export function useSignup(): UseSignupReturn {
           const documentFormData = new FormData();
           
           // Backend expects arrays, so append files correctly
-          if (data.payslipFile && data.payslipFile instanceof File) {
-            documentFormData.append('salarySlips', data.payslipFile);
+          // Only append if file exists and is a valid File object with content
+          if (!data.payslipFile || !(data.payslipFile instanceof File) || data.payslipFile.size === 0) {
+            throw new Error('Please upload your salary slip');
           }
-          if (data.bankStatementFile && data.bankStatementFile instanceof File) {
-            documentFormData.append('bankStatements', data.bankStatementFile);
+          documentFormData.append('salarySlips', data.payslipFile);
+          
+          if (!data.bankStatementFile || !(data.bankStatementFile instanceof File) || data.bankStatementFile.size === 0) {
+            throw new Error('Please upload your bank statement');
           }
+          documentFormData.append('bankStatements', data.bankStatementFile);
           
           // Note: PAN and Aadhaar numbers are not sent in document submission
           // They should be handled separately if needed
@@ -120,22 +136,28 @@ export function useSignup(): UseSignupReturn {
         case 6:
           // Submit selfie and location data
           // First, upload selfie if available
-          if (data.photoFile && data.photoFile instanceof File) {
-            await apiClient.uploadSelfie(data.photoFile);
+          if (!data.photoFile || !(data.photoFile instanceof File) || data.photoFile.size === 0) {
+            throw new Error('Please upload your photo');
           }
+          await apiClient.uploadSelfie(data.photoFile);
 
           // Then submit location data if auto-detected
           if (data.autoDetectLocation && data.location) {
             // Parse location from string format "latitude, longitude"
-            const [latitude, longitude] = data.location.split(',').map(coord => parseFloat(coord.trim()));
+            const coords = data.location.split(',').map((coord: string) => parseFloat(coord.trim()));
+            const [latitude, longitude] = coords;
             
-            if (!isNaN(latitude) && !isNaN(longitude)) {
+            if (!isNaN(latitude) && !isNaN(longitude) && latitude !== 0 && longitude !== 0) {
               await apiClient.submitLocation({
                 latitude,
                 longitude,
                 placeName: data.location,
               });
+            } else {
+              throw new Error('Invalid location data. Please enable location permissions.');
             }
+          } else {
+            throw new Error('Please enable location detection');
           }
           return true;
 

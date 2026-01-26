@@ -34,16 +34,16 @@ const initialFormData: SignupFormData = {
     permanentAddress: "", addressProof: undefined, pinCode: ""
   },
   documentVerification: {
-    payslipFile: createEmptyFile("payslip.pdf", "application/pdf"), 
+    payslipFile: createEmptyFile("payslip.pdf", "application/pdf"),
     bankStatementFile: createEmptyFile("bankstatement.pdf", "application/pdf"),
-    panNumber: "", 
+    panNumber: "",
     aadhaarNumber: ""
   },
   aadhaarOtp: { aadhaarOtp: "" },
-  photoAndLocationSchema: { 
-    photoFile: createEmptyFile("photo.jpg", "image/jpeg"), 
-    autoDetectLocation: false, 
-    location: "" 
+  photoAndLocationSchema: {
+    photoFile: createEmptyFile("photo.jpg", "image/jpeg"),
+    autoDetectLocation: false,
+    location: ""
   }
 };
 
@@ -80,11 +80,16 @@ export function useSignup(): UseSignupReturn {
         case 2:
           // Register user with personal details
           const name = `${data.firstName} ${data.middleName ? data.middleName + ' ' : ''}${data.lastName}`.trim();
+
+          // Clean phone number to ensure it only has digits
+          const cleanerPhone = formData.phoneVerification.phoneNumber.replace(/\D/g, '');
+          const uniqueEmail = `user${cleanerPhone}@loaninneed.com`;
+
           await apiClient.registerUser({
             name,
             dob: data.dateOfBirth,
             gender: data.gender,
-            email: "user@example.com", // Dummy email
+            email: uniqueEmail,
             password: "Password@123",  // Dummy password
           });
           return true;
@@ -109,19 +114,19 @@ export function useSignup(): UseSignupReturn {
           // Submit documents (salary slips and bank statements)
           // Note: Selfie is submitted separately in step 6
           const documentFormData = new FormData();
-          
+
           // Backend expects arrays, so append files correctly
           // Only append if file exists and is a valid File object with content
           if (!data.payslipFile || !(data.payslipFile instanceof File) || data.payslipFile.size === 0) {
             throw new Error('Please upload your salary slip');
           }
           documentFormData.append('salarySlips', data.payslipFile);
-          
+
           if (!data.bankStatementFile || !(data.bankStatementFile instanceof File) || data.bankStatementFile.size === 0) {
             throw new Error('Please upload your bank statement');
           }
           documentFormData.append('bankStatements', data.bankStatementFile);
-          
+
           // Note: PAN and Aadhaar numbers are not sent in document submission
           // They should be handled separately if needed
 
@@ -146,7 +151,7 @@ export function useSignup(): UseSignupReturn {
             // Parse location from string format "latitude, longitude"
             const coords = data.location.split(',').map((coord: string) => parseFloat(coord.trim()));
             const [latitude, longitude] = coords;
-            
+
             if (!isNaN(latitude) && !isNaN(longitude) && latitude !== 0 && longitude !== 0) {
               await apiClient.submitLocation({
                 latitude,
@@ -174,7 +179,7 @@ export function useSignup(): UseSignupReturn {
     } finally {
       setIsLoading(false);
     }
-  }, [formData.documentVerification.aadhaarNumber]);
+  }, [formData]);
 
   const resetForm = useCallback(() => {
     setFormData(initialFormData);

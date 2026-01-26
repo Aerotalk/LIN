@@ -35,19 +35,37 @@ class ApiClient {
   ): Promise<ApiResponse<T>> {
     const url = `${this.baseURL}${endpoint}`;
 
-    const headers: HeadersInit = {
-      ...(this.token && { Authorization: `Bearer ${this.token}` }),
-      ...options.headers,
-    };
+    // Normalize headers to a plain object for easy modification
+    const normalizedHeaders: Record<string, string> = {};
+    
+    // Add token if available
+    if (this.token) {
+      normalizedHeaders['Authorization'] = `Bearer ${this.token}`;
+    }
+    
+    // Merge existing headers
+    if (options.headers) {
+      if (options.headers instanceof Headers) {
+        options.headers.forEach((value, key) => {
+          normalizedHeaders[key] = value;
+        });
+      } else if (Array.isArray(options.headers)) {
+        options.headers.forEach(([key, value]) => {
+          normalizedHeaders[key] = value;
+        });
+      } else {
+        Object.assign(normalizedHeaders, options.headers);
+      }
+    }
 
     // Don't set Content-Type for FormData - browser will set it with boundary
     if (!(options.body instanceof FormData)) {
-      headers['Content-Type'] = 'application/json';
+      normalizedHeaders['Content-Type'] = 'application/json';
     }
 
     const config: RequestInit = {
       ...options,
-      headers,
+      headers: normalizedHeaders,
     };
 
     try {

@@ -48,7 +48,7 @@ function DSADashboardContent() {
                 // Check authentication
                 const partnerToken = localStorage.getItem('partnerAuthToken');
                 if (!partnerToken) {
-                    router.push('/partners/login');
+                    router.push('/login-agent');
                     return;
                 }
 
@@ -70,7 +70,7 @@ function DSADashboardContent() {
                 if (error.message?.includes('401') || error.message?.includes('Unauthorized')) {
                     localStorage.removeItem('partnerAuthToken');
                     localStorage.removeItem('partnerData');
-                    router.push('/partners/login');
+                    router.push('/login-agent');
                 }
             } finally {
                 setLoading(false);
@@ -381,16 +381,16 @@ function DSADashboardContent() {
                 <h2 className="text-[28px] font-bold text-[#EF4444] mb-8">Profile Details</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 mb-8">
                     {[
-                        { id: "fullName", label: "Full Name", value: "Ratul Das", editable: true },
-                        { id: "email", label: "Email Address", value: "ratul@gmail.com", editable: true },
-                        { id: "phoneNumber", label: "Phone Number", value: "+91 98309 18171", editable: true },
-                        { id: "firmName", label: "Firm Name (if applicable)", value: "Das Enterprises", editable: true },
-                        { id: "address", label: "Address", value: "123, Park Street", editable: true },
-                        { id: "city", label: "City", value: "Kolkata", editable: true },
-                        { id: "state", label: "State", value: "West Bengal", editable: true },
-                        { id: "pincode", label: "PIN Code", value: "700016", editable: true },
-                        { id: "panNumber", label: "PAN Number", value: "GVIPD5678P", editable: false },
-                        { id: "gstLicense", label: "GST/Trade License", value: "19JWCPGVIPD5678P", editable: false },
+                        { id: "fullName", label: "Full Name", value: loading ? "Loading..." : (profileData?.name || ""), editable: true },
+                        { id: "email", label: "Email Address", value: loading ? "Loading..." : (profileData?.email || ""), editable: true },
+                        { id: "phoneNumber", label: "Phone Number", value: loading ? "Loading..." : (profileData?.phone || ""), editable: true },
+                        { id: "firmName", label: "Firm Name (if applicable)", value: loading ? "Loading..." : (profileData?.firmName || "N/A"), editable: true },
+                        { id: "address", label: "Address", value: loading ? "Loading..." : (profileData?.address || ""), editable: true },
+                        { id: "city", label: "City", value: loading ? "Loading..." : (profileData?.city || ""), editable: true },
+                        { id: "state", label: "State", value: loading ? "Loading..." : (profileData?.state || ""), editable: true },
+                        { id: "pincode", label: "PIN Code", value: loading ? "Loading..." : (profileData?.pincode || ""), editable: true },
+                        { id: "panNumber", label: "PAN Number", value: loading ? "Loading..." : (profileData?.panNumber || "NOT UPDATED"), editable: false },
+                        { id: "gstLicense", label: "GST/Trade License", value: loading ? "Loading..." : (profileData?.gstNumber || "NOT UPDATED"), editable: false },
                     ].map((field) => (
                         <div key={field.id} className="space-y-2.5">
                             <label className="text-[15px] font-medium text-[#111827] block px-1">{field.label}</label>

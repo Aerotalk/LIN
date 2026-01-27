@@ -22,6 +22,8 @@ import {
     Globe
 } from "lucide-react";
 
+import { useRouter } from "next/navigation";
+
 import { Suspense } from "react";
 import { Loader2 } from "lucide-react";
 
@@ -57,6 +59,54 @@ function BCDashboardContent() {
 
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const years = ["2023", "2024", "2025"];
+
+    const router = useRouter();
+    const [loading, setLoading] = React.useState(true);
+    const [dashboardData, setDashboardData] = React.useState<any>(null);
+    const [profileData, setProfileData] = React.useState<any>(null);
+
+    // Fetch dashboard data on mount
+    React.useEffect(() => {
+        const fetchDashboardData = async () => {
+            try {
+                // Check authentication
+                const partnerToken = localStorage.getItem('partnerAuthToken');
+                if (!partnerToken) {
+                    toast.error("Please login to access dashboard");
+                    router.push('/login-agent');
+                    return;
+                }
+
+                // Fetch dashboard stats
+                console.log("Fetching dashboard stats...");
+                const dashboardResponse = await apiClient.getPartnerDashboard();
+                setDashboardData(dashboardResponse);
+
+                // Fetch referral link
+                console.log("Fetching referral link...");
+                const linkResponse = await apiClient.getPartnerReferralLink();
+                if (linkResponse.link) {
+                    setReferralLink(linkResponse.link);
+                }
+
+                // Fetch profile data
+                console.log("Fetching profile...");
+                const profileResponse = await apiClient.getPartnerProfile();
+                setProfileData(profileResponse);
+
+            } catch (error: any) {
+                console.error('Failed to fetch dashboard data:', error);
+                if (error.message?.includes('401') || error.message?.includes('Unauthorized')) {
+                    localStorage.removeItem('partnerAuthToken');
+                    router.push('/login-agent');
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchDashboardData();
+    }, [router]);
 
     const handleApplyFilter = () => {
         setSelectedDate(tempDate);
@@ -95,9 +145,24 @@ function BCDashboardContent() {
     ];
 
     const stats = [
-        { label: "Total referrals", value: "368", icon: <Calendar size={20} className="text-blue-500" />, bgColor: "bg-blue-50" },
-        { label: "Approved referrals", value: "251", icon: <Calendar size={20} className="text-orange-500" />, bgColor: "bg-orange-50" },
-        { label: "Earnings", value: "₹1750", icon: <IndianRupee size={20} className="text-green-500" />, bgColor: "bg-green-50" },
+        {
+            label: "Total referrals",
+            value: loading ? "..." : (dashboardData?.stats?.totalUsers?.toString() || "0"),
+            icon: <Calendar size={20} className="text-blue-500" />,
+            bgColor: "bg-blue-50"
+        },
+        {
+            label: "Approved referrals",
+            value: loading ? "..." : (dashboardData?.stats?.totalApplications?.toString() || "0"),
+            icon: <Calendar size={20} className="text-orange-500" />,
+            bgColor: "bg-orange-50"
+        },
+        {
+            label: "Earnings",
+            value: loading ? "..." : "₹0", // TODO: Add earnings calculation
+            icon: <IndianRupee size={20} className="text-green-500" />,
+            bgColor: "bg-green-50"
+        },
     ];
 
     const earnings = [
@@ -344,16 +409,16 @@ function BCDashboardContent() {
                 <h2 className="text-[28px] font-bold text-[#EF4444] mb-8">Profile Details</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 mb-8">
                     {[
-                        { id: "fullName", label: "Full Name", value: "Ratul Das", editable: true },
-                        { id: "email", label: "Email Address", value: "ratul@gmail.com", editable: true },
-                        { id: "phoneNumber", label: "Phone Number", value: "+91 98309 18171", editable: true },
-                        { id: "firmName", label: "Firm Name (if applicable)", value: "Das Consulting", editable: true },
-                        { id: "address", label: "Address", value: "123, Central Avenue", editable: true },
-                        { id: "city", label: "City", value: "Kolkata", editable: true },
-                        { id: "state", label: "State", value: "West Bengal", editable: true },
-                        { id: "pincode", label: "PIN Code", value: "700012", editable: true },
-                        { id: "panNumber", label: "PAN Number", value: "GVIPD5678P", editable: false },
-                        { id: "gstLicense", label: "GST/Trade License", value: "19JWCPGVIPD5678P", editable: false },
+                        { id: "fullName", label: "Full Name", value: loading ? "Loading..." : (profileData?.name || ""), editable: true },
+                        { id: "email", label: "Email Address", value: loading ? "Loading..." : (profileData?.email || ""), editable: true },
+                        { id: "phoneNumber", label: "Phone Number", value: loading ? "Loading..." : (profileData?.phone || ""), editable: true },
+                        { id: "firmName", label: "Firm Name (if applicable)", value: loading ? "Loading..." : (profileData?.firmName || "N/A"), editable: true },
+                        { id: "address", label: "Address", value: loading ? "Loading..." : (profileData?.address || ""), editable: true },
+                        { id: "city", label: "City", value: loading ? "Loading..." : (profileData?.city || ""), editable: true },
+                        { id: "state", label: "State", value: loading ? "Loading..." : (profileData?.state || ""), editable: true },
+                        { id: "pincode", label: "PIN Code", value: loading ? "Loading..." : (profileData?.pincode || ""), editable: true },
+                        { id: "panNumber", label: "PAN Number", value: loading ? "Loading..." : (profileData?.panNumber || "NOT UPDATED"), editable: false },
+                        { id: "gstLicense", label: "GST/Trade License", value: loading ? "Loading..." : (profileData?.gstNumber || "NOT UPDATED"), editable: false },
                     ].map((field) => (
                         <div key={field.id} className="space-y-2.5">
                             <label className="text-[15px] font-medium text-[#111827] block px-1">{field.label}</label>

@@ -16,83 +16,77 @@ import { Suspense } from "react"
 // Types & Schemas
 type AgentRole = "affiliate" | "dsa" | "bc"
 
-const phoneSchema = z.object({
-    phoneNumber: z.string()
-        .min(10, "Phone number must be 10 digits")
-        .max(10, "Phone number must be 10 digits")
-        .regex(/^[6-9]\d{9}$/, "Please enter a valid Indian mobile number"),
+const loginSchema = z.object({
+    email: z.string().email("Please enter a valid email address"),
+    password: z.string().min(1, "Password is required"),
 })
 
-const otpSchema = z.object({
-    otp: z.string()
-        .min(6, "OTP must be 6 digits")
-        .max(6, "OTP must be 6 digits")
-})
+type LoginFormData = z.infer<typeof loginSchema>
 
 function AgentLoginForm() {
     const router = useRouter()
-    const [step, setStep] = useState(1) // 1: Role, 2: Phone, 3: OTP, 4: Success
+    const [step, setStep] = useState(1) // 1: Role (Visual), 2: Credentials
     const [role, setRole] = useState<AgentRole | null>(null)
-    const [phoneNumber, setPhoneNumber] = useState("")
-    const [isVerifying, setIsVerifying] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
-    const [otpValue, setOtpValue] = useState("")
+    const [showPassword, setShowPassword] = useState(false)
 
-    const phoneForm = useForm<{ phoneNumber: string }>({
-        resolver: zodResolver(phoneSchema),
-        defaultValues: { phoneNumber: "" }
+    const loginForm = useForm<LoginFormData>({
+        resolver: zodResolver(loginSchema),
+        defaultValues: { email: "", password: "" }
     })
 
     const handleRoleSelect = (selectedRole: AgentRole) => {
+        console.log(`[Login] Role selected: ${selectedRole}`);
         setRole(selectedRole)
         setStep(2)
     }
 
-    const handlePhoneSubmit = (data: { phoneNumber: string }) => {
-        setPhoneNumber(data.phoneNumber)
-        setStep(3)
-    }
-
-    const handleOtpSubmit = async (e?: React.FormEvent) => {
-        if (e) e.preventDefault()
-
-        if (otpValue.length !== 6) {
-            setError("Please enter a 6-digit OTP")
-            return
-        }
-
-        setIsVerifying(true)
-        setError(null)
-
-        // Simulate API call
-        setTimeout(() => {
-            if (otpValue === "261102") {
-                setStep(4)
-                // Redirect based on role
-                setTimeout(() => {
-                    switch (role) {
-                        case "affiliate":
-                            router.push("/affiliate-dashboard")
-                            break
-                        case "dsa":
-                            router.push("/dsa-dashboard")
-                            break
-                        case "bc":
-                            router.push("/bc-dashboard")
-                            break
-                    }
-                }, 2000)
-            } else {
-                setError("Invalid OTP. Please try again.")
-                setIsVerifying(false)
-            }
-        }, 1500)
-    }
-
     const handleBack = () => {
-        if (step > 1) {
-            setStep(step - 1)
-            setError(null)
+        setStep(1)
+        setError(null)
+        loginForm.reset()
+    }
+
+    const handleLoginSubmit = async (data: LoginFormData) => {
+        console.log("[Login] Submitting credentials...", { email: data.email });
+        setIsLoading(true);
+        setError(null);
+
+        try {
+            console.log("[Login] Calling API...");
+            const response = await apiClient.loginPartner(data.email, data.password);
+            
+            console.log("[Login] API Response received:", response);
+
+            if (response.token) {
+                console.log("[Login] Success! Token received for:", response.partnerType);
+                toast.success("Login Successful!");
+
+                // Determine redirect path
+                let redirectPath = "/affiliate-dashboard"; // Default
+                const partnerType = response.partnerType?.toLowerCase();
+
+                if (partnerType === 'dsa') redirectPath = "/dsa-dashboard";
+                else if (partnerType === 'bc') redirectPath = "/bc-dashboard";
+                else if (partnerType === 'affiliate') redirectPath = "/affiliate-dashboard";
+
+                console.log(`[Login] Redirecting to ${redirectPath}...`);
+                
+                // Small delay for UX
+                setTimeout(() => {
+                    router.push(redirectPath);
+                }, 1000);
+            } else {
+                console.warn("[Login] No token in response");
+                setError("Login failed. No access token provided.");
+            }
+
+        } catch (err: any) {
+            console.error("[Login] Error:", err);
+            setError(err.message || "Invalid email or password. Please try again.");
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -144,7 +138,7 @@ function AgentLoginForm() {
                                     <h2 className="text-2xl font-bold text-gray-900 mb-2">
                                         Welcome <span className="text-blue-600">Partner</span>
                                     </h2>
-                                    <p className="text-gray-600 text-sm">Please select your partnership type</p>
+                                    <p className="text-gray-600 text-sm">Please select your partnership type to login</p>
                                 </div>
 
                                 <div className="grid gap-4">
@@ -190,7 +184,7 @@ function AgentLoginForm() {
                             </div>
                         )}
 
-                        {/* Step 2: Phone Number */}
+                        {/* Step 2: Email & Password */}
                         {step === 2 && (
                             <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
                                 <button
@@ -205,129 +199,82 @@ function AgentLoginForm() {
                                     <h2 className="text-2xl font-bold text-gray-900 mb-2 capitalize">
                                         {role === "dsa" ? "Direct Sales Agent" : role === "bc" ? "Business Consultant" : "Affiliate"} <span className="text-blue-600">Login</span>
                                     </h2>
-                                    <p className="text-gray-600 text-sm">Enter your registered mobile number</p>
+                                    <p className="text-gray-600 text-sm">Enter your credentials to access your dashboard</p>
                                 </div>
 
-                                <form onSubmit={phoneForm.handleSubmit(handlePhoneSubmit)} className="space-y-6">
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                                            Mobile Number
-                                        </label>
-                                        <div className="flex">
-                                            <span className="inline-flex items-center px-4 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
-                                                +91
-                                            </span>
-                                            <Input
-                                                {...phoneForm.register("phoneNumber")}
-                                                type="tel"
-                                                placeholder="0000000000"
-                                                className="rounded-l-none h-12"
-                                                maxLength={10}
-                                            />
-                                        </div>
-                                        {phoneForm.formState.errors.phoneNumber && (
-                                            <p className="text-red-500 text-sm mt-1">
-                                                {phoneForm.formState.errors.phoneNumber.message}
-                                            </p>
-                                        )}
-                                    </div>
-
-                                    <Button
-                                        type="submit"
-                                        className="w-full bg-blue-600 hover:bg-blue-700 text-white h-12 rounded-lg font-semibold"
-                                    >
-                                        Get OTP
-                                    </Button>
-                                </form>
-                            </div>
-                        )}
-
-                        {/* Step 3: OTP Verification */}
-                        {step === 3 && (
-                            <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
-                                <button
-                                    onClick={handleBack}
-                                    className="flex items-center text-gray-600 hover:text-gray-900 mb-4 transition-colors"
-                                >
-                                    <ArrowLeft className="w-5 h-5 mr-2" />
-                                    <span>Back</span>
-                                </button>
-
-                                <div>
-                                    <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                                        <span className="text-blue-600">Verify</span> mobile number
-                                    </h2>
-                                    <p className="text-gray-600 text-sm mb-1">
-                                        OTP sent to +91 {phoneNumber}
-                                    </p>
-
-                                </div>
-
-                                <form onSubmit={handleOtpSubmit} className="space-y-6">
+                                <form onSubmit={loginForm.handleSubmit(handleLoginSubmit)} className="space-y-6">
                                     {error && (
                                         <div className="bg-red-50 border border-red-200 rounded-lg p-4">
                                             <p className="text-red-600 text-sm font-medium">{error}</p>
                                         </div>
                                     )}
 
-                                    <div className="flex flex-col items-center">
-                                        <label className="w-full block text-sm font-medium text-gray-700 mb-3">
-                                            Enter 6-digit OTP
-                                        </label>
-                                        <InputOTP
-                                            maxLength={6}
-                                            value={otpValue}
-                                            onChange={(val) => {
-                                                setOtpValue(val)
-                                                if (error) setError(null)
-                                            }}
-                                            className="justify-center"
-                                        >
-                                            <InputOTPGroup>
-                                                <InputOTPSlot index={0} />
-                                                <InputOTPSlot index={1} />
-                                                <InputOTPSlot index={2} />
-                                                <InputOTPSlot index={3} />
-                                                <InputOTPSlot index={4} />
-                                                <InputOTPSlot index={5} />
-                                            </InputOTPGroup>
-                                        </InputOTP>
+                                    <div className="space-y-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                                Email Address
+                                            </label>
+                                            <Input
+                                                {...loginForm.register("email")}
+                                                type="email"
+                                                placeholder="partner@loaninneed.com"
+                                                className="h-12"
+                                            />
+                                            {loginForm.formState.errors.email && (
+                                                <p className="text-red-500 text-sm mt-1">
+                                                    {loginForm.formState.errors.email.message}
+                                                </p>
+                                            )}
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                                Password
+                                            </label>
+                                            <div className="relative">
+                                                <Input
+                                                    {...loginForm.register("password")}
+                                                    type={showPassword ? "text" : "password"}
+                                                    placeholder="Enter your password"
+                                                    className="h-12 pr-10"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setShowPassword(!showPassword)}
+                                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                                                >
+                                                    {showPassword ? "Hide" : "Show"}
+                                                </button>
+                                            </div>
+                                            {loginForm.formState.errors.password && (
+                                                <p className="text-red-500 text-sm mt-1">
+                                                    {loginForm.formState.errors.password.message}
+                                                </p>
+                                            )}
+                                        </div>
+                                        
+                                        <div className="flex justify-end">
+                                            <button type="button" className="text-sm text-blue-600 hover:underline">
+                                                Forgot password?
+                                            </button>
+                                        </div>
                                     </div>
 
                                     <Button
                                         type="submit"
                                         className="w-full bg-blue-600 hover:bg-blue-700 text-white h-12 rounded-lg font-semibold"
-                                        disabled={isVerifying}
+                                        disabled={isLoading}
                                     >
-                                        {isVerifying ? (
+                                        {isLoading ? (
                                             <>
                                                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                                                Verifying...
+                                                Logging in...
                                             </>
                                         ) : (
-                                            "Verify & Login"
+                                            "Login Securely"
                                         )}
                                     </Button>
                                 </form>
-                            </div>
-                        )}
-
-                        {/* Step 4: Success */}
-                        {step === 4 && (
-                            <div className="space-y-6 text-center animate-in zoom-in duration-500">
-                                <div>
-                                    <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                                        <span className="text-green-600">Login</span> Successful
-                                    </h2>
-                                    <p className="text-gray-600 text-sm">Welcome back! Redirecting you to your dashboard...</p>
-                                </div>
-
-                                <div className="flex justify-center py-8">
-                                    <div className="relative">
-                                        <div className="absolute inset-0 bg-green-100 rounded-full animate-ping opacity-25"></div>
-                                        <CheckCircle2 className="relative w-20 h-20 text-green-600 fill-green-50" />
-                                    </div>
-                                </div>
                             </div>
                         )}
                     </div>

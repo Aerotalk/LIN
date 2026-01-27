@@ -174,11 +174,25 @@ class ApiClient {
   }
 
   async verifyPhoneOtp(phone: string, code: string): Promise<ApiResponse> {
+    // Check for local attribution data
+    let attribution = null;
+    if (typeof window !== 'undefined') {
+      const storedAttr = localStorage.getItem('lin_attribution');
+      if (storedAttr) {
+        try {
+          attribution = JSON.parse(storedAttr); // { partnerId, timestamp, signature }
+        } catch (e) {
+          console.error("Failed to parse attribution data", e);
+        }
+      }
+    }
+
     const response = await this.request<ApiResponse>('/api/auth/phone/verify-otp', {
       method: 'POST',
       body: JSON.stringify({
         phone: phone.startsWith('+91') ? phone : `+91${phone}`,
-        code
+        code,
+        attribution // Send attribution data to backend
       }),
     });
 
@@ -588,6 +602,12 @@ class ApiClient {
 
   getPartnerToken(): string | null {
     return this.partnerToken;
+  }
+
+  async getPartnerEarnings(): Promise<any[]> {
+    return this.request<any[]>('/api/partners/earnings', {
+      method: 'GET',
+    }, true);
   }
 }
 

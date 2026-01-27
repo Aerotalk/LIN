@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { outfit } from "@/lib/fonts";
 import { Toaster } from "sonner";
+import ReferralTracker from "@/components/ReferralTracker";
 
 export const metadata: Metadata = {
   title: "Get low rate personal loans within minutes | LoanINNeed",
@@ -23,6 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${outfit.className} antialiased`}>
+        <ReferralTracker />
         <Toaster position="top-center" richColors />
         {children}
       </body>

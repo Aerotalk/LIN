@@ -33,6 +33,7 @@ function DSADashboardContent() {
     const [dashboardData, setDashboardData] = React.useState<any>(null);
     const [referralLink, setReferralLink] = React.useState('');
     const [profileData, setProfileData] = React.useState<any>(null);
+    const [earningsData, setEarningsData] = React.useState<any[]>([]); // NEW STATE
 
     const [editingFields, setEditingFields] = React.useState<Record<string, boolean>>({});
     const [selectedDate, setSelectedDate] = React.useState({ month: "October", year: "2025", isLifetime: false });
@@ -59,6 +60,10 @@ function DSADashboardContent() {
                 // Fetch referral link
                 const linkResponse = await apiClient.getPartnerReferralLink();
                 setReferralLink(linkResponse.link || '');
+
+                // Fetch earnings
+                const earningsRes = await apiClient.getPartnerEarnings();
+                setEarningsData(earningsRes || []);
 
                 // Fetch profile data
                 const profileResponse = await apiClient.getPartnerProfile();
@@ -119,7 +124,7 @@ function DSADashboardContent() {
         { name: "Support", icon: <Headphones size={20} /> },
     ];
 
-    // Use real data from backend or fallback to loading state
+    // Use real data from backend
     const stats = [
         {
             label: "Total referrals",
@@ -135,17 +140,13 @@ function DSADashboardContent() {
         },
         {
             label: "Earnings",
-            value: loading ? "..." : "₹0",  // TODO: Add earnings calculation in backend
+            value: loading ? "..." : `₹${(earningsData.length * 1000).toLocaleString()}`,
             icon: <IndianRupee size={20} className="text-green-500" />,
             bgColor: "bg-green-50"
         },
     ];
 
-    const earnings = [
-        { id: "5442898006777", name: "Ratul Das", amount: "₹52,000", status: "In process", date: "02-05-2025", earnings: "₹750" },
-        { id: "5442898006777", name: "Ratul Das", amount: "₹52,000", status: "Approved", date: "02-05-2025", earnings: "₹750" },
-        { id: "5442898006777", name: "Ratul Das", amount: "₹52,000", status: "Rejected", date: "02-05-2025", earnings: "₹750" },
-    ];
+    // const earnings = [ ... ] (Removed hardcoded)
 
     const renderDashboard = () => (
         <div className="space-y-12">
@@ -305,38 +306,43 @@ function DSADashboardContent() {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-50">
-                            {earnings.map((item, index) => (
-                                <tr key={index} className="group hover:bg-red-50/20 transition-all">
-                                    <td className="px-8 py-6">
-                                        <div className="flex flex-col">
-                                            <span className="text-[15px] font-bold text-gray-900">{item.name}</span>
-                                            <span className="text-[13px] text-gray-400 font-medium">{item.id}</span>
-                                        </div>
-                                    </td>
-                                    <td className="px-8 py-6 text-[17px] font-extrabold text-[#111827]">
-                                        {item.amount}
-                                    </td>
-                                    <td className="px-8 py-6 text-left">
-                                        <span className={`inline-flex px-3 py-1 rounded-lg text-[13px] font-bold tracking-tight ${item.status === 'Approved' ? 'bg-green-50 text-green-600' :
-                                            item.status === 'Rejected' ? 'bg-red-50 text-red-600' :
-                                                'bg-blue-50 text-blue-600'
-                                            }`}>
-                                            {item.status}
-                                        </span>
-                                    </td>
-                                    <td className="px-8 py-6 text-right text-[14px] text-gray-600 font-medium">
-                                        {item.date}
-                                    </td>
-                                    <td className="px-8 py-6 text-right text-[17px] font-extrabold text-gray-900">
-                                        {item.earnings}
-                                    </td>
+                            {earningsData.length === 0 ? (
+                                <tr>
+                                    <td colSpan={5} className="px-8 py-6 text-center text-gray-400 font-medium">No earnings found yet.</td>
                                 </tr>
-                            ))}
+                            ) : (
+                                earningsData.map((item, index) => (
+                                    <tr key={index} className="group hover:bg-red-50/20 transition-all">
+                                        <td className="px-8 py-6">
+                                            <div className="flex flex-col">
+                                                <span className="text-[15px] font-bold text-gray-900">{item.name}</span>
+                                                <span className="text-[13px] text-gray-400 font-medium">{item.id}</span>
+                                            </div>
+                                        </td>
+                                        <td className="px-8 py-6 text-[17px] font-extrabold text-[#111827]">
+                                            {item.amount}
+                                        </td>
+                                        <td className="px-8 py-6 text-left">
+                                            <span className={`inline-flex px-3 py-1 rounded-lg text-[13px] font-bold tracking-tight ${(item.status === 'Approved' || item.rawStatus === 'APPROVED') ? 'bg-green-50 text-green-600' :
+                                                    (item.status === 'Rejected' || item.rawStatus === 'REJECTED') ? 'bg-red-50 text-red-600' :
+                                                        'bg-blue-50 text-blue-600'
+                                                }`}>
+                                                {item.status}
+                                            </span>
+                                        </td>
+                                        <td className="px-8 py-6 text-right text-[14px] text-gray-600 font-medium">
+                                            {item.date}
+                                        </td>
+                                        <td className="px-8 py-6 text-right text-[17px] font-extrabold text-gray-900">
+                                            {item.earnings}
+                                        </td>
+                                    </tr>
+                                )))}
                         </tbody>
                     </table>
                 </div>
                 <div className="bg-gray-50/50 px-8 py-4 border-t border-gray-50">
-                    <p className="text-xs font-medium text-gray-400">Total {earnings.length} earnings filtered.</p>
+                    <p className="text-xs font-medium text-gray-400">Total {earningsData.length} earnings filtered.</p>
                 </div>
             </div>
         </div>

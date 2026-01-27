@@ -159,12 +159,41 @@ function RegisterAgentContent() {
             };
 
             // Call API
-            await apiClient.registerPartner(payload as any);
-
+            const response = await apiClient.registerPartner(payload as any);
             console.log(`Registering ${partnerType} with data:`, data)
 
+            // Handle File Download if credentials returned
+            if ((response as any).rawPassword) {
+                const creds = `
+LOAN IN NEED - PARTNER CREDENTIALS
+==================================
+
+Use these credentials to login to the Partner Portal.
+
+Login URL: https://loaninneed.vercel.app/login-agent
+
+Email: ${response.email}
+Password: ${(response as any).rawPassword}
+
+----------------------------------
+Please change your password after your first login.
+`;
+                const blob = new Blob([creds], { type: 'text/plain' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Partner_Credentials_${data.fullName.replace(/\s+/g, '_')}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+
+                toast.success(`${partnerType?.toUpperCase()} registered! Credentials downloaded.`);
+            } else {
+                toast.success(`${partnerType?.toUpperCase()} registered successfully!`)
+            }
+
             setIsSuccess(true)
-            toast.success(`${partnerType?.toUpperCase()} registered successfully!`)
         } catch (err) {
             toast.error("Failed to register partner. Please try again.")
             console.error(err)

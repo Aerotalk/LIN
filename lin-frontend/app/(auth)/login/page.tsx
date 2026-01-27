@@ -237,13 +237,21 @@ function LoginForm() {
                     Get OTP
                   </Button>
 
-                  <div className="text-center">
+                  <div className="text-center space-y-4">
                     <p className="text-sm text-gray-600">
                       Didn&apos;t have an account?{" "}
                       <Link href={getLinkWithRef("/signup")} className="text-red-600 hover:underline font-medium">
                         Create now
                       </Link>
                     </p>
+                    <div className="pt-2 border-t border-gray-100">
+                      <p className="text-sm text-gray-600">
+                        Are you a partner?{" "}
+                        <Link href="/login-agent" className="text-red-600 hover:underline font-medium">
+                          Login as a Partner
+                        </Link>
+                      </p>
+                    </div>
                   </div>
 
                 </form>

@@ -449,13 +449,37 @@ class ApiClient {
   // ===== PARTNER API METHODS =====
 
   // Partner Authentication
-  async loginPartner(email: string, password: string): Promise<ApiResponse> {
+  async loginPartner(identifier: string, password?: string): Promise<ApiResponse> {
     const response = await this.request<ApiResponse>('/api/partners/login', {
       method: 'POST',
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ identifier, password }),
     });
 
     // Store partner token for future requests
+    if (response.token) {
+      this.partnerToken = response.token;
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('partnerAuthToken', response.token);
+        localStorage.setItem('partnerData', JSON.stringify(response));
+      }
+    }
+
+    return response;
+  }
+
+  async requestPartnerLoginOtp(phone: string): Promise<ApiResponse> {
+    return this.request<ApiResponse>('/api/partners/login/request-otp', {
+      method: 'POST',
+      body: JSON.stringify({ phone }),
+    });
+  }
+
+  async verifyPartnerLoginOtp(phone: string, otp: string): Promise<ApiResponse> {
+    const response = await this.request<ApiResponse>('/api/partners/login/verify-otp', {
+      method: 'POST',
+      body: JSON.stringify({ phone, otp }),
+    });
+
     if (response.token) {
       this.partnerToken = response.token;
       if (typeof window !== 'undefined') {

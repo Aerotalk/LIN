@@ -186,7 +186,7 @@ function AgentLoginForm() {
                             </div>
                         )}
 
-                        {/* Step 2: Email & Password */}
+                        {/* Step 2: Phone Entry (OTP Flow) */}
                         {step === 2 && (
                             <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
                                 <button
@@ -201,10 +201,10 @@ function AgentLoginForm() {
                                     <h2 className="text-2xl font-bold text-gray-900 mb-2 capitalize">
                                         {role === "dsa" ? "Direct Sales Agent" : role === "bc" ? "Business Consultant" : "Affiliate"} <span className="text-blue-600">Login</span>
                                     </h2>
-                                    <p className="text-gray-600 text-sm">Enter your credentials to access your dashboard</p>
+                                    <p className="text-gray-600 text-sm">Enter your registered mobile number to receive an OTP</p>
                                 </div>
 
-                                <form onSubmit={loginForm.handleSubmit(handleLoginSubmit)} className="space-y-6">
+                                <div className="space-y-6">
                                     {error && (
                                         <div className="bg-red-50 border border-red-200 rounded-lg p-4">
                                             <p className="text-red-600 text-sm font-medium">{error}</p>
@@ -214,71 +214,171 @@ function AgentLoginForm() {
                                     <div className="space-y-4">
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700 mb-2">
-                                                Email Address
+                                                Mobile Number
                                             </label>
-                                            <Input
-                                                {...loginForm.register("email")}
-                                                type="email"
-                                                placeholder="partner@loaninneed.com"
-                                                className="h-12"
-                                            />
-                                            {loginForm.formState.errors.email && (
-                                                <p className="text-red-500 text-sm mt-1">
-                                                    {loginForm.formState.errors.email.message}
-                                                </p>
-                                            )}
-                                        </div>
-
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                                Password
-                                            </label>
-                                            <div className="relative">
+                                            <div className="flex gap-2">
+                                                <div className="w-16 h-12 bg-gray-50 border border-gray-100 rounded-lg flex items-center justify-center font-bold text-gray-400">
+                                                    +91
+                                                </div>
                                                 <Input
-                                                    {...loginForm.register("password")}
-                                                    type={showPassword ? "text" : "password"}
-                                                    placeholder="Enter your password"
-                                                    className="h-12 pr-10"
+                                                    id="login-phone"
+                                                    placeholder="98309 12345"
+                                                    className="h-12 flex-1"
+                                                    maxLength={10}
                                                 />
-                                                <button
-                                                    type="button"
-                                                    onClick={() => setShowPassword(!showPassword)}
-                                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                                                >
-                                                    {showPassword ? "Hide" : "Show"}
-                                                </button>
                                             </div>
-                                            {loginForm.formState.errors.password && (
-                                                <p className="text-red-500 text-sm mt-1">
-                                                    {loginForm.formState.errors.password.message}
-                                                </p>
-                                            )}
-                                        </div>
-
-                                        <div className="flex justify-end">
-                                            <button
-                                                type="button"
-                                                onClick={() => setStep(3)} // Go to Forgot Password Step
-                                                className="text-sm text-blue-600 hover:underline"
-                                            >
-                                                Forgot password?
-                                            </button>
                                         </div>
                                     </div>
 
                                     <Button
-                                        type="submit"
-                                        className="w-full bg-blue-600 hover:bg-blue-700 text-white h-12 rounded-lg font-semibold"
+                                        onClick={async () => {
+                                            const phone = (document.getElementById('login-phone') as HTMLInputElement).value;
+                                            if (!phone || phone.length !== 10) return toast.error("Please enter a valid 10-digit number");
+
+                                            setIsLoading(true);
+                                            setError(null);
+                                            try {
+                                                const res = await apiClient.requestPartnerLoginOtp(phone);
+                                                toast.success(res.message);
+                                                localStorage.setItem('loginPhone', phone);
+                                                setStep(5); // Go to OTP verification step
+                                            } catch (err: any) {
+                                                setError(err.message || "Failed to send OTP. Is your number registered?");
+                                            } finally {
+                                                setIsLoading(false);
+                                            }
+                                        }}
+                                        className="w-full bg-blue-600 hover:bg-blue-700 text-white h-12 rounded-lg font-semibold shadow-lg shadow-blue-100"
                                         disabled={isLoading}
                                     >
-                                        {isLoading ? (
-                                            <>
-                                                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                                                Logging in...
-                                            </>
-                                        ) : (
-                                            "Login Securely"
-                                        )}
+                                        {isLoading ? <Loader2 className="animate-spin mr-2" /> : "Send Login OTP"}
+                                    </Button>
+
+                                    <div className="relative py-4">
+                                        <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-100"></div></div>
+                                        <div className="relative flex justify-center text-xs uppercase"><span className="bg-white px-4 text-gray-400 font-bold tracking-widest">OR</span></div>
+                                    </div>
+
+                                    <button
+                                        onClick={() => setStep(6)} // Step 6: Email/Password login
+                                        className="w-full text-sm text-gray-500 hover:text-blue-600 font-medium transition-colors"
+                                    >
+                                        Login with Email & Password
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Step 5: OTP Verification for Login */}
+                        {step === 5 && (
+                            <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
+                                <button
+                                    onClick={() => setStep(2)}
+                                    className="flex items-center text-gray-600 hover:text-gray-900 mb-4 transition-colors"
+                                >
+                                    <ArrowLeft className="w-5 h-5 mr-2" />
+                                    <span>Back</span>
+                                </button>
+
+                                <div>
+                                    <h2 className="text-2xl font-bold text-gray-900 mb-2">Verify Mobile</h2>
+                                    <p className="text-gray-600 text-sm">Enter the 6-digit code sent to your registered number.</p>
+                                </div>
+
+                                <div className="space-y-8">
+                                    <div className="flex justify-center py-4">
+                                        <InputOTP maxLength={6} onChange={(val) => (window as any).loginOtp = val}>
+                                            <InputOTPGroup className="gap-2">
+                                                <InputOTPSlot index={0} className="rounded-xl border-2 h-14 w-11 text-xl font-bold" />
+                                                <InputOTPSlot index={1} className="rounded-xl border-2 h-14 w-11 text-xl font-bold" />
+                                                <InputOTPSlot index={2} className="rounded-xl border-2 h-14 w-11 text-xl font-bold" />
+                                                <InputOTPSlot index={3} className="rounded-xl border-2 h-14 w-11 text-xl font-bold" />
+                                                <InputOTPSlot index={4} className="rounded-xl border-2 h-14 w-11 text-xl font-bold" />
+                                                <InputOTPSlot index={5} className="rounded-xl border-2 h-14 w-11 text-xl font-bold" />
+                                            </InputOTPGroup>
+                                        </InputOTP>
+                                    </div>
+
+                                    <Button
+                                        onClick={async () => {
+                                            const otp = (window as any).loginOtp;
+                                            const phone = localStorage.getItem('loginPhone');
+
+                                            if (!otp || otp.length !== 6) return toast.error("Please enter 6-digit OTP");
+                                            if (!phone) return setStep(2);
+
+                                            setIsLoading(true);
+                                            try {
+                                                const response = await apiClient.verifyPartnerLoginOtp(phone, otp);
+                                                toast.success("Welcome back!");
+
+                                                // Handle redirection logic
+                                                let redirectPath = "/affiliate-dashboard";
+                                                const pType = response.partnerType?.toLowerCase();
+                                                if (pType === 'dsa') redirectPath = "/dsa-dashboard";
+                                                else if (pType === 'bc') redirectPath = "/bc-dashboard";
+
+                                                router.push(redirectPath);
+                                            } catch (err: any) {
+                                                toast.error(err.message || "Invalid OTP");
+                                            } finally {
+                                                setIsLoading(false);
+                                            }
+                                        }}
+                                        className="w-full bg-blue-600 hover:bg-blue-700 text-white h-14 rounded-xl font-bold text-lg shadow-xl shadow-blue-100"
+                                        disabled={isLoading}
+                                    >
+                                        {isLoading ? <Loader2 className="animate-spin mr-2" /> : "Verify & Sign In"}
+                                    </Button>
+
+                                    <div className="text-center">
+                                        <p className="text-sm text-gray-500">Didn't receive code?</p>
+                                        <button onClick={() => setStep(2)} className="text-blue-600 text-sm font-bold hover:underline">Resend OTP</button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Step 6: Legacy Email/Password Login (Hidden by default unless toggled) */}
+                        {step === 6 && (
+                            <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
+                                <button
+                                    onClick={() => setStep(2)}
+                                    className="flex items-center text-gray-600 hover:text-gray-900 mb-4 transition-colors"
+                                >
+                                    <ArrowLeft className="w-5 h-5 mr-2" />
+                                    <span>Back to OTP Login</span>
+                                </button>
+
+                                <div>
+                                    <h2 className="text-2xl font-bold text-gray-900 mb-2">Welcome Back</h2>
+                                    <p className="text-gray-600 text-sm">Login with your email and password</p>
+                                </div>
+
+                                <form onSubmit={loginForm.handleSubmit(handleLoginSubmit)} className="space-y-6">
+                                    <div className="space-y-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                                            <Input {...loginForm.register("email")} type="email" placeholder="partner@loaninneed.com" className="h-12" />
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                                            <div className="relative">
+                                                <Input {...loginForm.register("password")} type={showPassword ? "text" : "password"} placeholder="Enter your password" className="h-12 pr-10" />
+                                                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
+                                                    {showPassword ? "Hide" : "Show"}
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex justify-end">
+                                            <button type="button" onClick={() => setStep(3)} className="text-sm text-blue-600 hover:underline">Forgot password?</button>
+                                        </div>
+                                    </div>
+
+                                    <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white h-12 rounded-lg font-semibold" disabled={isLoading}>
+                                        {isLoading ? <Loader2 className="animate-spin mr-2" /> : "Login Securely"}
                                     </Button>
                                 </form>
                             </div>

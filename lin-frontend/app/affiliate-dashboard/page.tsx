@@ -167,9 +167,9 @@ function AffiliateDashboardContent() {
     ];
 
     const earnings = [
-        { id: "5442898006777", name: "Ratul Das", amount: "₹52,000", status: "In process", date: "02-05-2025", earnings: "₹750" },
-        { id: "5442898006777", name: "Ratul Das", amount: "₹52,000", status: "Approved", date: "02-05-2025", earnings: "₹750" },
-        { id: "5442898006777", name: "Ratul Das", amount: "₹52,000", status: "Rejected", date: "02-05-2025", earnings: "₹750" },
+        { id: "5442898006777", name: "Ratul Das", amount: "₹52,000", status: "In process", rawStatus: "IN_PROCESS", date: "02-05-2025", earnings: "₹750" },
+        { id: "5442898006777", name: "Ratul Das", amount: "₹52,000", status: "Approved", rawStatus: "APPROVED", date: "02-05-2025", earnings: "₹750" },
+        { id: "5442898006777", name: "Ratul Das", amount: "₹52,000", status: "Rejected", rawStatus: "REJECTED", date: "02-05-2025", earnings: "₹750" },
     ];
 
     const renderDashboard = () => (
@@ -334,12 +334,12 @@ function AffiliateDashboardContent() {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-50">
-                            {earningsData.length === 0 ? (
+                            {earnings.length === 0 ? (
                                 <tr>
                                     <td colSpan={5} className="px-8 py-6 text-center text-gray-400 font-medium">No earnings found yet.</td>
                                 </tr>
                             ) : (
-                                earningsData.map((item, index) => (
+                                earnings.map((item, index) => (
                                     <tr key={index} className="group hover:bg-red-50/20 transition-all">
                                         <td className="px-8 py-6">
                                             <div className="flex flex-col">
@@ -370,7 +370,7 @@ function AffiliateDashboardContent() {
                     </table>
                 </div>
                 <div className="bg-gray-50/50 px-8 py-4 border-t border-gray-50">
-                    <p className="text-xs font-medium text-gray-400">Total {earningsData.length} earnings filtered.</p>
+                    <p className="text-xs font-medium text-gray-400">Total {earnings.length} earnings filtered.</p>
                 </div>
             </div>
         </div>

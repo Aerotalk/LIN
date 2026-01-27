@@ -65,6 +65,7 @@ function AffiliateDashboardContent() {
     const [loading, setLoading] = React.useState(true);
     const [dashboardData, setDashboardData] = React.useState<any>(null);
     const [profileData, setProfileData] = React.useState<any>(null);
+    const [earnings, setEarnings] = React.useState<any[]>([]);
 
     // Fetch dashboard data on mount
     React.useEffect(() => {
@@ -94,6 +95,11 @@ function AffiliateDashboardContent() {
                 console.log("Fetching profile...");
                 const profileResponse = await apiClient.getPartnerProfile();
                 setProfileData(profileResponse);
+
+                // Fetch earnings
+                console.log("Fetching earnings...");
+                const earningsResponse = await apiClient.getPartnerEarnings();
+                setEarnings(earningsResponse);
 
             } catch (error: any) {
                 console.error('Failed to fetch dashboard data:', error);
@@ -166,11 +172,13 @@ function AffiliateDashboardContent() {
         },
     ];
 
+    /* 
     const earnings = [
         { id: "5442898006777", name: "Ratul Das", amount: "₹52,000", status: "In process", rawStatus: "IN_PROCESS", date: "02-05-2025", earnings: "₹750" },
         { id: "5442898006777", name: "Ratul Das", amount: "₹52,000", status: "Approved", rawStatus: "APPROVED", date: "02-05-2025", earnings: "₹750" },
         { id: "5442898006777", name: "Ratul Das", amount: "₹52,000", status: "Rejected", rawStatus: "REJECTED", date: "02-05-2025", earnings: "₹750" },
     ];
+    */
 
     const renderDashboard = () => (
         <div className="space-y-12">

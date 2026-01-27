@@ -605,9 +605,10 @@ class ApiClient {
   }
 
   async getPartnerEarnings(): Promise<any[]> {
-    return this.request<any[]>('/api/partners/earnings', {
+    const response = await this.request<any[]>('/api/partners/earnings', {
       method: 'GET',
     }, true);
+    return response.data || [];
   }
 }
 

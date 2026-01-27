@@ -266,9 +266,25 @@ class ApiClient {
     email: string;
     password: string;
   }): Promise<ApiResponse> {
+    // Check for attribution data
+    let attribution = null;
+    if (typeof window !== 'undefined') {
+      const storedAttr = localStorage.getItem('lin_attribution');
+      if (storedAttr) {
+        try {
+          attribution = JSON.parse(storedAttr); // { partnerId, timestamp, signature }
+        } catch (e) {
+          console.error("Failed to parse attribution data", e);
+        }
+      }
+    }
+
     return this.request<ApiResponse>('/api/users/register', {
       method: 'POST',
-      body: JSON.stringify(userData),
+      body: JSON.stringify({
+        ...userData,
+        attribution // Send attribution data to backend
+      }),
     });
   }
 

@@ -12,6 +12,8 @@ import Link from "next/link"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { Suspense } from "react"
+import { apiClient } from "@/lib/api"
+import { toast } from "sonner"
 
 // Types & Schemas
 type AgentRole = "affiliate" | "dsa" | "bc"
@@ -56,7 +58,7 @@ function AgentLoginForm() {
         try {
             console.log("[Login] Calling API...");
             const response = await apiClient.loginPartner(data.email, data.password);
-            
+
             console.log("[Login] API Response received:", response);
 
             if (response.token) {
@@ -72,7 +74,7 @@ function AgentLoginForm() {
                 else if (partnerType === 'affiliate') redirectPath = "/affiliate-dashboard";
 
                 console.log(`[Login] Redirecting to ${redirectPath}...`);
-                
+
                 // Small delay for UX
                 setTimeout(() => {
                     router.push(redirectPath);
@@ -252,7 +254,7 @@ function AgentLoginForm() {
                                                 </p>
                                             )}
                                         </div>
-                                        
+
                                         <div className="flex justify-end">
                                             <button type="button" className="text-sm text-blue-600 hover:underline">
                                                 Forgot password?

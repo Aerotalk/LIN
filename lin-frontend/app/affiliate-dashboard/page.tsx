@@ -2,6 +2,8 @@
 
 import React from "react";
 import { useAffiliate } from "@/hooks/useAffiliate";
+import { apiClient } from "@/lib/api";
+import { toast } from "sonner";
 
 import {
     LayoutDashboard,
@@ -34,7 +36,25 @@ function AffiliateDashboardContent() {
     const [tempDate, setTempDate] = React.useState({ month: "October", year: "2025", isLifetime: false });
     const [isDateMenuOpen, setIsDateMenuOpen] = React.useState(false);
 
+    const [referralLink, setReferralLink] = React.useState<string | null>(null);
+
     const inputRefs = React.useRef<Record<string, HTMLInputElement | null>>({});
+
+    // Fetch Referral Link on Mount
+    React.useEffect(() => {
+        const fetchLink = async () => {
+            try {
+                const res = await apiClient.getPartnerReferralLink();
+                if (res.link) {
+                    setReferralLink(res.link);
+                }
+            } catch (err) {
+                console.error("Failed to fetch referral link", err);
+                // toast.error("Could not load referral link");
+            }
+        };
+        fetchLink();
+    }, []);
 
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const years = ["2023", "2024", "2025"];
@@ -204,13 +224,17 @@ function AffiliateDashboardContent() {
                     <p className="text-[15px] font-medium text-gray-500">My referral link</p>
                     <div className="flex items-center justify-between bg-red-50/30 p-4 rounded-2xl border border-red-50/50">
                         <span className="text-[14px] text-gray-600 truncate mr-4">
-                            {typeof window !== 'undefined' ? `${window.location.origin}/signup?ref=${affiliateRef || 'YOUR_CODE'}` : 'loading...'}
+                            {referralLink || (typeof window !== 'undefined' ? `${window.location.origin}/signup?ref=${affiliateRef || 'YOUR_CODE'}` : 'loading...')}
                         </span>
                         <button
                             className="text-gray-400 hover:text-red-500 transition-colors"
                             onClick={() => {
-                                if (typeof window !== 'undefined') {
+                                if (referralLink) {
+                                    navigator.clipboard.writeText(referralLink);
+                                    toast.success("Link copied to clipboard!");
+                                } else if (typeof window !== 'undefined') {
                                     navigator.clipboard.writeText(`${window.location.origin}/signup?ref=${affiliateRef || 'YOUR_CODE'}`);
+                                    toast.success("Link copied!");
                                 }
                             }}
                         >

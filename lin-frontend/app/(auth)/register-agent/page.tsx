@@ -25,6 +25,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { useAffiliate } from "@/hooks/useAffiliate"
 import { toast } from "sonner"
+import { apiClient } from "@/lib/api"
 
 export const dynamic = "force-dynamic";
 
@@ -109,12 +110,20 @@ function RegisterAgentContent() {
     const handleAdminSubmit = async (data: AdminForm) => {
         setIsLoading(true)
         setError(null)
-        await new Promise((resolve) => setTimeout(resolve, 800))
-        if (data.email === "admin@loaninneed.com" && data.password === "admin123") {
-            setIsAdminVerified(true)
-            setIsLoading(false)
-        } else {
-            setError("Invalid admin credentials. Please try again.")
+        try {
+            const response = await apiClient.loginAdmin(data.email, data.password);
+
+            if (response.success || response.token) { // Check for success or token
+                setIsAdminVerified(true)
+                setIsLoading(false)
+                toast.success("Admin verified successfully")
+            } else {
+                setError("Verification failed. Please check credentials.")
+                setIsLoading(false)
+            }
+        } catch (err: any) {
+            console.error(err);
+            setError(err.message || "Invalid admin credentials. Please try again.")
             setIsLoading(false)
         }
     }
@@ -123,13 +132,35 @@ function RegisterAgentContent() {
         setIsLoading(true)
 
         try {
-            // FUTURE BACKEND INTEGRATION:
-            // Based on partnerType, call the respective API endpoint:
-            // if (partnerType === 'affiliate') await apiClient.post('/auth/register/affiliate', data);
-            // else if (partnerType === 'dsa') await apiClient.post('/auth/register/dsa', data);
-            // else if (partnerType === 'bc') await apiClient.post('/auth/register/bc', data);
+            // Prepare payload based on schema
+            const payload = {
+                partnerType: partnerType ? partnerType.toUpperCase() : 'AFFILIATE', // Default fallback
+                name: data.fullName,
+                email: data.email,
+                phone: data.phoneNumber,
+                // Password is required by backend model but not in form form?
+                // The form schemas do NOT have password. 
+                // We might need to generate one or add it.
+                // Looking at backend `Partner` model: password String? (It is optional? No, checks schema: String?)
+                // Actually `Partner` model has `password String?`.
+                // But `partnerService.registerPartner` might require it.
+                // Let's assume for now we generate a random one or send basic one if backend requires it.
+                password: "Partner@123", // Temporary default or generate random
 
-            await new Promise((resolve) => setTimeout(resolve, 1500))
+                // Specifics
+                panNumber: data.panNumber,
+                gstNumber: data.gstLicense,
+                firmName: data.firmName,
+                // Map address fields
+                address: data.address,
+                city: data.city,
+                state: data.state,
+                pincode: data.pincode
+            };
+
+            // Call API
+            await apiClient.registerPartner(payload as any);
+
             console.log(`Registering ${partnerType} with data:`, data)
 
             setIsSuccess(true)

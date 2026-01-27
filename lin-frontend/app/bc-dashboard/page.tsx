@@ -409,10 +409,10 @@ function BCDashboardContent() {
                 <h2 className="text-[28px] font-bold text-[#EF4444] mb-8">Profile Details</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 mb-8">
                     {[
-                        { id: "fullName", label: "Full Name", value: loading ? "Loading..." : (profileData?.name || ""), editable: true },
-                        { id: "email", label: "Email Address", value: loading ? "Loading..." : (profileData?.email || ""), editable: true },
-                        { id: "phoneNumber", label: "Phone Number", value: loading ? "Loading..." : (profileData?.phone || ""), editable: true },
-                        { id: "firmName", label: "Firm Name (if applicable)", value: loading ? "Loading..." : (profileData?.firmName || "N/A"), editable: true },
+                        { id: "fullName", label: "Full Name", value: loading ? "Loading..." : (profileData?.name || ""), editable: false },
+                        { id: "email", label: "Email Address", value: loading ? "Loading..." : (profileData?.email || ""), editable: false },
+                        { id: "phoneNumber", label: "Phone Number", value: loading ? "Loading..." : (profileData?.phone || ""), editable: false },
+                        { id: "firmName", label: "Firm Name (if applicable)", value: loading ? "Loading..." : (profileData?.firmName || "N/A"), editable: false },
                         { id: "address", label: "Address", value: loading ? "Loading..." : (profileData?.address || ""), editable: true },
                         { id: "city", label: "City", value: loading ? "Loading..." : (profileData?.city || ""), editable: true },
                         { id: "state", label: "State", value: loading ? "Loading..." : (profileData?.state || ""), editable: true },

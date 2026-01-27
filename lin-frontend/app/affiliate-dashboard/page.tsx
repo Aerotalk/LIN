@@ -423,9 +423,9 @@ function AffiliateDashboardContent() {
                 <h2 className="text-[28px] font-bold text-[#EF4444] mb-8">Profile Details</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 mb-8">
                     {[
-                        { id: "fullName", label: "Full Name (as per PAN)", value: loading ? "Loading..." : (profileData?.name || ""), editable: true },
-                        { id: "email", label: "Email Address", value: loading ? "Loading..." : (profileData?.email || ""), editable: true },
-                        { id: "phoneNumber", label: "Phone Number", value: loading ? "Loading..." : (profileData?.phone || ""), editable: true }, // Using phone from API
+                        { id: "fullName", label: "Full Name (as per PAN)", value: loading ? "Loading..." : (profileData?.name || ""), editable: false },
+                        { id: "email", label: "Email Address", value: loading ? "Loading..." : (profileData?.email || ""), editable: false },
+                        { id: "phoneNumber", label: "Phone Number", value: loading ? "Loading..." : (profileData?.phone || ""), editable: false },
                         { id: "panNumber", label: "PAN Number", value: loading ? "Loading..." : (profileData?.panNumber || "NOT UPDATED"), editable: false },
                     ].map((field) => (
                         <div key={field.id} className="space-y-2.5">

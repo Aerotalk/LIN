@@ -20,6 +20,9 @@ interface ApiResponse<T = unknown> {
     totalApplications?: number;
   };
   partner?: any;
+  // Partner registration response fields
+  email?: string;
+  rawPassword?: string;
 }
 
 interface ApiError {
@@ -552,11 +555,6 @@ class ApiClient {
     }, true);
   }
 
-  async getPartnerReferralLink(): Promise<ApiResponse> {
-    return this.request<ApiResponse>('/api/partners/link', {
-      method: 'GET',
-    }, true);
-  }
 
   async forgotPartnerPassword(emailOrPhone: string): Promise<ApiResponse> {
     return this.request<ApiResponse>('/api/partners/forgot-password', {

@@ -2,9 +2,18 @@ import { createClient } from "next-sanity";
 import imageUrlBuilder from "@sanity/image-url";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 
+// Provide fallback values for build time
+const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "dummy-project";
+const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
+
+// Warn if using dummy values
+if (projectId === "dummy-project" && typeof window === "undefined") {
+  console.warn("[Sanity] Using dummy project ID. Set NEXT_PUBLIC_SANITY_PROJECT_ID in .env.local");
+}
+
 export const sanityClient = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "dummy",
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
+  projectId,
+  dataset,
   apiVersion: "2025-01-01", // or a specific date <= today's
   useCdn: process.env.NODE_ENV === "production",
 });

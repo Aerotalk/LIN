@@ -1,10 +1,10 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { toast } from "sonner";
 
-export default function ReferralTracker() {
+function ReferralTrackerContent() {
     const searchParams = useSearchParams();
 
     useEffect(() => {
@@ -27,4 +27,12 @@ export default function ReferralTracker() {
     }, [searchParams]);
 
     return null;
+}
+
+export default function ReferralTracker() {
+    return (
+        <Suspense fallback={null}>
+            <ReferralTrackerContent />
+        </Suspense>
+    );
 }

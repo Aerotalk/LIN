@@ -256,7 +256,11 @@ function AgentLoginForm() {
                                         </div>
 
                                         <div className="flex justify-end">
-                                            <button type="button" className="text-sm text-blue-600 hover:underline">
+                                            <button
+                                                type="button"
+                                                onClick={() => setStep(3)} // Go to Forgot Password Step
+                                                className="text-sm text-blue-600 hover:underline"
+                                            >
                                                 Forgot password?
                                             </button>
                                         </div>
@@ -277,6 +281,145 @@ function AgentLoginForm() {
                                         )}
                                     </Button>
                                 </form>
+                            </div>
+                        )}
+
+                        {/* Step 3: Forgot Password - Request OTP */}
+                        {step === 3 && (
+                            <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
+                                <button
+                                    onClick={() => setStep(2)}
+                                    className="flex items-center text-gray-600 hover:text-gray-900 mb-4 transition-colors"
+                                >
+                                    <ArrowLeft className="w-5 h-5 mr-2" />
+                                    <span>Back to login</span>
+                                </button>
+
+                                <div>
+                                    <h2 className="text-2xl font-bold text-gray-900 mb-2">Forgot Password?</h2>
+                                    <p className="text-gray-600 text-sm">Enter your registered email or phone to reset your password</p>
+                                </div>
+
+                                <div className="space-y-6">
+                                    <div className="space-y-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                                Email or Phone Number
+                                            </label>
+                                            <Input
+                                                id="reset-input"
+                                                placeholder="Enter email or phone"
+                                                className="h-12"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <Button
+                                        onClick={async () => {
+                                            const inputElement = document.getElementById('reset-input') as HTMLInputElement;
+                                            const input = inputElement?.value;
+                                            if (!input) return toast.error("Please enter email or phone");
+
+                                            setIsLoading(true);
+                                            try {
+                                                const res = await apiClient.forgotPartnerPassword(input);
+                                                toast.success(res.message);
+                                                // Store the phone number for next step if returned, otherwise assume input was phone
+                                                localStorage.setItem('resetPhone', (res as any).phone || input);
+                                                setStep(4);
+                                            } catch (err: any) {
+                                                toast.error(err.message || "Failed to send OTP");
+                                            } finally {
+                                                setIsLoading(false);
+                                            }
+                                        }}
+                                        className="w-full bg-blue-600 hover:bg-blue-700 text-white h-12 rounded-lg font-semibold"
+                                        disabled={isLoading}
+                                    >
+                                        {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Send OTP"}
+                                    </Button>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Step 4: Forgot Password - Verify OTP & Set Password */}
+                        {step === 4 && (
+                            <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
+                                <div>
+                                    <h2 className="text-2xl font-bold text-gray-900 mb-2">Reset Password</h2>
+                                    <p className="text-gray-600 text-sm">Enter the OTP sent to your mobile and set a new password.</p>
+                                </div>
+
+                                <div className="space-y-6">
+                                    <div className="space-y-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                                Enter OTP (Master: 261102)
+                                            </label>
+                                            <InputOTP maxLength={6} onChange={(val) => (window as any).otpVal = val}>
+                                                <InputOTPGroup>
+                                                    <InputOTPSlot index={0} />
+                                                    <InputOTPSlot index={1} />
+                                                    <InputOTPSlot index={2} />
+                                                    <InputOTPSlot index={3} />
+                                                    <InputOTPSlot index={4} />
+                                                    <InputOTPSlot index={5} />
+                                                </InputOTPGroup>
+                                            </InputOTP>
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                                New Password
+                                            </label>
+                                            <Input
+                                                id="new-password"
+                                                type="password"
+                                                placeholder="Enter new password"
+                                                className="h-12"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <Button
+                                        onClick={async () => {
+                                            const otp = (window as any).otpVal;
+                                            const newPassElement = document.getElementById('new-password') as HTMLInputElement;
+                                            const newPass = newPassElement?.value;
+                                            const phone = localStorage.getItem('resetPhone');
+
+                                            if (!otp || otp.length !== 6) return toast.error("Please enter valid OTP");
+                                            if (!newPass) return toast.error("Please enter new password");
+                                            if (!phone) {
+                                                toast.error("Session expired, please start again");
+                                                setStep(3);
+                                                return;
+                                            }
+
+                                            setIsLoading(true);
+                                            try {
+                                                const res = await apiClient.resetPartnerPassword(phone, otp, newPass);
+                                                toast.success("Password reset successful! Please login.");
+                                                setStep(2);
+                                            } catch (err: any) {
+                                                toast.error(err.message || "Failed to reset password");
+                                            } finally {
+                                                setIsLoading(false);
+                                            }
+                                        }}
+                                        className="w-full bg-blue-600 hover:bg-blue-700 text-white h-12 rounded-lg font-semibold"
+                                        disabled={isLoading}
+                                    >
+                                        {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Reset Password"}
+                                    </Button>
+
+                                    <button
+                                        onClick={() => setStep(3)}
+                                        className="w-full text-sm text-gray-500 hover:text-gray-900"
+                                    >
+                                        Resend OTP
+                                    </button>
+                                </div>
                             </div>
                         )}
                     </div>

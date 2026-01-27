@@ -528,6 +528,26 @@ class ApiClient {
     }, true);
   }
 
+  async getPartnerReferralLink(): Promise<ApiResponse> {
+    return this.request<ApiResponse>('/api/partners/link', {
+      method: 'GET',
+    }, true);
+  }
+
+  async forgotPartnerPassword(emailOrPhone: string): Promise<ApiResponse> {
+    return this.request<ApiResponse>('/api/partners/forgot-password', {
+      method: 'POST',
+      body: JSON.stringify({ emailOrPhone }),
+    });
+  }
+
+  async resetPartnerPassword(phone: string, otp: string, newPassword: string): Promise<ApiResponse> {
+    return this.request<ApiResponse>('/api/partners/reset-password', {
+      method: 'POST',
+      body: JSON.stringify({ phone, otp, newPassword }),
+    });
+  }
+
   // Partner Utility Methods
   setPartnerToken(token: string) {
     this.partnerToken = token;

@@ -522,7 +522,11 @@ function DashboardContent() {
                         <div className="pt-2 border-t border-gray-50">
                             <button
                                 className="w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold text-gray-500 hover:bg-red-50 hover:text-red-600 group"
-                                onClick={() => router.push(getLinkWithRef("/"))}
+                                onClick={() => {
+                                    localStorage.removeItem('authToken');
+                                    localStorage.removeItem('userData');
+                                    router.push(getLinkWithRef("/"));
+                                }}
                             >
 
                                 <LogOut size={20} className="group-hover:translate-x-1 transition-transform" />

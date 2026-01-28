@@ -19,7 +19,8 @@ import {
     Check,
     MessageCircle,
     ChevronDown,
-    Globe
+    Globe,
+    LogOut
 } from "lucide-react";
 
 import { useRouter } from "next/navigation";
@@ -30,8 +31,15 @@ import { Loader2 } from "lucide-react";
 export const dynamic = "force-dynamic";
 
 function AffiliateDashboardContent() {
-    const { affiliateRef } = useAffiliate();
+    const { affiliateRef, getLinkWithRef } = useAffiliate();
     const [activeTab, setActiveTab] = React.useState("Dashboard");
+    const router = useRouter();
+
+    const handleLogout = () => {
+        localStorage.removeItem('partnerAuthToken');
+        localStorage.removeItem('partnerData');
+        router.push(getLinkWithRef("/"));
+    };
 
     const [editingFields, setEditingFields] = React.useState<Record<string, boolean>>({});
     const [selectedDate, setSelectedDate] = React.useState({ month: "October", year: "2025", isLifetime: false });
@@ -61,7 +69,6 @@ function AffiliateDashboardContent() {
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const years = ["2023", "2024", "2025"];
 
-    const router = useRouter();
     const [loading, setLoading] = React.useState(true);
     const [dashboardData, setDashboardData] = React.useState<any>(null);
     const [profileData, setProfileData] = React.useState<any>(null);
@@ -534,6 +541,16 @@ function AffiliateDashboardContent() {
                                 </button>
                             ))}
                         </nav>
+
+                        <div className="pt-2 border-t border-gray-50">
+                            <button
+                                className="w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold text-gray-500 hover:bg-red-50 hover:text-red-600 group"
+                                onClick={handleLogout}
+                            >
+                                <LogOut size={20} className="group-hover:translate-x-1 transition-transform" />
+                                <span className="text-[15px]">Log out</span>
+                            </button>
+                        </div>
                     </div>
                 </aside>
 

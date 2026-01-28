@@ -18,8 +18,10 @@ import {
     Check,
     MessageCircle,
     ChevronDown,
-    Globe
+    Globe,
+    LogOut
 } from "lucide-react";
+import { useAffiliate } from "@/hooks/useAffiliate";
 
 import { Suspense } from "react";
 import { Loader2 } from "lucide-react";
@@ -27,6 +29,7 @@ import { Loader2 } from "lucide-react";
 export const dynamic = "force-dynamic";
 
 function DSADashboardContent() {
+    const { getLinkWithRef } = useAffiliate();
     const router = useRouter();
     const [activeTab, setActiveTab] = React.useState("Dashboard");
     const [loading, setLoading] = React.useState(true);
@@ -41,6 +44,12 @@ function DSADashboardContent() {
     const [isDateMenuOpen, setIsDateMenuOpen] = React.useState(false);
 
     const inputRefs = React.useRef<Record<string, HTMLInputElement | null>>({});
+
+    const handleLogout = () => {
+        localStorage.removeItem('partnerAuthToken');
+        localStorage.removeItem('partnerData');
+        router.push(getLinkWithRef("/"));
+    };
 
     // Fetch dashboard data on mount
     useEffect(() => {
@@ -504,6 +513,16 @@ function DSADashboardContent() {
                                 </button>
                             ))}
                         </nav>
+
+                        <div className="pt-2 border-t border-gray-50">
+                            <button
+                                className="w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-bold text-gray-500 hover:bg-red-50 hover:text-red-600 group"
+                                onClick={handleLogout}
+                            >
+                                <LogOut size={20} className="group-hover:translate-x-1 transition-transform" />
+                                <span className="text-[15px]">Log out</span>
+                            </button>
+                        </div>
                     </div>
                 </aside>
 

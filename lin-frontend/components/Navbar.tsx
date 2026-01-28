@@ -93,7 +93,6 @@ export default function Navbar() {
     setIsLoggedIn(!!token);
   }, [pathname]);
 
-  const userInitials = "RD";
   return (
     <nav className="w-full mx-auto py-4 px-6 md:px-12 lg:px-24 fixed top-0 left-0 right-0 z-50 bg-red-50 shadow-sm">
       <div className="flex justify-between items-center">
@@ -203,9 +202,13 @@ export default function Navbar() {
 
               {isLoggedIn ? (
                 <NavigationMenuItem>
-                  <Link href={getLinkWithRef("/dashboard")} className="flex items-center justify-center w-10 h-10 bg-red-500 rounded-full text-white font-bold text-sm shadow-sm transition-transform hover:scale-105">
-                    {userInitials}
-                  </Link>
+                  <NavigationMenuLink asChild>
+                    <Link href={getLinkWithRef("/dashboard")}>
+                      <Button size="sm" variant="outline" className="text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700 font-semibold shadow-sm">
+                        View Dashboard
+                      </Button>
+                    </Link>
+                  </NavigationMenuLink>
                 </NavigationMenuItem>
               ) : (
                 <NavigationMenuItem>

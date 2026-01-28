@@ -261,11 +261,8 @@ export default function Navbar() {
                 <Link href={getLinkWithRef("/blog")}>Learn</Link>
                 <Link href={getLinkWithRef("/contact")}>Support</Link>
                 {isLoggedIn ? (
-                  <Link href={getLinkWithRef("/dashboard")} className="flex items-center space-x-2">
-                    <div className="flex items-center justify-center w-10 h-10 bg-red-500 rounded-full text-white font-bold text-sm">
-                      {userInitials}
-                    </div>
-                    <span className="font-medium text-red-500">Dashboard</span>
+                  <Link href={getLinkWithRef("/dashboard")}>
+                    <Button variant="outline" className="w-full text-red-600 border-red-200 hover:bg-red-50">View Dashboard</Button>
                   </Link>
                 ) : (
                   <Link href={getLinkWithRef("/login")}>Login</Link>

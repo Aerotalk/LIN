@@ -126,6 +126,69 @@ function ApplyNowContent() {
     }
 
     const router = useRouter()
+    const [isAuthenticated, setIsAuthenticated] = React.useState<boolean | null>(null);
+
+    React.useEffect(() => {
+        const token = localStorage.getItem("authToken");
+        if (token) {
+            setIsAuthenticated(true);
+        } else {
+            setIsAuthenticated(false);
+        }
+    }, []);
+
+    // Show auth gate if not authenticated
+    if (isAuthenticated === false) {
+        return (
+            <div className="min-h-screen w-full max-w-7xl bg-white mt-32 mx-auto px-4">
+                <div className="max-w-md mx-auto text-center space-y-8">
+                    <div className="space-y-4">
+                        <h2 className="text-3xl font-bold text-gray-900">Please Log In to Apply</h2>
+                        <p className="text-gray-600 text-lg">
+                            You need an account to submit a loan application.
+                        </p>
+                    </div>
+
+                    <div className="space-y-4">
+                        <div className="p-6 border border-red-100 rounded-2xl bg-red-50/50 space-y-4">
+                            <h3 className="font-semibold text-gray-900">New to LoanInNeed?</h3>
+                            <Button
+                                onClick={() => router.push(getLinkWithRef('/signup'))}
+                                className="w-full bg-red-600 hover:bg-red-700 text-white h-12 text-base font-medium rounded-xl"
+                            >
+                                Create an Account
+                            </Button>
+                        </div>
+
+                        <div className="relative py-2">
+                            <div className="absolute inset-0 flex items-center">
+                                <span className="w-full border-t border-gray-200" />
+                            </div>
+                            <div className="relative flex justify-center text-sm">
+                                <span className="bg-white px-2 text-gray-500">Already have an account?</span>
+                            </div>
+                        </div>
+
+                        <Button
+                            variant="outline"
+                            onClick={() => router.push(getLinkWithRef('/login'))}
+                            className="w-full h-12 text-base font-medium rounded-xl border-2 hover:bg-gray-50 hover:text-gray-900"
+                        >
+                            Log In
+                        </Button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (isAuthenticated === null) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <Loader2 className="w-10 h-10 text-red-600 animate-spin" />
+            </div>
+        );
+    }
 
     if (applicationSubmitted) {
         return (

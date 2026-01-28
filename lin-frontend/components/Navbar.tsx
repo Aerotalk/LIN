@@ -86,7 +86,12 @@ function ListItem({
 export default function Navbar() {
   const pathname = usePathname();
   const { getLinkWithRef } = useAffiliate();
-  const isLoggedIn = pathname.startsWith("/dashboard"); // Simplified check for demonstration
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
+  React.useEffect(() => {
+    const token = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null;
+    setIsLoggedIn(!!token);
+  }, [pathname]);
 
   const userInitials = "RD";
   return (

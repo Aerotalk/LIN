@@ -87,10 +87,37 @@ export default function Navbar() {
   const pathname = usePathname();
   const { getLinkWithRef } = useAffiliate();
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [dashboardLink, setDashboardLink] = React.useState("/dashboard");
 
   React.useEffect(() => {
-    const token = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null;
-    setIsLoggedIn(!!token);
+    const userToken = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null;
+    const partnerToken = typeof window !== 'undefined' ? localStorage.getItem('partnerAuthToken') : null;
+
+    if (userToken) {
+      setIsLoggedIn(true);
+      setDashboardLink("/dashboard");
+    } else if (partnerToken) {
+      setIsLoggedIn(true);
+      const partnerDataStr = localStorage.getItem('partnerData');
+      if (partnerDataStr) {
+        try {
+          const partnerData = JSON.parse(partnerDataStr);
+          const type = partnerData.partnerType;
+          // partnerType can be DSA, BC, AFFILIATE
+          if (type === 'DSA') setDashboardLink("/dsa-dashboard");
+          else if (type === 'BC') setDashboardLink("/bc-dashboard");
+          else if (type === 'AFFILIATE') setDashboardLink("/affiliate-dashboard");
+          else setDashboardLink("/dashboard");
+        } catch (e) {
+          console.error("Error parsing partner data", e);
+          setDashboardLink("/dashboard");
+        }
+      } else {
+        setDashboardLink("/dashboard");
+      }
+    } else {
+      setIsLoggedIn(false);
+    }
   }, [pathname]);
 
   return (
@@ -203,7 +230,7 @@ export default function Navbar() {
               {isLoggedIn ? (
                 <NavigationMenuItem>
                   <NavigationMenuLink asChild>
-                    <Link href={getLinkWithRef("/dashboard")}>
+                    <Link href={getLinkWithRef(dashboardLink)}>
                       <Button size="sm" variant="outline" className="text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700 font-semibold shadow-sm">
                         View Dashboard
                       </Button>

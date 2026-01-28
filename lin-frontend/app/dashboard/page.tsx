@@ -21,7 +21,8 @@ import {
     ArrowUpRight,
     Mail,
     MessageCircle,
-    Loader2
+    Loader2,
+    ChevronDown
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -243,18 +244,38 @@ function DashboardContent() {
                                 {detail.label}
                             </label>
                             <div className="relative group">
-                                <input
-                                    ref={el => { inputRefs.current[detail.id] = el; }}
-                                    type="text"
-                                    value={detail.value}
-                                    onChange={(e) => handleInputChange(detail.id, e.target.value, 'employment')}
-                                    onBlur={() => handleBlur(detail.id)}
-                                    readOnly={!editingFields[detail.id]}
-                                    className={`w-full border rounded-2xl px-6 py-4 font-medium outline-none pr-12 transition-all shadow-sm ${editingFields[detail.id]
-                                        ? "bg-white border-red-200 ring-2 ring-red-50 text-gray-900"
-                                        : "bg-[#F9FAFB] border-gray-50 text-gray-700 cursor-default"
-                                        }`}
-                                />
+                                {detail.id === "emp_4" && editingFields[detail.id] ? (
+                                    <div className="relative w-full">
+                                        <select
+                                            ref={el => { inputRefs.current[detail.id] = el as any; }}
+                                            value={detail.value === "-" ? "" : detail.value}
+                                            onChange={(e) => handleInputChange(detail.id, e.target.value, 'employment')}
+                                            onBlur={() => handleBlur(detail.id)}
+                                            className="w-full border rounded-2xl px-6 py-4 font-medium outline-none pr-12 transition-all shadow-sm bg-white border-red-200 ring-2 ring-red-50 text-gray-900 appearance-none cursor-pointer"
+                                        >
+                                            <option value="" disabled>Select Stability</option>
+                                            <option value="VERY_UNSTABLE">Very Unstable</option>
+                                            <option value="SOMEWHAT_UNSTABLE">Somewhat Unstable</option>
+                                            <option value="NEUTRAL">Neutral</option>
+                                            <option value="STABLE">Stable</option>
+                                            <option value="VERY_STABLE">Very Stable</option>
+                                        </select>
+                                        <ChevronDown className="absolute right-12 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={20} />
+                                    </div>
+                                ) : (
+                                    <input
+                                        ref={el => { inputRefs.current[detail.id] = el; }}
+                                        type="text"
+                                        value={detail.value}
+                                        onChange={(e) => handleInputChange(detail.id, e.target.value, 'employment')}
+                                        onBlur={() => handleBlur(detail.id)}
+                                        readOnly={!editingFields[detail.id]}
+                                        className={`w-full border rounded-2xl px-6 py-4 font-medium outline-none pr-12 transition-all shadow-sm ${editingFields[detail.id]
+                                            ? "bg-white border-red-200 ring-2 ring-red-50 text-gray-900"
+                                            : "bg-[#F9FAFB] border-gray-50 text-gray-700 cursor-default"
+                                            }`}
+                                    />
+                                )}
                                 <button
                                     onMouseDown={(e) => e.preventDefault()} // Prevents blur when clicking the button
                                     onClick={() => toggleEdit(detail.id)}
